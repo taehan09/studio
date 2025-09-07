@@ -160,13 +160,13 @@ export default function AdminDashboard({
   return (
     <SidebarProvider>
       <Sidebar>
-        <SidebarHeader>
-          <div className="text-2xl font-bold text-primary flex items-center gap-2">
-            <Home /> Admin Panel
+        <SidebarHeader className="flex items-center h-16 border-b border-sidebar-border">
+          <div className="text-2xl font-bold text-primary flex items-center gap-2 px-4">
+            <Home /> <span>Admin Panel</span>
           </div>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarMenu>
+          <SidebarMenu className="p-2">
              <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setActiveView('hero')} isActive={activeView === 'hero'} tooltip="Edit Hero Section">
                     <Edit />
@@ -234,7 +234,7 @@ export default function AdminDashboard({
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="flex items-center justify-between p-4 border-b">
+        <header className="flex items-center justify-between p-4 h-16 border-b">
             <SidebarTrigger />
              <Button asChild variant="outline">
                 <Link href="/">
