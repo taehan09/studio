@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarInset,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft, Mails } from 'lucide-react';
 import Link from 'next/link';
@@ -133,7 +134,7 @@ export default function AdminDashboard({
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            <SidebarMenuItem>
+             <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setActiveView('hero')} isActive={activeView === 'hero'} tooltip="Edit Hero Section">
                     <Edit />
                     <span>Hero Section</span>
@@ -157,6 +158,9 @@ export default function AdminDashboard({
                     <span>Gallery Section</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
+
+            <SidebarSeparator className="my-2" />
+
             <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setActiveView('requests')} isActive={activeView === 'requests'} tooltip="Appointment Requests">
                     <Mails />
@@ -164,10 +168,12 @@ export default function AdminDashboard({
                 </SidebarMenuButton>
             </SidebarMenuItem>
             
+            <SidebarSeparator className="my-2" />
+
             <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setActiveView('categorize')} isActive={activeView === 'categorize'} tooltip="Categorize Design">
                     <Tag />
-                    <span>Categorize Design</span>
+                    <span>AI Categorize Tool</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
