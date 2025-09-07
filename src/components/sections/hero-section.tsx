@@ -26,7 +26,7 @@ const HeroSection = () => {
           </p>
         </div>
 
-        <div className="pb-12">
+        <div className="pb-24">
             <div className="mb-8">
                 <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                     <Link href="#contact">MAKE AN APPOINTMENT</Link>
