@@ -26,7 +26,7 @@ const LocationSection = () => {
           {/* Left Column: Map */}
           <div className="w-full h-[400px] lg:h-[600px] relative">
              <Image
-                src="https://picsum.photos/seed/satellite/800/600"
+                src="https://picsum.photos/seed/mapview/800/600"
                 alt="Satellite map showing location of Ashgray Ink Studio"
                 data-ai-hint="satellite map"
                 fill
