@@ -16,7 +16,7 @@ const AboutSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="overflow-hidden shadow-lg border-border bg-card">
             <CardContent className="p-0">
-                <div className="grid md:grid-cols-2 items-stretch">
+                <div className="grid md:grid-cols-2 items-stretch gap-8">
                   <div className="wow-outer flex flex-col justify-center p-8 lg:p-12">
                     <div>
                       <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
@@ -51,12 +51,8 @@ const AboutSection = () => {
                         alt="Tattoo artist working on a black and gray realism tattoo"
                         data-ai-hint="tattoo artist realism"
                         fill
-                        className="object-cover opacity-50"
+                        className="object-cover"
                       />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                          <p className="text-2xl font-semibold text-white/80 tracking-widest">BLACK & GRAY</p>
-                          <h3 className="text-6xl font-bold text-white mt-2">REALISM</h3>
-                      </div>
                     </div>
                   </div>
                 </div>
