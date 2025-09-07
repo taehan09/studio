@@ -49,7 +49,7 @@ const ArtistsSection = () => {
           {artists.map((artist) => (
             <Card key={artist.name} className="bg-transparent border-none shadow-none text-center">
               <CardContent className="p-0 flex flex-col h-full">
-                <div className="relative w-full h-[500px] overflow-hidden rounded-lg">
+                <div className="relative w-full h-[300px] overflow-hidden rounded-lg">
                     <Image
                     src={artist.imageUrl}
                     alt={`Portrait of ${artist.name}`}
