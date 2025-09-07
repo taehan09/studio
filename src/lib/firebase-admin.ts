@@ -10,28 +10,20 @@ dotenv.config();
 
 const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-let adminApp: App;
-let db: admin.database.Database | null = null;
-
-try {
-    if (!getApps().length) {
-        if (serviceAccountKey) {
-            const serviceAccount = JSON.parse(serviceAccountKey);
-            adminApp = initializeApp({
-                credential: admin.credential.cert(serviceAccount),
-                databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
-            });
-        } else {
-            console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK will not be initialized on the server.");
-        }
-    } else {
-        adminApp = getApp();
+function getAdminApp(): App | null {
+    if (!serviceAccountKey) {
+        return null;
     }
-    if (adminApp) {
-        db = getDatabase(adminApp);
+    
+    if (getApps().length > 0) {
+        return getApp();
     }
-} catch (error) {
-    console.error('Failed to initialize Firebase Admin SDK:', error);
+    
+    const serviceAccount = JSON.parse(serviceAccountKey);
+    return initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
+    });
 }
 
 
@@ -41,10 +33,15 @@ const defaultHeroText: HeroText = {
 };
 
 export async function getHeroText(): Promise<HeroText> {
-    if (!db) {
-        console.error("Firebase Admin SDK is not initialized. Falling back to default hero text.");
+    const adminApp = getAdminApp();
+    
+    if (!adminApp) {
+        console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK is not initialized. Falling back to default hero text.");
         return defaultHeroText;
     }
+
+    const db = getDatabase(adminApp);
+
     try {
         const heroRef = db.ref("site_content/hero_section");
         const snapshot = await heroRef.get();
@@ -63,4 +60,4 @@ export async function getHeroText(): Promise<HeroText> {
 }
 
 
-export { db };
+export { getAdminApp };

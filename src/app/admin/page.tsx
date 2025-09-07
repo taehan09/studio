@@ -10,6 +10,8 @@ import { getHeroText } from '@/lib/firebase-admin';
 import LogoutButton from '@/components/logout-button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
+export const revalidate = 0;
+
 export default async function AdminPage() {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
