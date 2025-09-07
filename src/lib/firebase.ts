@@ -62,7 +62,6 @@ export type AppointmentRequest = {
     budgetRange: string;
     preferredTimeframe: string;
     submittedAt: string;
-    summary?: string; // AI-generated summary
 };
 
 const defaultArtists: Artist[] = [

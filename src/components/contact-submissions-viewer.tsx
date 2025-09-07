@@ -8,8 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "./ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
-import { Quote } from "lucide-react";
+import { Card, CardContent } from "./ui/card";
 
 export default function ContactSubmissionsViewer({ initialData }: { initialData: AppointmentRequest[] }) {
     // Sort initial data and set it as the starting state
@@ -53,7 +52,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                             <TableRow>
                                 <TableHead className="w-[150px]">Date</TableHead>
                                 <TableHead>Name</TableHead>
-                                <TableHead className="w-[40%]">AI Summary</TableHead>
+                                <TableHead>Email</TableHead>
                                 <TableHead>Preferred Artist</TableHead>
                                 <TableHead className="w-[50px]"></TableHead>
                             </TableRow>
@@ -65,7 +64,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                     <TableRow>
                                         <TableCell>{request.submittedAt ? format(new Date(request.submittedAt), "PPP") : 'N/A'}</TableCell>
                                         <TableCell>{request.fullName}</TableCell>
-                                        <TableCell>{request.summary || <span className="text-muted-foreground">Summary not available</span>}</TableCell>
+                                        <TableCell>{request.email}</TableCell>
                                         <TableCell>
                                             <Badge variant="secondary">{request.preferredArtist}</Badge>
                                         </TableCell>
@@ -77,24 +76,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                         <TableCell colSpan={5} className="p-0">
                                             <AccordionContent>
                                                 <div className="p-6 bg-muted/50">
-                                                    {request.summary && (
-                                                        <Card className="mb-6 border-l-4 border-primary">
-                                                            <CardHeader>
-                                                                <CardTitle className="flex items-center text-lg gap-2">
-                                                                    <Quote className="h-5 w-5 text-primary"/>
-                                                                    AI Generated Summary
-                                                                </CardTitle>
-                                                            </CardHeader>
-                                                            <CardContent>
-                                                                <p className="text-base text-foreground">{request.summary}</p>
-                                                            </CardContent>
-                                                        </Card>
-                                                    )}
                                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                                        <div className="space-y-1">
-                                                            <p className="font-semibold">Email</p>
-                                                            <p className="text-muted-foreground">{request.email}</p>
-                                                        </div>
                                                         <div className="space-y-1">
                                                             <p className="font-semibold">Phone</p>
                                                             <p className="text-muted-foreground">{request.phone}</p>

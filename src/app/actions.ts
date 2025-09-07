@@ -3,7 +3,6 @@
 
 import { z } from "zod";
 import { categorizeTattooDesign, type CategorizeTattooDesignInput } from "@/ai/flows/categorize-tattoo-designs";
-import { summarizeAppointmentRequest } from "@/ai/flows/summarize-appointment-request";
 import { db } from "@/lib/firebase";
 import { ref, push, set } from "firebase/database";
 
@@ -51,24 +50,11 @@ export async function appointmentAction(
   }
 
   try {
-    // 1. Generate AI Summary
-    const { summary } = await summarizeAppointmentRequest({
-        fullName: validatedFields.data.fullName,
-        email: validatedFields.data.email,
-        phone: validatedFields.data.phone,
-        preferredArtist: validatedFields.data.preferredArtist || "No preference",
-        tattooStyle: validatedFields.data.tattooStyle || "Not specified",
-        tattooDescription: validatedFields.data.tattooDescription,
-        budgetRange: validatedFields.data.budgetRange || "Not specified",
-        preferredTimeframe: validatedFields.data.preferredTimeframe || "Not specified",
-    });
-
-    // 2. Save to database
+    // Save to database
     const requestsRef = ref(db, "site_content/appointment_requests");
     const newRequestRef = push(requestsRef);
     await set(newRequestRef, {
         ...validatedFields.data,
-        summary: summary, // Add the AI summary
         submittedAt: new Date().toISOString(),
         id: newRequestRef.key,
     });
