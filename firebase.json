@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "ashgrayink-shop",
     "source": ".",
     "ignore": [
       "firebase.json",
