@@ -11,13 +11,7 @@ const HeroSection = () => {
         playsInline
         className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
       >
-        {/* 
-          This is a placeholder video.
-          You should replace this with your own video file. 
-          For example, you can add a video to the `public` folder 
-          and set the src to `/your-video.mp4`
-        */}
-        <source src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.appspot.com/o/placeholder-video.mp4?alt=media&token=2d71851c-4235-4303-a129-9e7987000d5a" type="video/mp4" />
+        <source src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.firebasestorage.app/o/Hero%20Section%2Fu9865814416_A_cinematic_scene_of_a_tattoo_artist_at_work_in_a_7bbc8082-d8c1-4443-8107-69830af6d702_0.mp4?alt=media&token=c88369ab-bb9e-4bf6-b759-23f34f4196b8" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black/60" />
