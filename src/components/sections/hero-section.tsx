@@ -26,18 +26,17 @@ const HeroSection = () => {
           </p>
         </div>
 
-        <div className="pb-12 mb-12">
-            <div className="mb-8">
-                <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
-                    <Link href="#contact">MAKE AN APPOINTMENT</Link>
-                </Button>
-            </div>
-            <div className="flex flex-col items-center space-y-2">
-                <span className="text-sm tracking-widest">SCROLL DOWN</span>
-                <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
-                    <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
-                </div>
-            </div>
+        <div className="pb-32">
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+                <Link href="#contact">MAKE AN APPOINTMENT</Link>
+            </Button>
+        </div>
+      </div>
+      
+      <div className="absolute z-20 bottom-12 left-0 right-0 flex flex-col items-center space-y-2">
+        <span className="text-sm tracking-widest">SCROLL DOWN</span>
+        <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
+            <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
         </div>
       </div>
     </section>
