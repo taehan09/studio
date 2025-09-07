@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <section id="home" className="relative h-screen w-full flex flex-col items-center justify-center text-center text-white overflow-hidden">
+    <section id="home" className="relative h-screen w-full flex flex-col text-center text-white overflow-hidden">
       <video
         autoPlay
         loop
@@ -16,16 +16,16 @@ const HeroSection = () => {
       </video>
       <div className="absolute inset-0 bg-black/60" />
       
-      <div className="relative z-10 px-4 flex flex-col items-center flex-grow justify-center">
-        <h1 className="text-6xl md:text-8xl font-bold tracking-tight font-headline">
+      <div className="relative z-10 px-4 flex flex-col items-center flex-grow justify-center transform translate-y-20">
+        <h1 className="text-8xl md:text-9xl font-bold tracking-tight font-headline">
           Ashgray Ink
         </h1>
-        <p className="mt-12 text-lg md:text-xl text-white/90">
+        <p className="mt-12 text-lg md:text-xl text-white/90 max-w-none">
           Experience world-class tattoo art in Toronto with internationally recognized artists.
         </p>
       </div>
 
-      <div className="relative z-10 pb-12 flex flex-col items-center w-full">
+      <div className="relative z-10 pb-12 flex flex-col items-center w-full mt-auto">
         <div className="mb-10">
             <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                 <Link href="#contact">MAKE AN APPOINTMENT</Link>
