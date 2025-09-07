@@ -11,36 +11,14 @@ import LogoutButton from '@/components/logout-button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 export default async function AdminPage() {
-  // Check if the environment variable is set.
-  if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8">
-        <main className="flex-1 flex items-center justify-center">
-            <Card className="w-full max-w-2xl mx-auto shadow-2xl">
-                <CardHeader>
-                    <CardTitle className="font-headline text-3xl md:text-4xl text-destructive flex items-center">
-                      <AlertTriangle className="mr-4 h-8 w-8" /> Configuration Needed
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 md:p-8 space-y-4">
-                  <Alert variant="destructive">
-                    <AlertTitle>Missing Firebase Credentials</AlertTitle>
-                    <AlertDescription>
-                      <p>The `FIREBASE_SERVICE_ACCOUNT_KEY` environment variable is not set.</p>
-                      <p className="mt-2">Please follow the setup instructions to generate a service account key from your Firebase project settings and add it to the `.env` file in the root of this project.</p>
-                    </AlertDescription>
-                  </Alert>
-                  <Button asChild variant="outline" className="mt-4">
-                      <Link href="/">
-                          <ArrowLeft className="mr-2 h-4 w-4" />
-                          Back to Home
-                      </Link>
-                  </Button>
-                </CardContent>
-            </Card>
-        </main>
-      </div>
-    )
+  const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+
+  // Temporarily disable the check to avoid the blocking error screen.
+  // The firebase-admin.ts file has its own check and warning.
+  if (!serviceAccountKey) {
+    // This block will now render the admin page but show a persistent warning.
+    // This is better than being completely blocked.
+    console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Some admin features might not work correctly.");
   }
   
   const heroText = await getHeroText();
@@ -63,6 +41,16 @@ export default async function AdminPage() {
                     <CardDescription>Manage your tattoo designs and studio content.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 md:p-8 space-y-8">
+                    {!serviceAccountKey && (
+                        <Alert variant="destructive" className="mb-8">
+                          <AlertTriangle className="h-4 w-4" />
+                          <AlertTitle>Missing Firebase Credentials</AlertTitle>
+                          <AlertDescription>
+                            The `FIREBASE_SERVICE_ACCOUNT_KEY` environment variable is not set. Server-side features requiring Firebase will not work. Please check your `.env` file and restart the server.
+                          </AlertDescription>
+                        </Alert>
+                    )}
+
                     <div>
                         <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Edit Hero Section</h3>
                         <p className="text-muted-foreground mb-6">
