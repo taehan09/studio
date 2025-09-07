@@ -14,13 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Save, Trash2, PlusCircle, Upload } from "lucide-react";
 import Image from 'next/image';
-import { Card, CardContent } from "./ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const artistSchema = z.object({
   id: z.string(),
@@ -157,75 +151,73 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         
-        <Accordion type="multiple" className="w-full space-y-4">
+        <div className="space-y-6">
             {fields.map((field, index) => (
                 <Card key={field.id} className="border-border">
-                    <AccordionItem value={field.id} className="border-b-0">
-                        <div className="flex items-center w-full p-4">
-                            <AccordionTrigger className="flex-1 text-lg font-semibold text-left hover:no-underline p-0">
-                                {form.watch(`artists.${index}.name`)}
-                            </AccordionTrigger>
-                            <Button size="icon" variant="ghost" className="hover:bg-destructive/20 ml-4" onClick={() => remove(index)}>
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
-                        </div>
-                        <AccordionContent className="p-4 pt-0">
-                             <div className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name={`artists.${index}.name`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel>Name</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`artists.${index}.specialty`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel>Specialty</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`artists.${index}.bio`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel>Bio</FormLabel>
-                                        <FormControl><Textarea {...field} rows={3} /></FormControl>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                  control={form.control}
-                                  name={`artists.${index}.imageUrl`}
-                                  render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues} setValue={form.setValue}/>}
-                                />
-                                <FormField
-                                  control={form.control}
-                                  name={`artists.${index}.imageHint`}
-                                  render={({ field }) => (
-                                      <FormItem>
-                                      <FormLabel>Image AI Hint</FormLabel>
-                                      <FormControl><Input {...field} placeholder="e.g. tattoo artist" /></FormControl>
-                                      <FormMessage />
-                                      </FormItem>
-                                  )}
-                                />
-                             </div>
-                        </AccordionContent>
-                    </AccordionItem>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <CardTitle>
+                            {form.watch(`artists.${index}.name`)}
+                        </CardTitle>
+                        <Button size="icon" variant="ghost" className="hover:bg-destructive/20" onClick={() => remove(index)}>
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                         <div className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name={`artists.${index}.name`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl><Input {...field} /></FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name={`artists.${index}.specialty`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Specialty</FormLabel>
+                                    <FormControl><Input {...field} /></FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name={`artists.${index}.bio`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Bio</FormLabel>
+                                    <FormControl><Textarea {...field} rows={3} /></FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`artists.${index}.imageUrl`}
+                              render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues} setValue={form.setValue}/>}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`artists.${index}.imageHint`}
+                              render={({ field }) => (
+                                  <FormItem>
+                                  <FormLabel>Image AI Hint</FormLabel>
+                                  <FormControl><Input {...field} placeholder="e.g. tattoo artist" /></FormControl>
+                                  <FormMessage />
+                                  </FormItem>
+                              )}
+                            />
+                         </div>
+                    </CardContent>
                 </Card>
             ))}
-        </Accordion>
+        </div>
 
         <Button type="button" variant="outline" onClick={addNewArtist}>
           <PlusCircle className="mr-2 h-4 w-4" />
