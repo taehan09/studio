@@ -7,7 +7,7 @@ const AboutSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="wow-outer">
-            <Card className="overflow-hidden shadow-lg">
+            <Card className="overflow-hidden shadow-lg border-border">
               <CardContent className="p-0">
                 <Image
                   src="https://picsum.photos/600/700"

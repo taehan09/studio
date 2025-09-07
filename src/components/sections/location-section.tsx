@@ -13,7 +13,7 @@ const LocationSection = () => {
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-          <Card className="shadow-lg">
+          <Card className="shadow-lg border-border">
             <CardContent className="p-8 flex flex-col justify-center">
               <h3 className="font-headline text-2xl font-semibold text-primary mb-6">Ashgray Ink</h3>
               <div className="space-y-4 text-foreground/80">
@@ -33,11 +33,11 @@ const LocationSection = () => {
                <h4 className="font-headline text-xl font-semibold text-primary mt-8 mb-4">Hours</h4>
                <ul className="space-y-1 text-foreground/80">
                   <li>Tuesday - Saturday: 11am - 8pm</li>
-                  <li>Sunday & Monday: Closed</li>
+                  <li>Sunday &amp; Monday: Closed</li>
                </ul>
             </CardContent>
           </Card>
-          <Card className="overflow-hidden shadow-lg">
+          <Card className="overflow-hidden shadow-lg border-border">
              <Image
                 src="https://picsum.photos/800/600"
                 alt="Map showing location of Ashgray Ink Studio"

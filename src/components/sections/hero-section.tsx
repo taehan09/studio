@@ -16,14 +16,14 @@ const HeroSection = () => {
       />
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 px-4 flex flex-col items-center">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-wider uppercase">
-          Ashgray Ink, a Tattoo and Piercing Studio in Toronto
+        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight">
+          Ashgray Ink
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-white/90">
           Experience world-class tattoo art in Toronto with internationally recognized artists.
         </p>
         <div className="mt-8">
-          <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white hover:bg-white hover:text-black transition-colors duration-300">
+          <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
             <Link href="#contact">MAKE AN APPOINTMENT</Link>
           </Button>
         </div>
