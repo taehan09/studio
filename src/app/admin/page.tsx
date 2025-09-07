@@ -6,7 +6,8 @@ import TattooUploadForm from '@/components/tattoo-upload-form';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import HeroTextEditor from '@/components/hero-text-editor';
-import { getHeroText } from '@/lib/firebase-admin';
+import AboutSectionEditor from '@/components/about-section-editor';
+import { getHeroText, getAboutText } from '@/lib/firebase-admin';
 import LogoutButton from '@/components/logout-button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
@@ -24,6 +25,7 @@ export default async function AdminPage() {
   }
   
   const heroText = await getHeroText();
+  const aboutText = await getAboutText();
 
   return (
     <div className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8">
@@ -61,6 +63,16 @@ export default async function AdminPage() {
                         <HeroTextEditor initialData={heroText} />
                     </div>
                     
+                    <Separator />
+                    
+                    <div>
+                        <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Edit About Section</h3>
+                        <p className="text-muted-foreground mb-6">
+                            Update the title and paragraphs in the "Our Story" section of the about page.
+                        </p>
+                        <AboutSectionEditor initialData={aboutText} />
+                    </div>
+
                     <Separator />
 
                     <div>

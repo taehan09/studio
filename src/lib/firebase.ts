@@ -25,6 +25,13 @@ export type HeroText = {
   subtitle: string;
 };
 
+export type AboutText = {
+  title: string;
+  paragraph1: string;
+  paragraph2: string;
+  paragraph3: string;
+}
+
 // This function is called from the client-side editor
 export async function updateHeroText(text: HeroText): Promise<void> {
   const currentUser = auth.currentUser;
@@ -54,5 +61,26 @@ export function getHeroText(callback: (text: HeroText) => void): () => void {
     return unsubscribe;
 }
 
+export async function updateAboutText(text: AboutText): Promise<void> {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    throw new Error("You must be logged in to save changes.");
+  }
+  const aboutRef = ref(db, "site_content/about_section");
+  await set(aboutRef, text);
+}
+
+export function getAboutText(callback: (text: AboutText | null) => void): () => void {
+    const aboutRef: DatabaseReference = ref(db, 'site_content/about_section');
+    const unsubscribe = onValue(aboutRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            callback(null);
+        }
+    });
+    
+    return unsubscribe;
+}
 
 export { app, db, auth };

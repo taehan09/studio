@@ -1,6 +1,11 @@
+// src/components/sections/about-section.tsx
+"use client";
+
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { getAboutText, type AboutText } from '@/lib/firebase';
 
 const stats = [
     { value: '10+', label: 'Years of Excellence' },
@@ -9,8 +14,30 @@ const stats = [
     { value: '5', label: 'Client Rated', icon: Star },
 ];
 
+const defaultAboutText: AboutText = {
+  title: 'Our Story',
+  paragraph1: 'Founded in 2010, Ashgray Ink has become a cornerstone of the Toronto tattoo scene. We are a collective of passionate, multi-award-winning artists dedicated to creating unique, high-quality tattoos in a clean, welcoming, and professional environment. Our artists specialize in a wide range of styles, from traditional and neo-traditional to blackwork, realism, and fine-line.',
+  paragraph2: 'We believe that every tattoo tells a story, and we are committed to making the journey as memorable as the art itself. From the initial consultation where we turn your ideas into a custom design, to our meticulous aftercare guidance, we ensure a collaborative and safe experience. Our strict adherence to the highest standards of hygiene and safety is our promise to you.',
+  paragraph3: 'Are you ready to transform your vision into a work of art? We invite you to explore our portfolios and book a consultation. Let\'s create something beautiful together.',
+};
 
 const AboutSection = () => {
+  const [aboutText, setAboutText] = useState<AboutText>(defaultAboutText);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    
+    const unsubscribe = getAboutText((text) => {
+      if (text) {
+        setAboutText(text);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
   return (
     <section id="about" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,16 +46,16 @@ const AboutSection = () => {
                 <div className="grid md:grid-cols-2 items-stretch gap-12">
                   <div className="wow-outer flex flex-col justify-center">
                     <div>
-                      <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
+                      <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">{aboutText.title}</h2>
                       <div className="text-foreground/80 space-y-4 text-base leading-relaxed">
                           <p>
-                          Founded in 2010, Ashgray Ink has become a cornerstone of the Toronto tattoo scene. We are a collective of passionate, multi-award-winning artists dedicated to creating unique, high-quality tattoos in a clean, welcoming, and professional environment. Our artists specialize in a wide range of styles, from traditional and neo-traditional to blackwork, realism, and fine-line.
+                            {aboutText.paragraph1}
                           </p>
                           <p>
-                          We believe that every tattoo tells a story, and we are committed to making the journey as memorable as the art itself. From the initial consultation where we turn your ideas into a custom design, to our meticulous aftercare guidance, we ensure a collaborative and safe experience. Our strict adherence to the highest standards of hygiene and safety is our promise to you.
+                            {aboutText.paragraph2}
                           </p>
                           <p>
-                          Are you ready to transform your vision into a work of art? We invite you to explore our portfolios and book a consultation. Let's create something beautiful together.
+                            {aboutText.paragraph3}
                           </p>
                       </div>
                     </div>
