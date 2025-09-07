@@ -7,7 +7,7 @@ import GallerySection from '@/components/sections/gallery-section';
 import ContactSection from '@/components/sections/contact-section';
 import LocationSection from '@/components/sections/location-section';
 import FaqSection from '@/components/sections/faq-section';
-import { getHeroText } from '@/lib/firebase-server';
+import { getHeroText } from '@/lib/firebase-admin';
 
 export default async function Home() {
   const heroText = await getHeroText();

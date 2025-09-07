@@ -6,7 +6,7 @@ import TattooUploadForm from '@/components/tattoo-upload-form';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import HeroTextEditor from '@/components/hero-text-editor';
-import { getHeroText } from '@/lib/firebase-server';
+import { getHeroText } from '@/lib/firebase-admin';
 import LogoutButton from '@/components/logout-button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
