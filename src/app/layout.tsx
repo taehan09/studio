@@ -2,11 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster"
-import { AuthProvider } from '@/context/auth-context';
 
 export const metadata: Metadata = {
-  title: 'Ashgray Ink',
-  description: 'A Tattoo and Piercing Studio in Toronto',
+  title: 'InkFlow Studio',
+  description: 'A Premier Tattoo and Piercing Studio.',
 };
 
 export default function RootLayout({
@@ -19,13 +18,11 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={cn("font-body antialiased", "min-h-screen bg-background")}>
-        <AuthProvider>
-            {children}
-        </AuthProvider>
+        {children}
         <Toaster />
       </body>
     </html>

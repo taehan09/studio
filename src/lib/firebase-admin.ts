@@ -1,6 +1,11 @@
 // src/lib/firebase-admin.ts
+import 'dotenv/config';
 import admin from 'firebase-admin';
 import { getApps } from 'firebase-admin/app';
+
+if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY is not set. Please add it to your .env file.');
+}
 
 const serviceAccount = JSON.parse(
     process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string

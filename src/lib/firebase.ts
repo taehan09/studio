@@ -32,12 +32,17 @@ const defaultHeroText: HeroText = {
 };
 
 export async function getHeroText(): Promise<HeroText> {
+    if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+        console.error("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Falling back to default hero text.");
+        return defaultHeroText;
+    }
     try {
         const heroDocRef = adminDb.collection("site_content").doc("hero_section");
         const docSnap = await heroDocRef.get();
         if (docSnap.exists) {
             return docSnap.data() as HeroText;
         } else {
+            await heroDocRef.set(defaultHeroText);
             return defaultHeroText;
         }
     } catch (error) {
