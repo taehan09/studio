@@ -13,24 +13,25 @@ const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 let adminApp: App;
 let db: admin.database.Database | null = null;
 
-if (!getApps().length) {
-    if (serviceAccountKey) {
-        try {
+try {
+    if (!getApps().length) {
+        if (serviceAccountKey) {
             const serviceAccount = JSON.parse(serviceAccountKey);
             adminApp = initializeApp({
                 credential: admin.credential.cert(serviceAccount),
                 databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
             });
-            db = getDatabase(adminApp);
-        } catch (error) {
-            console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY or initialize Firebase Admin SDK:', error);
+        } else {
+            console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK will not be initialized on the server.");
         }
     } else {
-        console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK will not be initialized.");
+        adminApp = getApp();
     }
-} else {
-    adminApp = getApp();
-    db = getDatabase(adminApp);
+    if (adminApp) {
+        db = getDatabase(adminApp);
+    }
+} catch (error) {
+    console.error('Failed to initialize Firebase Admin SDK:', error);
 }
 
 
