@@ -26,9 +26,9 @@ const LocationSection = () => {
           {/* Left Column: Map */}
           <div className="w-full h-[400px] lg:h-[600px] relative">
              <Image
-                src="https://picsum.photos/seed/citymap/800/600"
-                alt="Satellite map showing location of 123 Yonge Street, Toronto"
-                data-ai-hint="satellite map"
+                src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.firebasestorage.app/o/KakaoTalk_20250908_014322186.png?alt=media&token=71929ef1-c374-495d-bf3f-bede62d9216c"
+                alt="Map view of 123 Yonge Street, Toronto"
+                data-ai-hint="city map"
                 fill
                 className="w-full h-full object-cover rounded-lg shadow-lg"
              />
