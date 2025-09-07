@@ -16,21 +16,19 @@ const HeroSection = () => {
       </video>
       <div className="absolute inset-0 bg-black/60" />
       
-      <div className="relative z-10 flex flex-col items-center flex-grow px-4">
-        <div className="flex-grow flex items-center justify-center">
-            <div className='text-center'>
-                <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
-                Ashgray Ink
-                </h1>
-                <p className="mt-4 text-lg md:text-xl text-white/90 max-w-none">
-                Experience world-class tattoo art in Toronto with internationally recognized artists.
-                </p>
-                <div className="mt-8">
-                    <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
-                        <Link href="#contact">MAKE AN APPOINTMENT</Link>
-                    </Button>
-                </div>
-            </div>
+      <div className="relative z-10 flex flex-col items-center flex-grow px-4 justify-center">
+        <div className='text-center'>
+            <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
+            Ashgray Ink
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-white/90 max-w-none">
+            Experience world-class tattoo art in Toronto with internationally recognized artists.
+            </p>
+        </div>
+        <div className="mt-12">
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+                <Link href="#contact">MAKE AN APPOINTMENT</Link>
+            </Button>
         </div>
       </div>
       <div className="absolute z-20 bottom-12 left-0 right-0 flex flex-col items-center space-y-2">
