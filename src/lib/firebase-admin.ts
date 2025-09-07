@@ -1,5 +1,4 @@
 // src/lib/firebase-admin.ts
-import 'dotenv/config';
 import admin from 'firebase-admin';
 import { getApps } from 'firebase-admin/app';
 
