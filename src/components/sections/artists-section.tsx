@@ -1,27 +1,37 @@
+
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const artists = [
   {
-    name: 'Alex "Inksmith" Rivera',
-    specialty: 'Realism & Blackwork',
-    bio: 'With over a decade of experience, Alex specializes in bringing photorealistic designs and intricate blackwork patterns to life.',
-    imageUrl: 'https://picsum.photos/400/400?random=1',
-    imageHint: 'artist portrait',
+    name: 'TK_ASHGRAYINK',
+    specialty: 'Traditional & Neo-Traditional',
+    bio: 'Specializing in bold traditional and neo-traditional designs with a modern twist.',
+    imageUrl: 'https://picsum.photos/seed/tk/400/500',
+    imageHint: 'tattoo artist working',
   },
   {
-    name: 'Jasmine "Jay" Chen',
-    specialty: 'Watercolor & Abstract',
-    bio: 'Jay is a master of color, creating vibrant watercolor tattoos and unique abstract pieces that flow with the body.',
-    imageUrl: 'https://picsum.photos/400/400?random=2',
-    imageHint: 'artist portrait',
+    name: 'OLIVIA',
+    specialty: 'Fine-line & Realism & Watercolor',
+    bio: 'Master of fine-line and realism, creating delicate and detailed masterpieces.',
+    imageUrl: 'https://picsum.photos/seed/olivia/400/500',
+    imageHint: 'person in cafe',
   },
   {
-    name: 'Marcus "Rook" Thorne',
-    specialty: 'Neo-Traditional & Japanese',
-    bio: 'Marcus blends bold lines with modern color palettes, putting a contemporary spin on traditional and Japanese styles.',
-    imageUrl: 'https://picsum.photos/400/400?random=3',
-    imageHint: 'artist portrait',
+    name: 'NOAH',
+    specialty: 'Geometric & Blackwork & Tribal',
+    bio: 'Expert in geometric and blackwork, focusing on symmetry and abstract patterns.',
+    imageUrl: 'https://picsum.photos/seed/noah/400/500',
+    imageHint: 'winding road mountain',
+  },
+  {
+    name: 'EMMA',
+    specialty: 'Watercolor & New School & Japanese',
+    bio: 'Loves vibrant colors and expressive art, focusing on watercolor and new school styles.',
+    imageUrl: 'https://picsum.photos/seed/emma/400/500',
+    imageHint: 'spiderweb foggy field',
   },
 ];
 
@@ -29,29 +39,35 @@ const ArtistsSection = () => {
   return (
     <section id="artists" className="py-20 lg:py-32 bg-card">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Meet Our Artists</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-            Talented professionals dedicated to the art of ink.
+        <div className="text-center mb-16">
+          <h2 className="font-headline text-5xl md:text-6xl font-bold text-primary tracking-wider">ARTISTS</h2>
+          <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-foreground/70">
+            Meet our world-renowned team of tattoo artists, each bringing their unique style and expertise to create extraordinary works of art.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {artists.map((artist) => (
-            <Card key={artist.name} className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="p-0">
-                <Image
-                  src={artist.imageUrl}
-                  alt={`Portrait of ${artist.name}`}
-                  data-ai-hint={artist.imageHint}
-                  width={400}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                />
-              </CardHeader>
-              <CardContent className="p-6">
-                <CardTitle className="font-headline text-2xl text-primary">{artist.name}</CardTitle>
-                <p className="text-accent font-semibold my-2">{artist.specialty}</p>
-                <CardDescription>{artist.bio}</CardDescription>
+            <Card key={artist.name} className="bg-transparent border-none shadow-none text-center">
+              <CardContent className="p-0">
+                <div className="relative w-full h-[500px] overflow-hidden rounded-lg">
+                    <Image
+                    src={artist.imageUrl}
+                    alt={`Portrait of ${artist.name}`}
+                    data-ai-hint={artist.imageHint}
+                    fill
+                    className="object-cover"
+                    />
+                </div>
+                <div className="mt-6">
+                    <h3 className="text-2xl font-semibold tracking-widest text-primary">{artist.name}</h3>
+                    <p className="text-sm text-foreground/80 my-2">{artist.specialty}</p>
+                    <p className="text-foreground/60 text-sm max-w-xs mx-auto">
+                        {artist.bio}
+                    </p>
+                    <Button asChild variant="link" className="text-foreground/80 mt-4 tracking-widest">
+                        <Link href="#">VIEW GALLERY</Link>
+                    </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
