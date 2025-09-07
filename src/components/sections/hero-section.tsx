@@ -27,20 +27,18 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center flex-grow">
-          <div className="flex-grow-[100] flex items-center justify-center">
-              <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
-                  <Link href="#contact">MAKE AN APPOINTMENT</Link>
-              </Button>
-          </div>
-          <div className="w-full pb-12 flex-grow-[0.5] flex flex-col items-center justify-end">
-              <div className="flex flex-col items-center space-y-2">
-                  <span className="text-sm tracking-widest">SCROLL DOWN</span>
-                  <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
-                      <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
-                  </div>
-              </div>
-          </div>
+      <div className="relative z-10 flex flex-col items-center justify-end pb-12">
+        <div className="mb-8">
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+                <Link href="#contact">MAKE AN APPOINTMENT</Link>
+            </Button>
+        </div>
+        <div className="flex flex-col items-center space-y-2">
+            <span className="text-sm tracking-widest">SCROLL DOWN</span>
+            <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
+                <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
+            </div>
+        </div>
       </div>
     </section>
   );
