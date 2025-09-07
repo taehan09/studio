@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/auth-context';
+import { Separator } from '@/components/ui/separator';
+import HeroTextEditor from '@/components/hero-text-editor';
 
 export default function AdminPage() {
   const { logout } = useAuth();
@@ -15,9 +17,9 @@ export default function AdminPage() {
     <div className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8">
         <header className="mb-8 flex justify-between items-center">
             <Button asChild variant="outline">
-                <Link href="/#gallery">
+                <Link href="/">
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Gallery
+                    Back to Home
                 </Link>
             </Button>
             <Button onClick={logout} variant="outline">
@@ -25,18 +27,30 @@ export default function AdminPage() {
                 Logout
             </Button>
         </header>
-        <main className="flex-1 flex items-center justify-center">
+        <main className="flex-1 flex items-start justify-center">
             <Card className="w-full max-w-2xl mx-auto shadow-2xl">
                 <CardHeader>
                     <CardTitle className="font-headline text-3xl md:text-4xl text-primary">Admin Panel</CardTitle>
                     <CardDescription>Manage your tattoo designs and studio content.</CardDescription>
                 </CardHeader>
-                <CardContent className="p-6 md:p-8">
-                    <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Categorize New Design</h3>
-                    <p className="text-muted-foreground mb-6">
-                    Upload a tattoo design to automatically categorize its style using our AI tool.
-                    </p>
-                    <TattooUploadForm />
+                <CardContent className="p-6 md:p-8 space-y-8">
+                    <div>
+                        <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Edit Hero Section</h3>
+                        <p className="text-muted-foreground mb-6">
+                            Update the main title and subtitle displayed on the home page hero section.
+                        </p>
+                        <HeroTextEditor />
+                    </div>
+                    
+                    <Separator />
+
+                    <div>
+                        <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Categorize New Design</h3>
+                        <p className="text-muted-foreground mb-6">
+                            Upload a tattoo design to automatically categorize its style using our AI tool.
+                        </p>
+                        <TattooUploadForm />
+                    </div>
                 </CardContent>
             </Card>
         </main>

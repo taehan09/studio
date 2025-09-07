@@ -4,12 +4,34 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { getHeroText, type HeroText } from '@/lib/firebase';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const HeroSection = () => {
   const [isClient, setIsClient] = useState(false);
+  const [heroText, setHeroText] = useState<HeroText | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
+    
+    const fetchHeroText = async () => {
+      try {
+        const text = await getHeroText();
+        setHeroText(text);
+      } catch (error) {
+        console.error("Error fetching hero text:", error);
+        // Set default text on error
+        setHeroText({
+          title: "Ashgray Ink",
+          subtitle: "Experience world-class tattoo art in Toronto with internationally recognized artists.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHeroText();
   }, []);
 
   return (
@@ -31,12 +53,21 @@ const HeroSection = () => {
       
       <div className="relative z-20 flex flex-col items-center flex-grow px-4 justify-center">
         <div className="pt-20">
-            <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
-            Ashgray Ink
-            </h1>
-            <p className="mt-4 text-lg md:text-xl text-white/90 max-w-none">
-            Experience world-class tattoo art in Toronto with internationally recognized artists.
-            </p>
+            {loading ? (
+                <>
+                    <Skeleton className="h-24 w-96 max-w-full mx-auto" />
+                    <Skeleton className="h-7 w-full max-w-xl mx-auto mt-4" />
+                </>
+            ) : (
+                <>
+                    <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
+                        {heroText?.title}
+                    </h1>
+                    <p className="mt-4 text-lg md:text-xl text-white/90 max-w-none">
+                        {heroText?.subtitle}
+                    </p>
+                </>
+            )}
             <div className="mt-16">
                 <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                     <Link href="#contact">MAKE AN APPOINTMENT</Link>
