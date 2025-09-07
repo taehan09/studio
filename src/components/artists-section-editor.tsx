@@ -295,5 +295,3 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
     </Form>
   );
 }
-
-    
