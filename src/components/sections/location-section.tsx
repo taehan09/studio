@@ -26,8 +26,8 @@ const LocationSection = () => {
           {/* Left Column: Map */}
           <div className="w-full h-[400px] lg:h-[600px] relative">
              <Image
-                src="https://picsum.photos/seed/mapview/800/600"
-                alt="Satellite map showing location of Ashgray Ink Studio"
+                src="https://picsum.photos/seed/citymap/800/600"
+                alt="Satellite map showing location of 123 Yonge Street, Toronto"
                 data-ai-hint="satellite map"
                 fill
                 className="w-full h-full object-cover rounded-lg shadow-lg"
@@ -48,7 +48,7 @@ const LocationSection = () => {
                 </InfoBlock>
             </div>
             
-            <InfoBlock title="CONTACT">
+             <InfoBlock title="CONTACT">
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 mr-3 text-accent flex-shrink-0" />
                   <span>(416) 123-4567</span>
