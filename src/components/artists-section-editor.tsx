@@ -12,9 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Save, Trash2, PlusCircle, Upload } from "lucide-react";
+import { Loader2, Save, Trash2, PlusCircle } from "lucide-react";
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { cn } from "@/lib/utils";
 
 const artistSchema = z.object({
   id: z.string(),
@@ -66,7 +67,6 @@ const ArtistImageUploader = ({
         toast({ title: "Image uploaded!" });
       } catch (error: any) {
         toast({ title: "Upload failed", description: error.message, variant: "destructive" });
-        // Revert preview if upload fails
         setImagePreview(getValues(`artists.${index}.imageUrl`));
       } finally {
         setIsUploading(false);
@@ -108,6 +108,7 @@ const ArtistImageUploader = ({
 export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEditorProps) {
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
+  const [selectedArtistIndex, setSelectedArtistIndex] = useState<number | null>(initialData.length > 0 ? 0 : null);
 
   const form = useForm<ArtistsFormValues>({
     resolver: zodResolver(artistsFormSchema),
@@ -143,99 +144,137 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
   };
   
   const addNewArtist = () => {
+    const newArtistId = `artist_${Date.now()}`;
     append({
-        id: `artist_${Date.now()}`,
+        id: newArtistId,
         name: "New Artist",
         specialty: "Specialty",
         bio: "Artist bio",
         imageUrl: "https://picsum.photos/400/500",
         imageHint: "new artist"
-    })
+    });
+    setSelectedArtistIndex(fields.length); // Select the newly added artist
+  }
+
+  const removeArtist = (index: number) => {
+    remove(index);
+    if (selectedArtistIndex === index) {
+        setSelectedArtistIndex(fields.length > 1 ? 0 : null);
+    } else if (selectedArtistIndex !== null && selectedArtistIndex > index) {
+        setSelectedArtistIndex(selectedArtistIndex - 1);
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        
-        <div className="space-y-6">
-            {fields.map((field, index) => (
-                <Card key={field.id} className="border-border">
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle>
-                            {form.watch(`artists.${index}.name`)}
-                        </CardTitle>
-                        <Button size="icon" variant="ghost" className="hover:bg-destructive/20" onClick={() => remove(index)}>
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* Left Column: Artist List */}
+            <div className="md:col-span-1 space-y-2">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Artists</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                         <div className="grid md:grid-cols-2 gap-8 items-start">
-                            {/* Left Column: Text inputs */}
-                            <div className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name={`artists.${index}.name`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel>Name</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`artists.${index}.specialty`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel>Specialty</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`artists.${index}.bio`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                        <FormLabel>Bio</FormLabel>
-                                        <FormControl><Textarea {...field} rows={3} /></FormControl>
-                                        <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                  control={form.control}
-                                  name={`artists.${index}.imageHint`}
-                                  render={({ field }) => (
-                                      <FormItem>
-                                      <FormLabel>Image AI Hint</FormLabel>
-                                      <FormControl><Input {...field} placeholder="e.g. tattoo artist" /></FormControl>
-                                      <FormMessage />
-                                      </FormItem>
-                                  )}
-                                />
-                            </div>
-
-                             {/* Right Column: Image Uploader */}
-                            <div>
-                                <FormField
-                                control={form.control}
-                                name={`artists.${index}.imageUrl`}
-                                render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues} setValue={form.setValue}/>}
-                                />
-                            </div>
-                         </div>
+                    <CardContent className="space-y-2">
+                        {fields.map((field, index) => (
+                        <Button
+                            key={field.id}
+                            type="button"
+                            variant={selectedArtistIndex === index ? "secondary" : "ghost"}
+                            className="w-full justify-start"
+                            onClick={() => setSelectedArtistIndex(index)}
+                        >
+                            {form.watch(`artists.${index}.name`) || `Artist ${index + 1}`}
+                        </Button>
+                        ))}
+                         <Button type="button" variant="outline" onClick={addNewArtist} className="w-full mt-4">
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            Add New Artist
+                        </Button>
                     </CardContent>
                 </Card>
-            ))}
-        </div>
+            </div>
 
-        <Button type="button" variant="outline" onClick={addNewArtist}>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add New Artist
-        </Button>
+            {/* Right Column: Editor */}
+            <div className="md:col-span-3">
+                 {selectedArtistIndex !== null && fields[selectedArtistIndex] ? (
+                    <Card className="border-border">
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle>
+                                Editing: {form.watch(`artists.${selectedArtistIndex}.name`)}
+                            </CardTitle>
+                            <Button size="icon" variant="ghost" className="hover:bg-destructive/20" onClick={() => removeArtist(selectedArtistIndex)}>
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                            </Button>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid md:grid-cols-2 gap-8 items-start">
+                                {/* Left Column: Text inputs */}
+                                <div className="space-y-4">
+                                    <FormField
+                                        control={form.control}
+                                        name={`artists.${selectedArtistIndex}.name`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                            <FormLabel>Name</FormLabel>
+                                            <FormControl><Input {...field} /></FormControl>
+                                            <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`artists.${selectedArtistIndex}.specialty`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                            <FormLabel>Specialty</FormLabel>
+                                            <FormControl><Input {...field} /></FormControl>
+                                            <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`artists.${selectedArtistIndex}.bio`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                            <FormLabel>Bio</FormLabel>
+                                            <FormControl><Textarea {...field} rows={3} /></FormControl>
+                                            <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                    control={form.control}
+                                    name={`artists.${selectedArtistIndex}.imageHint`}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Image AI Hint</FormLabel>
+                                        <FormControl><Input {...field} placeholder="e.g. tattoo artist" /></FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                    />
+                                </div>
+
+                                {/* Right Column: Image Uploader */}
+                                <div>
+                                    <FormField
+                                        control={form.control}
+                                        name={`artists.${selectedArtistIndex}.imageUrl`}
+                                        render={() => <ArtistImageUploader control={form.control} index={selectedArtistIndex} getValues={form.getValues} setValue={form.setValue}/>}
+                                    />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                 ) : (
+                    <div className="flex items-center justify-center h-full min-h-[400px] border-2 border-dashed rounded-lg">
+                        <p className="text-muted-foreground">Select an artist to edit or add a new one.</p>
+                    </div>
+                 )}
+            </div>
+        </div>
         
         <hr className="my-6 border-border"/>
 
@@ -243,7 +282,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
           {isSaving ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Saving Artists...
+              Saving All Artists...
             </>
           ) : (
             <>
@@ -256,3 +295,5 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
     </Form>
   );
 }
+
+    
