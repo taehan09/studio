@@ -1,7 +1,7 @@
 // src/lib/firebase-admin.ts
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { getDatabase } from 'firebase-admin/database';
 import type { HeroText } from './firebase';
 import dotenv from 'dotenv';
 
@@ -11,16 +11,17 @@ dotenv.config();
 const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
 let adminApp: App;
-let db: admin.firestore.Firestore | null = null;
+let db: admin.database.Database | null = null;
 
 if (!getApps().length) {
     if (serviceAccountKey) {
         try {
             const serviceAccount = JSON.parse(serviceAccountKey);
             adminApp = initializeApp({
-                credential: admin.credential.cert(serviceAccount)
+                credential: admin.credential.cert(serviceAccount),
+                databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
             });
-            db = getFirestore(adminApp);
+            db = getDatabase(adminApp);
         } catch (error) {
             console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY or initialize Firebase Admin SDK:', error);
         }
@@ -29,7 +30,7 @@ if (!getApps().length) {
     }
 } else {
     adminApp = getApp();
-    db = getFirestore(adminApp);
+    db = getDatabase(adminApp);
 }
 
 
@@ -44,13 +45,13 @@ export async function getHeroText(): Promise<HeroText> {
         return defaultHeroText;
     }
     try {
-        const heroDocRef = db.collection("site_content").doc("hero_section");
-        const docSnap = await heroDocRef.get();
-        if (docSnap.exists) {
-            return docSnap.data() as HeroText;
+        const heroRef = db.ref("site_content/hero_section");
+        const snapshot = await heroRef.get();
+        if (snapshot.exists()) {
+            return snapshot.val() as HeroText;
         } else {
-            // Document doesn't exist, so create it with default text
-            await heroDocRef.set(defaultHeroText);
+            // Data doesn't exist, so create it with default text
+            await heroRef.set(defaultHeroText);
             return defaultHeroText;
         }
     } catch (error) {
