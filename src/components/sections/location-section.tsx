@@ -2,51 +2,75 @@ import Image from 'next/image';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
+const InfoBlock = ({ title, children }: { title: string, children: React.ReactNode }) => (
+    <div>
+        <h4 className="font-headline text-lg font-semibold text-primary tracking-widest mb-3">{title}</h4>
+        <div className="space-y-2 text-foreground/80">
+            {children}
+        </div>
+    </div>
+);
+
 const LocationSection = () => {
   return (
     <section id="location" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Find Us</h2>
+        <div className="text-center mb-16">
+          <h2 className="font-headline text-5xl md:text-6xl font-bold text-primary">VISIT OUR STUDIO</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-            Visit our studio in the heart of the city.
+            Visit us at our flagship studio in the heart of downtown Toronto.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-          <Card className="shadow-lg border-border">
-            <CardContent className="p-8 flex flex-col justify-center">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">Ashgray Ink</h3>
-              <div className="space-y-4 text-foreground/80">
-                <div className="flex items-start">
-                  <MapPin className="h-6 w-6 mr-4 mt-1 text-accent flex-shrink-0" />
-                  <span>123 Artistry Avenue, Toronto, ON M5V 2H2</span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 mr-4 text-accent" />
-                  <span>(416) 555-0123</span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 mr-4 text-accent" />
-                  <span>contact@ashgray.ink</span>
-                </div>
-              </div>
-               <h4 className="font-headline text-xl font-semibold text-primary mt-8 mb-4">Hours</h4>
-               <ul className="space-y-1 text-foreground/80">
-                  <li>Tuesday - Saturday: 11am - 8pm</li>
-                  <li>Sunday & Monday: Closed</li>
-               </ul>
-            </CardContent>
-          </Card>
-          <Card className="overflow-hidden shadow-lg border-border">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
+          
+          {/* Left Column: Map */}
+          <div className="w-full h-[400px] lg:h-[600px] relative">
              <Image
-                src="https://picsum.photos/800/600"
+                src="https://picsum.photos/seed/map/800/600"
                 alt="Map showing location of Ashgray Ink Studio"
                 data-ai-hint="city map"
-                width={800}
-                height={600}
-                className="w-full h-full object-cover"
+                fill
+                className="w-full h-full object-cover rounded-lg shadow-lg"
              />
-          </Card>
+          </div>
+
+          {/* Right Column: Info */}
+          <div className="space-y-10">
+            <div className='grid sm:grid-cols-2 gap-10'>
+                <InfoBlock title="ADDRESS">
+                    <p>123 Yonge Street, <br/>Toronto, ON M5C 2V6</p>
+                </InfoBlock>
+
+                <InfoBlock title="HOURS">
+                    <div className='flex justify-between'><span>Monday - Saturday</span> <span>10:00 AM - 9:00 PM</span></div>
+                    <div className='flex justify-between'><span>Sunday</span> <span>Closed</span></div>
+                    <div className='flex justify-between'><span>Consultations</span> <span>By Appointment Only</span></div>
+                </InfoBlock>
+            </div>
+
+            <InfoBlock title="ADDITIONAL CONTACT">
+                <p>Inquiries: inquiries@ashgray.ink</p>
+                <p>Artists: artists@ashgray.ink</p>
+                <p>Careers: careers@ashgray.ink</p>
+            </InfoBlock>
+
+            <InfoBlock title="CONTACT">
+                <div className="flex items-center">
+                  <Phone className="h-5 w-5 mr-3 text-accent flex-shrink-0" />
+                  <span>(416) 123-4567</span>
+                </div>
+                <div className="flex items-center">
+                  <Mail className="h-5 w-5 mr-3 text-accent flex-shrink-0" />
+                  <span>contact@ashgray.ink</span>
+                </div>
+            </InfoBlock>
+
+             <InfoBlock title="GETTING HERE">
+                <p><b>Subway:</b> Steps from Dundas Station</p>
+                <p><b>Parking:</b> Nearby paid garages available</p>
+                <p><b>Walking:</b> In the heart of downtown Toronto</p>
+            </InfoBlock>
+          </div>
         </div>
       </div>
     </section>
