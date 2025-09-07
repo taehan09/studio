@@ -44,17 +44,19 @@ const Header = () => {
           <Link href="#home" className="text-xl font-bold text-primary hover:text-gray-300 transition-colors">
             Ashgray Ink
           </Link>
-          <nav className="hidden md:flex flex-1 items-center justify-center space-x-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-semibold text-gray-300 hover:text-white transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex-1 flex justify-center">
+            <nav className="hidden md:flex items-center space-x-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-semibold text-gray-300 hover:text-white transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
           <div className="hidden md:flex items-center space-x-4">
              <Link href="#" className="text-foreground/80 hover:text-white transition-colors" aria-label="Instagram">
               <Instagram />
