@@ -9,6 +9,8 @@ import LocationSection from '@/components/sections/location-section';
 import FaqSection from '@/components/sections/faq-section';
 import { getHeroText } from '@/lib/firebase-admin';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const heroText = await getHeroText();
 
