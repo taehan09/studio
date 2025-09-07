@@ -48,12 +48,6 @@ const LocationSection = () => {
                 </InfoBlock>
             </div>
 
-            <InfoBlock title="ADDITIONAL CONTACT">
-                <p>Inquiries: inquiries@ashgray.ink</p>
-                <p>Artists: artists@ashgray.ink</p>
-                <p>Careers: careers@ashgray.ink</p>
-            </InfoBlock>
-
             <InfoBlock title="CONTACT">
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 mr-3 text-accent flex-shrink-0" />
@@ -63,6 +57,12 @@ const LocationSection = () => {
                   <Mail className="h-5 w-5 mr-3 text-accent flex-shrink-0" />
                   <span>contact@ashgray.ink</span>
                 </div>
+            </InfoBlock>
+
+            <InfoBlock title="ADDITIONAL CONTACT">
+                <p>Inquiries: inquiries@ashgray.ink</p>
+                <p>Artists: artists@ashgray.ink</p>
+                <p>Careers: careers@ashgray.ink</p>
             </InfoBlock>
 
              <InfoBlock title="GETTING HERE">
