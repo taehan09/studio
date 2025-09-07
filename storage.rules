@@ -1,0 +1,14 @@
+rules_version = '2';
+
+// See https://firebase.google.com/docs/storage/security
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      // Allow read access by everyone
+      allow read;
+
+      // Disallow write access by everyone
+      allow write: if false;
+    }
+  }
+}
