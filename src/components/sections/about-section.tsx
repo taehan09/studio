@@ -45,14 +45,13 @@ const AboutSection = () => {
           <div className="wow-outer md:col-span-3">
             <Card className="h-full overflow-hidden shadow-lg border-border relative bg-card">
               <CardContent className="p-0 h-full">
-                <div className="relative h-full">
+                <div className="relative h-full aspect-[3/4]">
                   <Image
                     src="https://picsum.photos/600/800"
                     alt="Tattoo artist working on a black and gray realism tattoo"
                     data-ai-hint="tattoo artist realism"
-                    width={600}
-                    height={800}
-                    className="w-full h-full object-cover opacity-50"
+                    fill
+                    className="object-cover opacity-50"
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                       <p className="text-2xl font-semibold text-white/80 tracking-widest">BLACK & GRAY</p>
