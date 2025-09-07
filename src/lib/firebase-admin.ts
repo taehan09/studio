@@ -1,8 +1,9 @@
+
 // src/lib/firebase-admin.ts
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
-import type { HeroText, AboutText } from './firebase';
+import type { HeroText, AboutText, Artist } from './firebase';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
@@ -45,6 +46,42 @@ const defaultAboutText: AboutText = {
   imageUrl: 'https://picsum.photos/600/800',
 };
 
+const defaultArtists: Artist[] = [
+  {
+    id: '1',
+    name: 'TK_ASHGRAYINK',
+    specialty: 'Traditional & Neo-Traditional',
+    bio: 'Specializing in bold traditional and neo-traditional designs with a modern twist.',
+    imageUrl: 'https://picsum.photos/seed/tk/400/500',
+    imageHint: 'tattoo artist working',
+  },
+  {
+    id: '2',
+    name: 'OLIVIA',
+    specialty: 'Fine-line & Realism & Watercolor',
+    bio: 'Master of fine-line and realism, creating delicate and detailed masterpieces.',
+    imageUrl: 'https://picsum.photos/seed/olivia/400/500',
+    imageHint: 'person in cafe',
+  },
+  {
+    id: '3',
+    name: 'NOAH',
+    specialty: 'Geometric & Blackwork & Tribal',
+    bio: 'Expert in geometric and blackwork, focusing on symmetry and abstract patterns.',
+    imageUrl: 'https://picsum.photos/seed/noah/400/500',
+    imageHint: 'winding road mountain',
+  },
+  {
+    id: '4',
+    name: 'EMMA',
+    specialty: 'Watercolor & New School & Japanese',
+    bio: 'Loves vibrant colors and expressive art, focusing on watercolor and new school styles.',
+    imageUrl: 'https://picsum.photos/seed/emma/400/500',
+    imageHint: 'spiderweb foggy field',
+  },
+];
+
+
 export async function getHeroText(): Promise<HeroText> {
     const adminApp = getAdminApp();
     if (!adminApp) return defaultHeroText;
@@ -84,5 +121,26 @@ export async function getAboutText(): Promise<AboutText> {
         return defaultAboutText;
     }
 }
+
+export async function getArtists(): Promise<Artist[]> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return defaultArtists;
+
+    try {
+        const db = getDatabase(adminApp);
+        const artistsRef = db.ref("site_content/artists_section");
+        const snapshot = await artistsRef.get();
+        if (snapshot.exists()) {
+            return snapshot.val() as Artist[];
+        } else {
+            await artistsRef.set(defaultArtists);
+            return defaultArtists;
+        }
+    } catch (error) {
+        console.error("Error fetching artists with Admin SDK:", error);
+        return defaultArtists;
+    }
+}
+
 
 export { getAdminApp };

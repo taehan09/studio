@@ -37,6 +37,15 @@ export type AboutText = {
   imageUrl: string;
 }
 
+export type Artist = {
+  id: string;
+  name: string;
+  specialty: string;
+  bio: string;
+  imageUrl: string;
+  imageHint: string;
+};
+
 // This function is called from the client-side editor
 export async function updateHeroText(text: HeroText): Promise<void> {
   const currentUser = auth.currentUser;
@@ -99,5 +108,39 @@ export async function uploadAboutImage(file: File): Promise<string> {
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
 }
+
+export async function updateArtists(artists: Artist[]): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to save changes.");
+    }
+    const artistsRef = ref(db, "site_content/artists_section");
+    await set(artistsRef, artists);
+}
+
+export function getArtists(callback: (artists: Artist[] | null) => void): () => void {
+    const artistsRef: DatabaseReference = ref(db, 'site_content/artists_section');
+    const unsubscribe = onValue(artistsRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            callback(null);
+        }
+    });
+    return unsubscribe;
+}
+
+export async function uploadArtistImage(file: File, artistId: string): Promise<string> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to upload images.");
+    }
+    const filePath = `site_content/artists_section/${artistId}/${new Date().toISOString()}_${file.name}`;
+    const imageRef = storageRef(storage, filePath);
+    const snapshot = await uploadBytes(imageRef, file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    return downloadURL;
+}
+
 
 export { app, db, auth };
