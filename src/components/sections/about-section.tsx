@@ -46,7 +46,7 @@ const AboutSection = () => {
                   </div>
                   <div className="wow-outer">
                     <Card className="h-full overflow-hidden border-0">
-                      <CardContent className="relative h-full p-0 min-h-[400px] md:min-h-0">
+                      <CardContent className="relative h-full p-4 min-h-[400px] md:min-h-0">
                         <Image
                           src="https://picsum.photos/600/800"
                           alt="Tattoo artist working on a black and gray realism tattoo"
