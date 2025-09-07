@@ -3,25 +3,16 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { getHeroText, type HeroText } from '@/lib/firebase';
+import type { HeroText } from '@/lib/firebase';
 
 type HeroSectionProps = {
   initialHeroText: HeroText;
 }
 
 const HeroSection = ({ initialHeroText }: HeroSectionProps) => {
-  const [heroText, setHeroText] = useState<HeroText>(initialHeroText);
-
-  useEffect(() => {
-    // Set up a real-time listener for hero text changes
-    const unsubscribe = getHeroText((text) => {
-      setHeroText(text);
-    });
-
-    // Cleanup listener on component unmount
-    return () => unsubscribe();
-  }, []);
+  // Use the initial text passed from the server directly
+  // This avoids client-side state changes causing hydration errors
+  const heroText = initialHeroText;
 
   return (
     <section id="home" className="relative h-screen w-full flex flex-col text-center text-white overflow-hidden">
