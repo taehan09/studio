@@ -75,27 +75,33 @@ const ArtistImageUploader = ({
   };
 
   return (
-    <FormItem>
-      <FormLabel>Artist Image</FormLabel>
-      {imagePreview && (
-        <div className="mt-2 relative w-full h-48 border rounded-lg overflow-hidden">
-          <Image src={imagePreview} alt="Artist preview" fill objectFit="cover" />
-        </div>
-      )}
-      <FormControl>
-        <div className="relative">
-          <Input
-            type="file"
-            accept="image/*"
-            className="mt-2 pr-12 file:text-primary file:font-semibold"
-            onChange={handleFileChange}
-            disabled={isUploading}
-          />
-          {isUploading && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 animate-spin" />}
-        </div>
-      </FormControl>
-      <FormMessage />
-    </FormItem>
+    <Card>
+        <CardHeader>
+            <CardTitle>Artist Image</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <FormItem>
+            {imagePreview && (
+                <div className="mt-2 relative w-full h-48 border rounded-lg overflow-hidden">
+                <Image src={imagePreview} alt="Artist preview" fill objectFit="cover" />
+                </div>
+            )}
+            <FormControl>
+                <div className="relative">
+                <Input
+                    type="file"
+                    accept="image/*"
+                    className="mt-2 pr-12 file:text-primary file:font-semibold"
+                    onChange={handleFileChange}
+                    disabled={isUploading}
+                />
+                {isUploading && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 animate-spin" />}
+                </div>
+            </FormControl>
+            <FormMessage />
+            </FormItem>
+        </CardContent>
+    </Card>
   );
 };
 
@@ -163,56 +169,63 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
                         </Button>
                     </CardHeader>
                     <CardContent>
-                         <div className="space-y-4">
-                            <FormField
+                         <div className="grid md:grid-cols-2 gap-8 items-start">
+                            {/* Left Column: Text inputs */}
+                            <div className="space-y-4">
+                                <FormField
+                                    control={form.control}
+                                    name={`artists.${index}.name`}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Name</FormLabel>
+                                        <FormControl><Input {...field} /></FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name={`artists.${index}.specialty`}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Specialty</FormLabel>
+                                        <FormControl><Input {...field} /></FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name={`artists.${index}.bio`}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Bio</FormLabel>
+                                        <FormControl><Textarea {...field} rows={3} /></FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name={`artists.${index}.imageHint`}
+                                  render={({ field }) => (
+                                      <FormItem>
+                                      <FormLabel>Image AI Hint</FormLabel>
+                                      <FormControl><Input {...field} placeholder="e.g. tattoo artist" /></FormControl>
+                                      <FormMessage />
+                                      </FormItem>
+                                  )}
+                                />
+                            </div>
+
+                             {/* Right Column: Image Uploader */}
+                            <div>
+                                <FormField
                                 control={form.control}
-                                name={`artists.${index}.name`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl><Input {...field} /></FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name={`artists.${index}.specialty`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Specialty</FormLabel>
-                                    <FormControl><Input {...field} /></FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name={`artists.${index}.bio`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Bio</FormLabel>
-                                    <FormControl><Textarea {...field} rows={3} /></FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                              control={form.control}
-                              name={`artists.${index}.imageUrl`}
-                              render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues} setValue={form.setValue}/>}
-                            />
-                            <FormField
-                              control={form.control}
-                              name={`artists.${index}.imageHint`}
-                              render={({ field }) => (
-                                  <FormItem>
-                                  <FormLabel>Image AI Hint</FormLabel>
-                                  <FormControl><Input {...field} placeholder="e.g. tattoo artist" /></FormControl>
-                                  <FormMessage />
-                                  </FormItem>
-                              )}
-                            />
+                                name={`artists.${index}.imageUrl`}
+                                render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues} setValue={form.setValue}/>}
+                                />
+                            </div>
                          </div>
                     </CardContent>
                 </Card>
