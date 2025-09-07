@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Save } from "lucide-react";
 import Image from 'next/image';
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const aboutFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters."),
@@ -87,64 +88,77 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Section title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="About section content..." {...field} rows={10}/>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormItem>
-          <FormLabel>About Section Image</FormLabel>
-            {imagePreview && (
-                <div className="mt-2 relative w-full h-64 border rounded-lg overflow-hidden">
-                    <Image src={imagePreview} alt="About section preview" fill objectFit="cover" />
-                </div>
-            )}
-          <FormControl>
-             <Input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleFileChange}
-                className="mt-2 file:text-primary file:font-semibold"
-             />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+            {/* Left Column: Text inputs */}
+            <div className="space-y-6">
+                <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                        <Input placeholder="Section title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                        <Textarea placeholder="About section content..." {...field} rows={10}/>
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                 <Button type="submit" disabled={isSaving}>
+                    {isSaving ? (
+                        <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                        </>
+                    ) : (
+                        <>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Changes
+                        </>
+                    )}
+                </Button>
+            </div>
 
-        <Button type="submit" disabled={isSaving}>
-          {isSaving ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Save className="mr-2 h-4 w-4" />
-              Save Changes
-            </>
-          )}
-        </Button>
+            {/* Right Column: Image Uploader */}
+            <div className="space-y-2">
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>About Section Image</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FormItem>
+                            {imagePreview && (
+                                <div className="mt-2 relative w-full h-64 border rounded-lg overflow-hidden">
+                                    <Image src={imagePreview} alt="About section preview" fill objectFit="cover" />
+                                </div>
+                            )}
+                        <FormControl>
+                            <Input 
+                                type="file" 
+                                accept="image/*" 
+                                onChange={handleFileChange}
+                                className="mt-2 file:text-primary file:font-semibold"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    </CardContent>
+                 </Card>
+            </div>
+        </div>
       </form>
     </Form>
   );
