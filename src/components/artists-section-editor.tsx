@@ -184,7 +184,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
                             className="w-full justify-start"
                             onClick={() => setSelectedArtistIndex(index)}
                         >
-                            {form.watch(`artists.${index}.name`) || `Artist ${index + 1}`}
+                            {`Artist ${index + 1}`}
                         </Button>
                         ))}
                          <Button type="button" variant="outline" onClick={addNewArtist} className="w-full mt-4">
