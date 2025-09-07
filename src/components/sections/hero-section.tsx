@@ -1,20 +1,26 @@
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Mouse } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center text-center text-white">
-      <Image
-        src="https://picsum.photos/1920/1080"
-        alt="Tattoo studio ambiance"
-        data-ai-hint="tattoo studio dark"
-        fill
-        className="object-cover"
-        priority
-      />
-      <div className="absolute inset-0 bg-black/70" />
+    <section id="home" className="relative h-screen w-full flex items-center justify-center text-center text-white overflow-hidden">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+      >
+        {/* 
+          This is a placeholder video.
+          You should replace this with your own video file. 
+          For example, you can add a video to the `public` folder 
+          and set the src to `/your-video.mp4`
+        */}
+        <source src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.appspot.com/o/placeholder-video.mp4?alt=media&token=2d71851c-4235-4303-a129-9e7987000d5a" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 px-4 flex flex-col items-center">
         <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight">
           Ashgray Ink
