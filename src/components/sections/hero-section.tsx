@@ -17,10 +17,10 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/60" />
       
       <div className="relative z-10 px-4 flex flex-col items-center flex-grow justify-center">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tight font-headline">
           Ashgray Ink
         </h1>
-        <p className="mt-8 text-lg md:text-xl text-white/90">
+        <p className="mt-12 text-lg md:text-xl text-white/90">
           Experience world-class tattoo art in Toronto with internationally recognized artists.
         </p>
       </div>
