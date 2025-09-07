@@ -45,15 +45,17 @@ const AboutSection = () => {
                     </div>
                   </div>
                   <div className="wow-outer">
-                    <div className="relative h-full min-h-[400px] md:min-h-0">
-                      <Image
-                        src="https://picsum.photos/600/800"
-                        alt="Tattoo artist working on a black and gray realism tattoo"
-                        data-ai-hint="tattoo artist realism"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                    <Card className="h-full overflow-hidden border-0">
+                      <CardContent className="relative h-full p-0 min-h-[400px] md:min-h-0">
+                        <Image
+                          src="https://picsum.photos/600/800"
+                          alt="Tattoo artist working on a black and gray realism tattoo"
+                          data-ai-hint="tattoo artist realism"
+                          fill
+                          className="object-cover"
+                        />
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
             </CardContent>
