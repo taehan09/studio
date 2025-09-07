@@ -1,34 +1,65 @@
+// src/components/sections/gallery-section.tsx
+"use client";
+
+import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const galleryImages = [
-  { src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist' },
-  { src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo design', hint: 'tattoo traditional' },
-  { src: 'https://picsum.photos/500/500?random=13', alt: 'Watercolor tattoo design', hint: 'tattoo watercolor' },
-  { src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric' },
-  { src: 'https://picsum.photos/500/500?random=15', alt: 'Realism tattoo design', hint: 'tattoo realism' },
-  { src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork' },
-  { src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese' },
-  { src: 'https://picsum.photos/500/500?random=18', alt: 'Abstract tattoo design', hint: 'tattoo abstract' },
+  { src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist', category: 'Fine-line' },
+  { src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo design', hint: 'tattoo traditional', category: 'Traditional' },
+  { src: 'https://picsum.photos/500/500?random=13', alt: 'Watercolor tattoo design', hint: 'tattoo watercolor', category: 'Color' },
+  { src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric', category: 'Blackwork' },
+  { src: 'https://picsum.photos/500/500?random=15', alt: 'Realism tattoo design', hint: 'tattoo realism', category: 'Realism' },
+  { src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork', category: 'Blackwork' },
+  { src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Traditional' },
+  { src: 'https://picsum.photos/500/500?random=18', alt: 'Abstract tattoo design', hint: 'tattoo abstract', category: 'Color' },
+  { src: 'https://picsum.photos/500/500?random=19', alt: 'Fine-line tattoo design', hint: 'tattoo fineline', category: 'Fine-line' },
+  { src: 'https://picsum.photos/500/500?random=20', alt: 'Realism color tattoo', hint: 'tattoo realism color', category: 'Realism' },
+  { src: 'https://picsum.photos/500/500?random=21', alt: 'Blackwork portrait', hint: 'tattoo blackwork portrait', category: 'Blackwork' },
+  { src: 'https://picsum.photos/500/500?random=22', alt: 'Traditional eagle tattoo', hint: 'tattoo traditional eagle', category: 'Traditional' },
 ];
 
+const filterCategories = ['ALL', 'REALISM', 'TRADITIONAL', 'BLACKWORK', 'FINE-LINE', 'COLOR'];
+
 const GallerySection = () => {
+  const [activeFilter, setActiveFilter] = useState('ALL');
+
+  const filteredImages = activeFilter === 'ALL'
+    ? galleryImages
+    : galleryImages.filter(image => image.category.toUpperCase() === activeFilter);
+
   return (
     <section id="gallery" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Work</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-            A glimpse into the artistry and skill of our resident tattooists.
+          <h2 className="font-headline text-5xl md:text-6xl font-bold text-primary tracking-wider">GALLERY</h2>
+          <p className="mt-6 max-w-3xl mx-auto text-base md:text-lg text-foreground/70">
+            Explore our portfolio of exceptional tattoo artistry. Each piece represents the skill, creativity, and attention to detail that defines our studio.
           </p>
         </div>
 
+        <div className="flex justify-center items-center flex-wrap gap-2 mb-12">
+          {filterCategories.map(category => (
+            <Button
+              key={category}
+              variant={activeFilter === category ? "secondary" : "outline"}
+              onClick={() => setActiveFilter(category)}
+              className={cn(
+                "font-semibold tracking-widest",
+                activeFilter === category ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-accent/50"
+              )}
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {galleryImages.map((image, index) => (
-            <Card key={index} className="overflow-hidden group">
+          {filteredImages.map((image, index) => (
+            <Card key={`${image.src}-${index}`} className="overflow-hidden group animate-fade-in">
               <CardContent className="p-0">
                 <Image
                   src={image.src}
@@ -41,22 +72,6 @@ const GallerySection = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-            <Card className="inline-block bg-card border-border shadow-lg p-6">
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                    <div>
-                        <h3 className="font-headline text-xl font-semibold text-primary">Have a new design?</h3>
-                        <p className="text-muted-foreground">Use our AI to categorize it.</p>
-                    </div>
-                    <Button asChild>
-                        <Link href="/admin">
-                            Categorize New Design <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </div>
-            </Card>
         </div>
 
       </div>
