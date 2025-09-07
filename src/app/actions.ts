@@ -1,32 +1,48 @@
+// src/app/actions.ts
 "use server";
 
 import { z } from "zod";
 import { categorizeTattooDesign, type CategorizeTattooDesignInput } from "@/ai/flows/categorize-tattoo-designs";
 
-// Contact Form Action
-const contactSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+const appointmentSchema = z.object({
+  fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  preferredArtist: z.string(),
+  tattooStyle: z.string(),
+  placement: z.string().min(3, { message: "Placement must be at least 3 characters." }),
+  approximateSize: z.string(),
+  tattooDescription: z.string().min(10, { message: "Description must be at least 10 characters." }),
+  budgetRange: z.string(),
+  preferredTimeframe: z.string(),
 });
 
-export type ContactFormState = {
+export type AppointmentFormState = {
   message: string;
   errors?: {
-    name?: string[];
+    fullName?: string[];
     email?: string[];
-    message?: string[];
+    phone?: string[];
+    placement?: string[];
+    tattooDescription?: string[];
   };
 };
 
-export async function contactAction(
-  prevState: ContactFormState,
+export async function appointmentAction(
+  prevState: AppointmentFormState,
   formData: FormData
-): Promise<ContactFormState> {
-  const validatedFields = contactSchema.safeParse({
-    name: formData.get("name"),
+): Promise<AppointmentFormState> {
+  const validatedFields = appointmentSchema.safeParse({
+    fullName: formData.get("fullName"),
     email: formData.get("email"),
-    message: formData.get("message"),
+    phone: formData.get("phone"),
+    preferredArtist: formData.get("preferredArtist"),
+    tattooStyle: formData.get("tattooStyle"),
+    placement: formData.get("placement"),
+    approximateSize: formData.get("approximateSize"),
+    tattooDescription: formData.get("tattooDescription"),
+    budgetRange: formData.get("budgetRange"),
+    preferredTimeframe: formData.get("preferredTimeframe"),
   });
 
   if (!validatedFields.success) {
@@ -38,10 +54,10 @@ export async function contactAction(
 
   // Here you would typically send an email, save to a database, etc.
   // For this example, we'll just log it to the console.
-  console.log("New contact form submission:");
+  console.log("New appointment request:");
   console.log(validatedFields.data);
 
-  return { message: "Success! Your message has been sent. We will get back to you shortly." };
+  return { message: "Success! Your appointment request has been sent. We will get back to you shortly." };
 }
 
 // Tattoo Categorization Action
