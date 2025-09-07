@@ -3,7 +3,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useFieldArray, type Control } from "react-hook-form";
+import { useForm, useFieldArray, type Control, type UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { updateArtists, uploadArtistImage, type Artist } from "@/lib/firebase";
@@ -41,7 +41,17 @@ type ArtistsSectionEditorProps = {
     initialData: Artist[];
 }
 
-const ArtistImageUploader = ({ control, index, getValues }: { control: Control<ArtistsFormValues>, index: number, getValues: any }) => {
+const ArtistImageUploader = ({ 
+    control, 
+    index, 
+    getValues,
+    setValue 
+}: { 
+    control: Control<ArtistsFormValues>, 
+    index: number, 
+    getValues: any,
+    setValue: UseFormSetValue<ArtistsFormValues>
+}) => {
   const [isUploading, setIsUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(getValues(`artists.${index}.imageUrl`));
   const { toast } = useToast();
@@ -57,7 +67,7 @@ const ArtistImageUploader = ({ control, index, getValues }: { control: Control<A
       try {
         const artistId = getValues(`artists.${index}.id`);
         const downloadURL = await uploadArtistImage(file, artistId);
-        control.getFieldState(`artists.${index}.imageUrl`)._f.onChange(downloadURL); // Use the internal onChange
+        setValue(`artists.${index}.imageUrl`, downloadURL, { shouldDirty: true, shouldValidate: true });
         setImagePreview(downloadURL);
         toast({ title: "Image uploaded!" });
       } catch (error: any) {
@@ -119,6 +129,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
         title: "Success!",
         description: "Artists section has been updated.",
       });
+      form.reset(data); // Reset form with the new values to clear dirty state
     } catch (error: any) {
       console.error("Failed to update artists section:", error);
       toast({
@@ -196,7 +207,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
                                 <FormField
                                   control={form.control}
                                   name={`artists.${index}.imageUrl`}
-                                  render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues}/>}
+                                  render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues} setValue={form.setValue}/>}
                                 />
                                 <FormField
                                   control={form.control}
@@ -223,7 +234,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
         
         <hr className="my-6 border-border"/>
 
-        <Button type="submit" disabled={isSaving} className="w-full">
+        <Button type="submit" disabled={isSaving || !form.formState.isDirty} className="w-full">
           {isSaving ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
