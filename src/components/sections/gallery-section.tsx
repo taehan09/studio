@@ -118,7 +118,7 @@ const GallerySection = () => {
         </div>
         
         <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
-          <DialogContent className="p-0 border-none bg-transparent max-w-4xl h-auto shadow-2xl">
+          <DialogContent className="p-0 border-none bg-transparent max-w-2xl h-auto shadow-2xl">
             {selectedImage && (
               <Image
                 src={selectedImage}
