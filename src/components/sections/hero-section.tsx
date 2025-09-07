@@ -16,13 +16,13 @@ const HeroSection = () => {
       </video>
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 px-4 flex flex-col items-center">
-        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
           Ashgray Ink
         </h1>
-        <p className="mt-8 mx-auto text-lg md:text-xl text-white/90">
+        <p className="mt-8 text-lg md:text-xl text-white/90">
           Experience world-class tattoo art in Toronto with internationally recognized artists.
         </p>
-        <div className="mt-16">
+        <div className="mt-48">
           <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
             <Link href="#contact">MAKE AN APPOINTMENT</Link>
           </Button>
