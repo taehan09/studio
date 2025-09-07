@@ -20,7 +20,7 @@ const AboutSection = () => {
                   <div className="wow-outer flex flex-col justify-center">
                     <div>
                       <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
-                      <div className="text-foreground/80 space-y-4 text-base">
+                      <div className="text-foreground/80 space-y-4 text-base leading-relaxed">
                           <p>
                           Founded in 2010, Ashgray Ink has become a cornerstone of the Toronto tattoo scene. We are a collective of passionate, multi-award-winning artists dedicated to creating unique, high-quality tattoos in a clean, welcoming, and professional environment. Our artists specialize in a wide range of styles, from traditional and neo-traditional to blackwork, realism, and fine-line.
                           </p>
