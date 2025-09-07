@@ -16,7 +16,7 @@ const HeroSection = () => {
       </video>
       <div className="absolute inset-0 bg-black/60" />
       
-      <div className="relative z-10 flex flex-col items-center justify-center flex-grow px-4">
+      <div className="relative z-10 flex flex-col items-center justify-end flex-grow px-4">
         <div className="flex-grow flex items-center justify-center">
             <div className='text-center'>
                 <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
@@ -28,16 +28,16 @@ const HeroSection = () => {
             </div>
         </div>
 
-        <div className="absolute bottom-24 left-0 right-0 flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center pb-24">
             <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                 <Link href="#contact">MAKE AN APPOINTMENT</Link>
             </Button>
-            <div className="flex flex-col items-center space-y-2">
-                <span className="text-sm tracking-widest">SCROLL DOWN</span>
-                <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
-                    <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
-                </div>
-            </div>
+        </div>
+      </div>
+      <div className="absolute z-20 bottom-12 left-0 right-0 flex flex-col items-center space-y-2">
+        <span className="text-sm tracking-widest">SCROLL DOWN</span>
+        <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
+            <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
         </div>
       </div>
     </section>
