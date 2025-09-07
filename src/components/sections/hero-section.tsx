@@ -16,7 +16,7 @@ const HeroSection = () => {
       </video>
       <div className="absolute inset-0 bg-black/60" />
       
-      <div className="relative z-10 flex flex-col items-center justify-end flex-grow px-4">
+      <div className="relative z-10 flex flex-col items-center justify-between flex-grow px-4">
         <div className="flex-grow flex items-center justify-center">
             <div className='text-center'>
                 <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
