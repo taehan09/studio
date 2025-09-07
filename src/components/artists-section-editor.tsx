@@ -198,7 +198,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
             {/* Right Column: Editor */}
             <div className="md:col-span-3">
                  {selectedArtistIndex !== null && fields[selectedArtistIndex] ? (
-                    <Card className="border-border">
+                    <Card key={fields[selectedArtistIndex].id} className="border-border">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>
                                 Editing: {form.watch(`artists.${selectedArtistIndex}.name`)}
