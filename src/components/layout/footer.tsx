@@ -20,7 +20,7 @@ const Footer = () => {
             </Link>
           </div>
           <p className="text-sm text-foreground/60">
-            &copy; {currentYear} InkFlow Studio. All rights reserved.
+            &copy; {currentYear} Ashgray Ink. All rights reserved.
           </p>
         </div>
       </div>

@@ -23,7 +23,7 @@ const AboutSection = () => {
           <div className="wow-outer">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
             <p className="text-lg text-foreground/80 mb-4">
-              Founded in 2010, InkFlow Studio was born from a passion for transformative art. We believe that a tattoo is more than just ink; it's a personal story, a mark of individuality, and a piece of art that you carry forever.
+              Founded in 2010, Ashgray Ink was born from a passion for transformative art. We believe that a tattoo is more than just ink; it's a personal story, a mark of individuality, and a piece of art that you carry forever.
             </p>
             <p className="text-foreground/70 mb-4">
               Our philosophy is rooted in collaboration and craftsmanship. We work closely with each client to bring their vision to life, ensuring a unique and meaningful experience from consultation to final touch-up.

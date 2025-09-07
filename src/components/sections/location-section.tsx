@@ -15,7 +15,7 @@ const LocationSection = () => {
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
           <Card className="shadow-lg">
             <CardContent className="p-8 flex flex-col justify-center">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">InkFlow Studio</h3>
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">Ashgray Ink</h3>
               <div className="space-y-4 text-foreground/80">
                 <div className="flex items-start">
                   <MapPin className="h-6 w-6 mr-4 mt-1 text-accent flex-shrink-0" />
@@ -27,7 +27,7 @@ const LocationSection = () => {
                 </div>
                 <div className="flex items-center">
                   <Mail className="h-5 w-5 mr-4 text-accent" />
-                  <span>contact@inkflow.studio</span>
+                  <span>contact@ashgray.ink</span>
                 </div>
               </div>
                <h4 className="font-headline text-xl font-semibold text-primary mt-8 mb-4">Hours</h4>
@@ -40,7 +40,7 @@ const LocationSection = () => {
           <Card className="overflow-hidden shadow-lg">
              <Image
                 src="https://picsum.photos/800/600"
-                alt="Map showing location of InkFlow Studio"
+                alt="Map showing location of Ashgray Ink Studio"
                 data-ai-hint="city map"
                 width={800}
                 height={600}
