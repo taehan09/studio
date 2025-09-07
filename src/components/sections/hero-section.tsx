@@ -4,17 +4,26 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import type { HeroText } from '@/lib/firebase';
+import { getHeroText, type HeroText } from '@/lib/firebase';
 
 type HeroSectionProps = {
-  heroText: HeroText;
+  initialHeroText: HeroText;
 }
 
-const HeroSection = ({ heroText }: HeroSectionProps) => {
+const HeroSection = ({ initialHeroText }: HeroSectionProps) => {
+  const [heroText, setHeroText] = useState<HeroText>(initialHeroText);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    
+    // Set up a real-time listener for hero text changes
+    const unsubscribe = getHeroText((text) => {
+      setHeroText(text);
+    });
+
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
   }, []);
 
   return (

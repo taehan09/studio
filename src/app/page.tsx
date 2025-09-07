@@ -7,18 +7,18 @@ import GallerySection from '@/components/sections/gallery-section';
 import ContactSection from '@/components/sections/contact-section';
 import LocationSection from '@/components/sections/location-section';
 import FaqSection from '@/components/sections/faq-section';
-import { getHeroText } from '@/lib/firebase-admin';
+import { getHeroText as getHeroTextServer } from '@/lib/firebase-admin';
 
-export const revalidate = 0; // This will force the page to be re-rendered on every request
-
+// Fetch initial data on the server to avoid flickering on the client.
+// The client will then subscribe to real-time updates.
 export default async function Home() {
-  const heroText = await getHeroText();
+  const initialHeroText = await getHeroTextServer();
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
-        <HeroSection heroText={heroText} />
+        <HeroSection initialHeroText={initialHeroText} />
         <AboutSection />
         <ArtistsSection />
         <GallerySection />

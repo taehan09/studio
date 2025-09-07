@@ -1,6 +1,6 @@
 // src/lib/firebase.ts
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, onValue, type DatabaseReference } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
@@ -19,7 +19,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-// Firestore functions
+// Data types
 export type HeroText = {
   title: string;
   subtitle: string;
@@ -30,5 +30,25 @@ export async function updateHeroText(text: HeroText): Promise<void> {
   const heroRef = ref(db, "site_content/hero_section");
   await set(heroRef, text);
 }
+
+// This function is called from the client-side to read data
+export function getHeroText(callback: (text: HeroText) => void): () => void {
+    const heroRef: DatabaseReference = ref(db, 'site_content/hero_section');
+    // onValue returns an unsubscribe function that we can call to detach the listener
+    const unsubscribe = onValue(heroRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            // Provide default text if nothing is in the database
+            callback({
+                title: "Ashgray Ink",
+                subtitle: "Experience world-class tattoo art in Toronto with internationally recognized artists."
+            });
+        }
+    });
+    
+    return unsubscribe;
+}
+
 
 export { app, db, auth };
