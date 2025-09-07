@@ -14,8 +14,8 @@ const AboutSection = () => {
   return (
     <section id="about" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-24">
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="wow-outer">
+        <div className="grid md:grid-cols-5 gap-12 lg:gap-16 items-center">
+          <div className="wow-outer md:col-span-2">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
             <div className="text-foreground/80 space-y-4 text-base">
                 <p>
@@ -40,7 +40,7 @@ const AboutSection = () => {
                 ))}
             </div>
           </div>
-          <div className="wow-outer">
+          <div className="wow-outer md:col-span-3">
             <Card className="overflow-hidden shadow-lg border-border relative bg-card">
               <CardContent className="p-0">
                 <Image
