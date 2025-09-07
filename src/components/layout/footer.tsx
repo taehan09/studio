@@ -1,8 +1,16 @@
+"use client";
+
 import { Instagram, Facebook, Twitter } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
 
   return (
     <footer className="bg-card border-t border-border/50">
