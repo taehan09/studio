@@ -23,6 +23,7 @@ import AboutSectionEditor from '@/components/about-section-editor';
 import ArtistsSectionEditor from '@/components/artists-section-editor';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import GallerySectionEditor from '@/components/gallery-section-editor';
+import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
 import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
@@ -31,9 +32,10 @@ type AdminDashboardProps = {
   initialAboutText: AboutText;
   initialArtists: Artist[];
   initialGalleryImages: GalleryImage[];
+  initialAppointmentRequests: AppointmentRequest[];
 };
 
-type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize' | 'requests';
 
 const viewConfig = {
     hero: {
@@ -61,6 +63,11 @@ const viewConfig = {
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
         icon: Tag,
     },
+    requests: {
+        title: "Appointment Requests",
+        description: "View and manage submitted appointment requests from potential clients.",
+        icon: Mails,
+    }
 }
 
 export default function AdminDashboard({
@@ -68,6 +75,7 @@ export default function AdminDashboard({
   initialAboutText,
   initialArtists,
   initialGalleryImages,
+  initialAppointmentRequests,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -90,6 +98,9 @@ export default function AdminDashboard({
         break;
       case 'categorize':
         editorComponent = <TattooUploadForm />;
+        break;
+      case 'requests':
+        editorComponent = <ContactSubmissionsViewer initialData={initialAppointmentRequests} />;
         break;
       
       default:
@@ -144,6 +155,12 @@ export default function AdminDashboard({
                 <SidebarMenuButton onClick={() => setActiveView('gallery')} isActive={activeView === 'gallery'} tooltip="Edit Gallery Section">
                     <ImageIcon />
                     <span>Gallery Section</span>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setActiveView('requests')} isActive={activeView === 'requests'} tooltip="Appointment Requests">
+                    <Mails />
+                    <span>Appointment Requests</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
             

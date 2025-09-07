@@ -1,7 +1,8 @@
 // src/components/sections/contact-section.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,9 +10,35 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getArtists } from "@/lib/firebase";
+import { appointmentAction, type AppointmentFormState } from "@/app/actions";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
+
+const initialState: AppointmentFormState = {
+    message: "",
+    status: "idle",
+};
+
+function SubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={pending}>
+            {pending ? (
+                <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                </>
+            ) : (
+                "SUBMIT APPOINTMENT REQUEST"
+            )}
+        </Button>
+    )
+}
 
 const ContactSection = () => {
   const [artists, setArtists] = useState<{ id: string, name: string }[]>([]);
+  const [state, formAction] = useActionState(appointmentAction, initialState);
+  const { toast } = useToast();
 
   useEffect(() => {
     const unsubscribe = getArtists((data) => {
@@ -21,6 +48,21 @@ const ContactSection = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (state.status === 'success') {
+        toast({
+            title: "Success!",
+            description: state.message,
+        });
+    } else if (state.status === 'error') {
+        toast({
+            title: "Error",
+            description: state.message,
+            variant: "destructive",
+        });
+    }
+  }, [state, toast]);
 
   return (
     <section id="contact" className="py-20 lg:py-32 bg-card">
@@ -34,20 +76,23 @@ const ContactSection = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6">
+              <form action={formAction} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="fullName">Full Name *</Label>
                     <Input id="fullName" name="fullName" placeholder="Your full name" required />
+                     {state.fieldErrors?.fullName && <p className="text-destructive text-sm">{state.fieldErrors.fullName[0]}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email *</Label>
                     <Input id="email" name="email" type="email" placeholder="your@email.com" required />
+                     {state.fieldErrors?.email && <p className="text-destructive text-sm">{state.fieldErrors.email[0]}</p>}
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number *</Label>
                   <Input id="phone" name="phone" placeholder="(555) 123-4567" required />
+                   {state.fieldErrors?.phone && <p className="text-destructive text-sm">{state.fieldErrors.phone[0]}</p>}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -84,6 +129,7 @@ const ContactSection = () => {
                 <div className="space-y-2">
                   <Label htmlFor="tattooDescription">Tattoo Description *</Label>
                   <Textarea id="tattooDescription" name="tattooDescription" placeholder="Describe your tattoo idea in detail..." rows={6} required />
+                   {state.fieldErrors?.tattooDescription && <p className="text-destructive text-sm">{state.fieldErrors.tattooDescription[0]}</p>}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -113,9 +159,7 @@ const ContactSection = () => {
                   </div>
                 </div>
                 <div className="pt-4">
-                  <Button type="button" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                    SUBMIT APPOINTMENT REQUEST
-                  </Button>
+                  <SubmitButton />
                 </div>
               </form>
             </CardContent>
