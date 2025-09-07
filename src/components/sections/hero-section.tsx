@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center text-center text-white overflow-hidden">
+    <section id="home" className="relative h-screen w-full flex flex-col items-center justify-center text-center text-white overflow-hidden">
       <video
         autoPlay
         loop
@@ -15,23 +15,27 @@ const HeroSection = () => {
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black/60" />
-      <div className="relative z-10 px-4 flex flex-col items-center">
+      
+      <div className="relative z-10 px-4 flex flex-col items-center flex-grow justify-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
           Ashgray Ink
         </h1>
         <p className="mt-8 text-lg md:text-xl text-white/90">
           Experience world-class tattoo art in Toronto with internationally recognized artists.
         </p>
-        <div className="mt-48">
-          <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
-            <Link href="#contact">MAKE AN APPOINTMENT</Link>
-          </Button>
-        </div>
       </div>
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center space-y-2">
-        <span className="text-sm tracking-widest">SCROLL DOWN</span>
-        <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
-            <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
+
+      <div className="relative z-10 pb-20 flex flex-col items-center w-full">
+        <div className="mb-10">
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+                <Link href="#contact">MAKE AN APPOINTMENT</Link>
+            </Button>
+        </div>
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2">
+            <span className="text-sm tracking-widest">SCROLL DOWN</span>
+            <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
+                <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
+            </div>
         </div>
       </div>
     </section>
