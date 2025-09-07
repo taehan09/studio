@@ -1,32 +1,36 @@
 // src/lib/firebase-admin.ts
 import admin from 'firebase-admin';
-import { getApps, initializeApp, getApp } from 'firebase-admin/app';
+import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import dotenv from 'dotenv';
-import path from 'path';
 import type { HeroText } from './firebase';
-
-// Load environment variables from .env file at the project root
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
+let adminApp: App | null = null;
+
 function initializeAdminApp() {
-    if (serviceAccountKey && !getApps().length) {
+    if (getApps().length > 0) {
+        return getApp();
+    }
+    
+    if (serviceAccountKey) {
         try {
             const serviceAccount = JSON.parse(serviceAccountKey);
-            initializeApp({
+            return initializeApp({
                 credential: admin.credential.cert(serviceAccount)
             });
         } catch (error) {
             console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY or initialize Firebase Admin SDK:', error);
             return null;
         }
+    } else {
+        console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK will not be initialized.");
     }
-    return getApps().length > 0 ? getApp() : null;
+    return null;
 }
 
-const adminApp = initializeAdminApp();
+adminApp = initializeAdminApp();
+
 const adminDb = adminApp ? getFirestore(adminApp) : null;
 
 const defaultHeroText: HeroText = {
@@ -45,13 +49,11 @@ export async function getHeroText(): Promise<HeroText> {
         if (docSnap.exists) {
             return docSnap.data() as HeroText;
         } else {
-            // Document doesn't exist, create it with default text
             await heroDocRef.set(defaultHeroText);
             return defaultHeroText;
         }
     } catch (error) {
         console.error("Error fetching hero text with Admin SDK:", error);
-        // Fallback to default text on error
         return defaultHeroText;
     }
 }
