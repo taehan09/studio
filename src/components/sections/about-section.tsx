@@ -36,6 +36,7 @@ const AboutSection = () => {
   }, []);
 
   const currentText = aboutText ?? defaultAboutText;
+  const descriptionParagraphs = currentText.description?.split('\n') ?? [];
 
   return (
     <section id="about" className="py-20 lg:py-32 bg-background">
@@ -61,7 +62,7 @@ const AboutSection = () => {
                             <Skeleton className="h-6 w-9/12" />
                           </>
                         ) : (
-                          currentText.description.split('\n').map((paragraph, index) => (
+                          descriptionParagraphs.map((paragraph, index) => (
                             <p key={index}>{paragraph}</p>
                           ))
                         )}
