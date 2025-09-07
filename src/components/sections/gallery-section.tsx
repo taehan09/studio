@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
 const galleryImages = [
@@ -63,6 +64,7 @@ const filterCategories = ['ALL', 'REALISM', 'TRADITIONAL', 'BLACKWORK', 'FINE-LI
 
 const GallerySection = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const filteredImages = activeFilter === 'ALL'
     ? galleryImages
@@ -96,7 +98,11 @@ const GallerySection = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
           {filteredImages.map((image, index) => (
-            <Card key={`${image.src}-${index}`} className="overflow-hidden group animate-fade-in border-none shadow-none rounded-none">
+            <Card 
+              key={`${image.src}-${index}`} 
+              className="overflow-hidden group animate-fade-in border-none shadow-none rounded-none cursor-pointer"
+              onClick={() => setSelectedImage(image.src)}
+            >
               <CardContent className="p-0">
                 <Image
                   src={image.src}
@@ -110,6 +116,20 @@ const GallerySection = () => {
             </Card>
           ))}
         </div>
+        
+        <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
+          <DialogContent className="p-0 border-none bg-transparent max-w-4xl h-auto shadow-2xl">
+            {selectedImage && (
+              <Image
+                src={selectedImage}
+                alt="Enlarged gallery image"
+                width={1200}
+                height={1200}
+                className="w-full h-auto object-contain rounded-lg"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
 
       </div>
     </section>
