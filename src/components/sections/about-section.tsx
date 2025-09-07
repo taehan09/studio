@@ -15,9 +15,9 @@ const AboutSection = () => {
     <section id="about" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="overflow-hidden shadow-lg border-border bg-card">
-            <CardContent className="p-0">
+            <CardContent className="p-8 lg:p-12">
                 <div className="grid md:grid-cols-2 items-stretch">
-                  <div className="wow-outer flex flex-col justify-center p-8 lg:p-12">
+                  <div className="wow-outer flex flex-col justify-center">
                     <div>
                       <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
                       <div className="text-foreground/80 space-y-4 text-base">
