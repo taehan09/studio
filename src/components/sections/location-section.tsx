@@ -26,9 +26,9 @@ const LocationSection = () => {
           {/* Left Column: Map */}
           <div className="w-full h-[400px] lg:h-[600px] relative">
              <Image
-                src="https://picsum.photos/seed/map/800/600"
-                alt="Map showing location of Ashgray Ink Studio"
-                data-ai-hint="city map"
+                src="https://picsum.photos/seed/satellite/800/600"
+                alt="Satellite map showing location of Ashgray Ink Studio"
+                data-ai-hint="satellite map"
                 fill
                 className="w-full h-full object-cover rounded-lg shadow-lg"
              />
@@ -47,7 +47,7 @@ const LocationSection = () => {
                     <div className='flex justify-between'><span>Consultations</span> <span>By Appointment Only</span></div>
                 </InfoBlock>
             </div>
-
+            
             <InfoBlock title="CONTACT">
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 mr-3 text-accent flex-shrink-0" />
