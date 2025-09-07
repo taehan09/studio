@@ -36,7 +36,6 @@ const HeroSection = ({ initialHeroText }: HeroSectionProps) => {
         <source src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.firebasestorage.app/o/Hero%20Section%2Fu9865814416_A_cinematic_scene_of_a_tattoo_artist_at_work_in_a_7bbc8082-d8c1-4443-8107-69830af6d702_0.mp4?alt=media&token=c88369ab-bb9e-4bf6-b759-23f34f4196b8" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="absolute inset-0 bg-black/60" />
       
       <div className="relative z-20 flex flex-col items-center flex-grow px-4 justify-center">
         <div className="pt-20">
