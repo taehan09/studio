@@ -51,19 +51,6 @@ export type GalleryImage = {
     category: string;
 };
 
-export type AppointmentRequest = {
-    id: string;
-    fullName: string;
-    email: string;
-    phone: string;
-    preferredArtist: string;
-    tattooStyle: string;
-    tattooDescription: string;
-    budgetRange: string;
-    preferredTimeframe: string;
-    submittedAt: string;
-};
-
 const defaultArtists: Artist[] = [
     {
       id: '1',
@@ -313,32 +300,6 @@ export async function deleteGalleryImage(imageUrl: string): Promise<void> {
             throw new Error("Failed to delete image from storage.");
         }
     }
-}
-
-export async function saveAppointmentRequest(requestData: Omit<AppointmentRequest, 'id' | 'submittedAt'>): Promise<void> {
-    const requestsRef = ref(db, 'appointment_requests');
-    const newRequestRef = push(requestsRef);
-    const fullRequestData = {
-        ...requestData,
-        submittedAt: new Date().toISOString(),
-    };
-    await set(newRequestRef, fullRequestData);
-}
-
-export function getAppointmentRequests(callback: (requests: AppointmentRequest[]) => void): () => void {
-    const requestsRef = ref(db, 'appointment_requests');
-    const unsubscribe = onValue(requestsRef, (snapshot) => {
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            const requestsArray = Object.keys(data)
-                .map(key => ({ id: key, ...data[key] }))
-                .sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
-            callback(requestsArray);
-        } else {
-            callback([]);
-        }
-    });
-    return unsubscribe;
 }
 
 export { app, db, auth };
