@@ -42,7 +42,7 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link href="#home" className="text-xl font-bold text-primary hover:text-gray-300 transition-colors">
-            ashgray_ink
+            Ashgray Ink
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-center space-x-6">
             {navLinks.map((link) => (
