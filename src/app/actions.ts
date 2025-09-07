@@ -11,13 +11,13 @@ const appointmentSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
-  preferredArtist: z.string(),
-  tattooStyle: z.string(),
+  preferredArtist: z.string().optional(),
+  tattooStyle: z.string().optional(),
   placement: z.string().min(3, { message: "Placement must be at least 3 characters." }),
-  approximateSize: z.string(),
+  approximateSize: z.string().optional(),
   tattooDescription: z.string().min(10, { message: "Description must be at least 10 characters." }),
-  budgetRange: z.string(),
-  preferredTimeframe: z.string(),
+  budgetRange: z.string().optional(),
+  preferredTimeframe: z.string().optional(),
 });
 
 export type AppointmentFormState = {
@@ -39,13 +39,13 @@ export async function appointmentAction(
     fullName: formData.get("fullName"),
     email: formData.get("email"),
     phone: formData.get("phone"),
-    preferredArtist: formData.get("preferredArtist"),
-    tattooStyle: formData.get("tattooStyle"),
+    preferredArtist: formData.get("preferredArtist") || "No preference",
+    tattooStyle: formData.get("tattooStyle") || "Not specified",
     placement: formData.get("placement"),
-    approximateSize: formData.get("approximateSize"),
+    approximateSize: formData.get("approximateSize") || "Not specified",
     tattooDescription: formData.get("tattooDescription"),
-    budgetRange: formData.get("budgetRange"),
-    preferredTimeframe: formData.get("preferredTimeframe"),
+    budgetRange: formData.get("budgetRange") || "Not specified",
+    preferredTimeframe: formData.get("preferredTimeframe") || "Not specified",
   });
 
   if (!validatedFields.success) {
@@ -57,7 +57,18 @@ export async function appointmentAction(
 
   try {
     // 1. Generate AI Summary
-    const { summary } = await summarizeAppointmentRequest(validatedFields.data);
+    const { summary } = await summarizeAppointmentRequest({
+        fullName: validatedFields.data.fullName,
+        email: validatedFields.data.email,
+        phone: validatedFields.data.phone,
+        preferredArtist: validatedFields.data.preferredArtist || "No preference",
+        tattooStyle: validatedFields.data.tattooStyle || "Not specified",
+        placement: validatedFields.data.placement,
+        approximateSize: validatedFields.data.approximateSize || "Not specified",
+        tattooDescription: validatedFields.data.tattooDescription,
+        budgetRange: validatedFields.data.budgetRange || "Not specified",
+        preferredTimeframe: validatedFields.data.preferredTimeframe || "Not specified",
+    });
 
     // 2. Save to database
     const requestsRef = ref(db, "site_content/appointment_requests");
