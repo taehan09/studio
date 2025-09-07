@@ -12,15 +12,21 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/
 import { Quote } from "lucide-react";
 
 export default function ContactSubmissionsViewer({ initialData }: { initialData: AppointmentRequest[] }) {
-    const [requests, setRequests] = useState<AppointmentRequest[]>(initialData);
+    // Sort initial data and set it as the starting state
+    const [requests, setRequests] = useState<AppointmentRequest[]>(
+        initialData.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
+    );
     const [loading, setLoading] = useState(initialData.length === 0);
 
     useEffect(() => {
+        // Subscribe to real-time updates
         const unsubscribe = getAppointmentRequests((data) => {
             const sortedData = data ? data.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()) : [];
             setRequests(sortedData);
             setLoading(false);
         });
+
+        // Cleanup subscription on unmount
         return () => unsubscribe();
     }, []);
 
@@ -57,7 +63,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                 <AccordionItem value={request.id} key={request.id} asChild>
                                     <>
                                     <TableRow>
-                                        <TableCell>{format(new Date(request.submittedAt), "PPP")}</TableCell>
+                                        <TableCell>{request.submittedAt ? format(new Date(request.submittedAt), "PPP") : 'N/A'}</TableCell>
                                         <TableCell>{request.fullName}</TableCell>
                                         <TableCell className="text-muted-foreground">{request.summary || "Summary not available"}</TableCell>
                                         <TableCell>
