@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    --background: 0 0% 8%; /* Darker background for the new theme */
+    --background: 0 0% 0%; /* Pure Black */
     --foreground: 0 0% 98%;
-    --card: 0 0% 12%;
+    --card: 0 0% 4%; /* Darker card for contrast */
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 10%;
+    --popover: 0 0% 2%; /* Darker popover */
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%; /* White text for primary elements */
     --primary-foreground: 0 0% 9%;
@@ -39,11 +39,11 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 0 0% 8%;
+    --background: 0 0% 0%; /* Pure Black */
     --foreground: 0 0% 98%;
-    --card: 0 0% 12%;
+    --card: 0 0% 4%; /* Darker card for contrast */
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 10%;
+    --popover: 0 0% 2%; /* Darker popover */
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
