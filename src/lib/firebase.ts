@@ -27,6 +27,10 @@ export type HeroText = {
 
 // This function is called from the client-side editor
 export async function updateHeroText(text: HeroText): Promise<void> {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    throw new Error("You must be logged in to save changes.");
+  }
   const heroRef = ref(db, "site_content/hero_section");
   await set(heroRef, text);
 }

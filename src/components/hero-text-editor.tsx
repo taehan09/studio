@@ -39,11 +39,11 @@ export default function HeroTextEditor({ initialData }: HeroTextEditorProps) {
         title: "Success!",
         description: "Hero section text has been updated.",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to update hero text:", error);
       toast({
         title: "Error",
-        description: "Failed to save changes. Please try again.",
+        description: error.message || "Failed to save changes. Please try again.",
         variant: "destructive",
       });
     } finally {
