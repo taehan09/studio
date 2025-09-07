@@ -23,7 +23,6 @@ import AboutSectionEditor from '@/components/about-section-editor';
 import ArtistsSectionEditor from '@/components/artists-section-editor';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import GallerySectionEditor from '@/components/gallery-section-editor';
-import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
 import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
@@ -32,10 +31,9 @@ type AdminDashboardProps = {
   initialAboutText: AboutText;
   initialArtists: Artist[];
   initialGalleryImages: GalleryImage[];
-  initialAppointmentRequests: AppointmentRequest[];
 };
 
-type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize' | 'requests';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize';
 
 const viewConfig = {
     hero: {
@@ -63,11 +61,6 @@ const viewConfig = {
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
         icon: Tag,
     },
-    requests: {
-        title: "Appointment Requests",
-        description: "View and manage user-submitted appointment requests.",
-        icon: Mails,
-    }
 }
 
 export default function AdminDashboard({
@@ -75,7 +68,6 @@ export default function AdminDashboard({
   initialAboutText,
   initialArtists,
   initialGalleryImages,
-  initialAppointmentRequests,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -98,9 +90,6 @@ export default function AdminDashboard({
         break;
       case 'categorize':
         editorComponent = <TattooUploadForm />;
-        break;
-      case 'requests':
-        editorComponent = <ContactSubmissionsViewer initialData={initialAppointmentRequests} />;
         break;
       
       default:
@@ -162,13 +151,6 @@ export default function AdminDashboard({
                 <SidebarMenuButton onClick={() => setActiveView('categorize')} isActive={activeView === 'categorize'} tooltip="Categorize Design">
                     <Tag />
                     <span>Categorize Design</span>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
-
-             <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('requests')} isActive={activeView === 'requests'} tooltip="Appointment Requests">
-                    <Mails />
-                    <span>Appointment Requests</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
