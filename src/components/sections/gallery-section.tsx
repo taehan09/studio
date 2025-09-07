@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
 const galleryImages = [
@@ -119,6 +119,7 @@ const GallerySection = () => {
         
         <Dialog open={!!selectedImage} onOpenChange={(isOpen) => !isOpen && setSelectedImage(null)}>
           <DialogContent className="p-0 border-none bg-transparent max-w-2xl h-auto shadow-2xl">
+             <DialogTitle className="sr-only">Enlarged gallery image</DialogTitle>
             {selectedImage && (
               <Image
                 src={selectedImage}
