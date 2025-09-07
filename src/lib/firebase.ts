@@ -88,14 +88,70 @@ const defaultArtists: Artist[] = [
 ];
 
 const defaultGalleryImages: GalleryImage[] = [
-    { id: '1', src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist', category: 'Fine-line' },
-    { id: '2', src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo design', hint: 'tattoo traditional', category: 'Traditional' },
-    { id: '3', src: 'https://picsum.photos/500/500?random=13', alt: 'Watercolor tattoo design', hint: 'tattoo watercolor', category: 'Color' },
-    { id: '4', src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric', category: 'Geometric' },
-    { id: '5', src: 'https://picsum.photos/500/500?random=15', alt: 'Realism tattoo design', hint: 'tattoo realism', category: 'Realism' },
-    { id: '6', src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork', category: 'Blackwork' },
-    { id: '7', src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Japanese' },
+  // रियलिज्म
+  { id: 'g1', src: 'https://picsum.photos/500/500?random=1', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  { id: 'g2', src: 'https://picsum.photos/500/500?random=2', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  { id: 'g3', src: 'https://picsum.photos/500/500?random=3', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  { id: 'g4', src: 'https://picsum.photos/500/500?random=4', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  { id: 'g5', src: 'https://picsum.photos/500/500?random=5', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  { id: 'g6', src: 'https://picsum.photos/500/500?random=6', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  { id: 'g7', src: 'https://picsum.photos/500/500?random=7', alt: 'Realism tattoo', hint: 'tattoo realism', category: 'REALISM' },
+  
+  // पारंपरिक
+  { id: 'g8', src: 'https://picsum.photos/500/500?random=8', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+  { id: 'g9', src: 'https://picsum.photos/500/500?random=9', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+  { id: 'g10', src: 'https://picsum.photos/500/500?random=10', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+  { id: 'g11', src: 'https://picsum.photos/500/500?random=11', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+  { id: 'g12', src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+  { id: 'g13', src: 'https://picsum.photos/500/500?random=13', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+  { id: 'g14', src: 'https://picsum.photos/500/500?random=14', alt: 'Traditional tattoo', hint: 'tattoo traditional', category: 'TRADITIONAL' },
+
+  // ब्लैकवर्क
+  { id: 'g15', src: 'https://picsum.photos/500/500?random=15', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  { id: 'g16', src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  { id: 'g17', src: 'https://picsum.photos/500/500?random=17', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  { id: 'g18', src: 'https://picsum.photos/500/500?random=18', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  { id: 'g19', src: 'https://picsum.photos/500/500?random=19', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  { id: 'g20', src: 'https://picsum.photos/500/500?random=20', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  { id: 'g21', src: 'https://picsum.photos/500/500?random=21', alt: 'Blackwork tattoo', hint: 'tattoo blackwork', category: 'BLACKWORK' },
+  
+  // फाइन-लाइन
+  { id: 'g22', src: 'https://picsum.photos/500/500?random=22', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+  { id: 'g23', src: 'https://picsum.photos/500/500?random=23', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+  { id: 'g24', src: 'https://picsum.photos/500/500?random=24', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+  { id: 'g25', src: 'https://picsum.photos/500/500?random=25', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+  { id: 'g26', src: 'https://picsum.photos/500/500?random=26', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+  { id: 'g27', src: 'https://picsum.photos/500/500?random=27', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+  { id: 'g28', src: 'https://picsum.photos/500/500?random=28', alt: 'Fine-line tattoo', hint: 'tattoo fine-line', category: 'FINE-LINE' },
+
+  // रंग
+  { id: 'g29', src: 'https://picsum.photos/500/500?random=29', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+  { id: 'g30', src: 'https://picsum.photos/500/500?random=30', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+  { id: 'g31', src: 'https://picsum.photos/500/500?random=31', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+  { id: 'g32', src: 'https://picsum.photos/500/500?random=32', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+  { id: 'g33', src: 'https://picsum.photos/500/500?random=33', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+  { id: 'g34', src: 'https://picsum.photos/500/500?random=34', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+  { id: 'g35', src: 'https://picsum.photos/500/500?random=35', alt: 'Color tattoo', hint: 'tattoo color', category: 'COLOR' },
+
+  // जापानी
+  { id: 'g36', src: 'https://picsum.photos/500/500?random=36', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+  { id: 'g37', src: 'https://picsum.photos/500/500?random=37', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+  { id: 'g38', src: 'https://picsum.photos/500/500?random=38', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+  { id: 'g39', src: 'https://picsum.photos/500/500?random=39', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+  { id: 'g40', src: 'https://picsum.photos/500/500?random=40', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+  { id: 'g41', src: 'https://picsum.photos/500/500?random=41', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+  { id: 'g42', src: 'https://picsum.photos/500/500?random=42', alt: 'Japanese tattoo', hint: 'tattoo japanese', category: 'JAPANESE' },
+
+  // जियोमेट्रिक
+  { id: 'g43', src: 'https://picsum.photos/500/500?random=43', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+  { id: 'g44', src: 'https://picsum.photos/500/500?random=44', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+  { id: 'g45', src: 'https://picsum.photos/500/500?random=45', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+  { id: 'g46', src: 'https://picsum.photos/500/500?random=46', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+  { id: 'g47', src: 'https://picsum.photos/500/500?random=47', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+  { id: 'g48', src: 'https://picsum.photos/500/500?random=48', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+  { id: 'g49', src: 'https://picsum.photos/500/500?random=49', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
 ];
+
 
 // This function is called from the client-side editor
 export async function updateHeroText(text: HeroText): Promise<void> {
@@ -231,11 +287,15 @@ export async function deleteGalleryImage(imageUrl: string): Promise<void> {
     if (!currentUser) {
         throw new Error("You must be logged in to delete images.");
     }
+    // Only try to delete the image if it's a Firebase Storage URL
+    if (!imageUrl.includes('firebasestorage.googleapis.com')) {
+        return; 
+    }
     try {
         const imageRef = storageRef(storage, imageUrl);
         await deleteObject(imageRef);
     } catch (error: any) {
-        // It's okay if the file doesn't exist (e.g., placeholder images)
+        // It's okay if the file doesn't exist (e.g., placeholder images that were never uploaded)
         if (error.code !== 'storage/object-not-found') {
             console.error("Failed to delete image from storage:", error);
             throw new Error("Failed to delete image from storage.");
@@ -245,3 +305,5 @@ export async function deleteGalleryImage(imageUrl: string): Promise<void> {
 
 
 export { app, db, auth };
+
+    
