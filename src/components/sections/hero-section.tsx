@@ -25,14 +25,15 @@ const HeroSection = () => {
             Experience world-class tattoo art in Toronto with internationally recognized artists.
           </p>
         </div>
-      </div>
 
-      <div className="relative z-10 pb-12 flex flex-col items-center w-full">
-        <div className="mb-20">
+        <div className="absolute bottom-1/4">
             <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                 <Link href="#contact">MAKE AN APPOINTMENT</Link>
             </Button>
         </div>
+      </div>
+
+      <div className="relative z-10 pb-12 flex flex-col items-center w-full">
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2">
             <span className="text-sm tracking-widest">SCROLL DOWN</span>
             <div className="w-6 h-10 border-2 rounded-full flex justify-center items-start p-1">
