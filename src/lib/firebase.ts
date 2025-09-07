@@ -32,8 +32,8 @@ const defaultHeroText: HeroText = {
 };
 
 export async function getHeroText(): Promise<HeroText> {
-    if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-        console.error("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Falling back to default hero text.");
+    if (!adminDb) {
+        console.error("Firebase Admin SDK is not initialized. Falling back to default hero text.");
         return defaultHeroText;
     }
     try {
@@ -42,6 +42,7 @@ export async function getHeroText(): Promise<HeroText> {
         if (docSnap.exists) {
             return docSnap.data() as HeroText;
         } else {
+            // Document doesn't exist, create it with default text
             await heroDocRef.set(defaultHeroText);
             return defaultHeroText;
         }

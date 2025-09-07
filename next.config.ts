@@ -1,4 +1,5 @@
 import type {NextConfig} from 'next';
+import getConfig from 'next/config';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -23,6 +24,10 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+    FIREBASE_SERVICE_ACCOUNT_KEY: process.env.FIREBASE_SERVICE_ACCOUNT_KEY,
   },
 };
 
