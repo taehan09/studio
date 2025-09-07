@@ -46,6 +46,41 @@ export type Artist = {
   imageHint: string;
 };
 
+const defaultArtists: Artist[] = [
+    {
+      id: '1',
+      name: 'TK_ASHGRAYINK',
+      specialty: 'Traditional & Neo-Traditional',
+      bio: 'Specializing in bold traditional and neo-traditional designs with a modern twist.',
+      imageUrl: 'https://picsum.photos/seed/tk/400/500',
+      imageHint: 'tattoo artist working',
+    },
+    {
+      id: '2',
+      name: 'OLIVIA',
+      specialty: 'Fine-line & Realism & Watercolor',
+      bio: 'Master of fine-line and realism, creating delicate and detailed masterpieces.',
+      imageUrl: 'https://picsum.photos/seed/olivia/400/500',
+      imageHint: 'person in cafe',
+    },
+    {
+      id: '3',
+      name: 'NOAH',
+      specialty: 'Geometric & Blackwork & Tribal',
+      bio: 'Expert in geometric and blackwork, focusing on symmetry and abstract patterns.',
+      imageUrl: 'https://picsum.photos/seed/noah/400/500',
+      imageHint: 'winding road mountain',
+    },
+    {
+      id: '4',
+      name: 'EMMA',
+      specialty: 'Watercolor & New School & Japanese',
+      bio: 'Loves vibrant colors and expressive art, focusing on watercolor and new school styles.',
+      imageUrl: 'https://picsum.photos/seed/emma/400/500',
+      imageHint: 'spiderweb foggy field',
+    },
+];
+
 // This function is called from the client-side editor
 export async function updateHeroText(text: HeroText): Promise<void> {
   const currentUser = auth.currentUser;
@@ -124,7 +159,7 @@ export function getArtists(callback: (artists: Artist[] | null) => void): () => 
         if (snapshot.exists()) {
             callback(snapshot.val());
         } else {
-            callback(null);
+            callback(defaultArtists);
         }
     });
     return unsubscribe;

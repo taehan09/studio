@@ -10,12 +10,12 @@ import { getArtists, type Artist } from '@/lib/firebase';
 import { Skeleton } from '../ui/skeleton';
 
 const ArtistsSection = () => {
-  const [artists, setArtists] = useState<Artist[] | null>(null);
+  const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = getArtists((data) => {
-      setArtists(data);
+      setArtists(data ?? []);
       setLoading(false);
     });
     return () => unsubscribe();
