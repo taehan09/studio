@@ -9,7 +9,7 @@ import LocationSection from '@/components/sections/location-section';
 import FaqSection from '@/components/sections/faq-section';
 import { getHeroText } from '@/lib/firebase-admin';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This will force the page to be re-rendered on every request
 
 export default async function Home() {
   const heroText = await getHeroText();
