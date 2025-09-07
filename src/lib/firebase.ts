@@ -1,7 +1,10 @@
+
 // src/lib/firebase.ts
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getDatabase, ref, set, onValue, type DatabaseReference } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,6 +21,7 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getDatabase(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 // Data types
 export type HeroText = {
@@ -30,6 +34,7 @@ export type AboutText = {
   paragraph1: string;
   paragraph2: string;
   paragraph3: string;
+  imageUrl: string;
 }
 
 // This function is called from the client-side editor
@@ -81,6 +86,18 @@ export function getAboutText(callback: (text: AboutText | null) => void): () => 
     });
     
     return unsubscribe;
+}
+
+export async function uploadAboutImage(file: File): Promise<string> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to upload images.");
+    }
+    const filePath = `site_content/about_section/${new Date().toISOString()}_${file.name}`;
+    const imageRef = storageRef(storage, filePath);
+    const snapshot = await uploadBytes(imageRef, file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    return downloadURL;
 }
 
 export { app, db, auth };

@@ -1,3 +1,4 @@
+
 // src/lib/firebase-admin.ts
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
@@ -16,7 +17,15 @@ function getAdminApp(): App {
     }
     
     if (!serviceAccountKey) {
-        throw new Error("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK cannot be initialized.");
+        console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK cannot be initialized.");
+        // Return a proxy that will warn when used, preventing hard crashes
+        return new Proxy({}, {
+            get(target, prop) {
+                if (prop === 'then') return undefined; // Prevent Next.js from treating this as a promise
+                console.error(`Firebase Admin SDK not initialized. Call to '${String(prop)}' will fail.`);
+                return () => { throw new Error("Firebase Admin SDK not initialized."); };
+            }
+        }) as App;
     }
     
     const serviceAccount = JSON.parse(serviceAccountKey);
@@ -36,6 +45,7 @@ const defaultAboutText: AboutText = {
   paragraph1: 'Founded in 2010, Ashgray Ink has become a cornerstone of the Toronto tattoo scene. We are a collective of passionate, multi-award-winning artists dedicated to creating unique, high-quality tattoos in a clean, welcoming, and professional environment. Our artists specialize in a wide range of styles, from traditional and neo-traditional to blackwork, realism, and fine-line.',
   paragraph2: 'We believe that every tattoo tells a story, and we are committed to making the journey as memorable as the art itself. From the initial consultation where we turn your ideas into a custom design, to our meticulous aftercare guidance, we ensure a collaborative and safe experience. Our strict adherence to the highest standards of hygiene and safety is our promise to you.',
   paragraph3: 'Are you ready to transform your vision into a work of art? We invite you to explore our portfolios and book a consultation. Let\'s create something beautiful together.',
+  imageUrl: 'https://picsum.photos/600/800',
 };
 
 export async function getHeroText(): Promise<HeroText> {
