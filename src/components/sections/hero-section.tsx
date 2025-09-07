@@ -12,11 +12,8 @@ type HeroSectionProps = {
 
 const HeroSection = ({ initialHeroText }: HeroSectionProps) => {
   const [heroText, setHeroText] = useState<HeroText>(initialHeroText);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    
     // Set up a real-time listener for hero text changes
     const unsubscribe = getHeroText((text) => {
       setHeroText(text);
@@ -29,18 +26,16 @@ const HeroSection = ({ initialHeroText }: HeroSectionProps) => {
   return (
     <section id="home" className="relative h-screen w-full flex flex-col text-center text-white overflow-hidden">
       <div className="absolute inset-0 bg-black/60 z-10" />
-      {isClient && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
-        >
-          <source src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.firebasestorage.app/o/Hero%20Section%2Fu9865814416_A_cinematic_scene_of_a_tattoo_artist_at_work_in_a_7bbc8082-d8c1-4443-8107-69830af6d702_0.mp4?alt=media&token=c88369ab-bb9e-4bf6-b759-23f34f4196b8" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+      >
+        <source src="https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.firebasestorage.app/o/Hero%20Section%2Fu9865814416_A_cinematic_scene_of_a_tattoo_artist_at_work_in_a_7bbc8082-d8c1-4443-8107-69830af6d702_0.mp4?alt=media&token=c88369ab-bb9e-4bf6-b759-23f34f4196b8" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <div className="absolute inset-0 bg-black/60" />
       
       <div className="relative z-20 flex flex-col items-center flex-grow px-4 justify-center">
