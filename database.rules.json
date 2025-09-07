@@ -6,9 +6,9 @@
     },
     "appointment_requests": {
       ".read": "auth != null",
-      // Allow anyone to write a *new* request, but not overwrite existing data.
-      // Users can write if there is no data at the location already.
-      ".write": "!data.exists()",
+      // Allow authenticated users to write (create/update/delete)
+      // Allow anyone to create a *new* request.
+      ".write": "auth != null || !data.exists()",
       ".indexOn": ["submittedAt"]
     },
     ".read": false,

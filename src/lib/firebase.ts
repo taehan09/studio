@@ -1,6 +1,6 @@
 // src/lib/firebase.ts
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getDatabase, ref, set, onValue, push, serverTimestamp, type DatabaseReference } from "firebase/database";
+import { getDatabase, ref, set, onValue, push, serverTimestamp, type DatabaseReference, remove } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
@@ -56,11 +56,11 @@ export type AppointmentRequest = {
     fullName: string;
     email: string;
     phone: string;
-    preferredArtist: string;
-    tattooStyle: string;
+    preferredArtist?: string;
+    tattooStyle?: string;
     tattooDescription: string;
-    budgetRange: string;
-    preferredTimeframe: string;
+    budgetRange?: string;
+    preferredTimeframe?: string;
     submittedAt: number;
 }
 
@@ -340,5 +340,15 @@ export function getAppointmentRequests(callback: (requests: AppointmentRequest[]
     });
     return unsubscribe;
 }
+
+export async function deleteAppointmentRequest(requestId: string): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to delete requests.");
+    }
+    const requestRef = ref(db, `appointment_requests/${requestId}`);
+    await remove(requestRef);
+}
+
 
 export { app, db, auth };
