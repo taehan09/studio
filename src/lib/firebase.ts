@@ -9,11 +9,12 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObjec
 const firebaseConfig = {
   apiKey: "AIzaSyDW5y_qS5_Abqbp7EkROk7lbJyQvMrzauk",
   authDomain: "ashgrayink-shop.firebaseapp.com",
-  databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com",
   projectId: "ashgrayink-shop",
-  storageBucket: "ashgrayink-shop.firebasestorage.app",
+  storageBucket: "ashgrayink-shop.appspot.com",
   messagingSenderId: "600881043133",
-  appId: "1:600881043133:web:78a3f8a670f45b988609d4"
+  appId: "1:600881043133:web:78a3f8a670f45b988609d4",
+  measurementId: "G-23S3M6JCK0",
+  databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
 };
 
 // Initialize Firebase for the client
