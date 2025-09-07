@@ -90,6 +90,14 @@ export type LocationInfo = {
     imageHint: string;
 };
 
+export type FooterInfo = {
+  copyrightName: string;
+  privacyPolicyText: string;
+  termsOfServiceText: string;
+  accessibilityStatementText: string;
+  legalDisclaimer: string;
+};
+
 const defaultArtists: Artist[] = [
     {
       id: '1',
@@ -222,6 +230,14 @@ const defaultFaqs: FaqItem[] = [
     answer: "Every shop has their own recommended care methods. You will be given an instruction card after you've been tattooed.",
   },
 ];
+
+const defaultFooterInfo: FooterInfo = {
+  copyrightName: 'Ashgray Ink',
+  privacyPolicyText: 'Privacy Policy',
+  termsOfServiceText: 'Terms of Service',
+  accessibilityStatementText: 'Accessibility Statement',
+  legalDisclaimer: 'Professional tattoo services provided by licensed artists in a sterile and safe environment. Must be 18 or older with valid photo ID. Consultations are by appointment. Walk-ins are welcome, subject to availability. A 25% deposit is required for all bookings.'
+};
 
 
 // This function is called from the client-side editor
@@ -451,6 +467,28 @@ export async function updateFaqs(faqs: FaqItem[]): Promise<void> {
     }
     const faqsRef = ref(db, "site_content/faq_section");
     await set(faqsRef, faqs);
+}
+
+// Footer Section
+export function getFooterInfo(callback: (info: FooterInfo | null) => void): () => void {
+    const infoRef: DatabaseReference = ref(db, 'site_content/footer_section');
+    const unsubscribe = onValue(infoRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            callback(defaultFooterInfo);
+        }
+    });
+    return unsubscribe;
+}
+
+export async function updateFooterInfo(info: FooterInfo): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to save changes.");
+    }
+    const infoRef = ref(db, "site_content/footer_section");
+    await set(infoRef, info);
 }
 
 

@@ -15,7 +15,7 @@ import {
   SidebarInset,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft, Mails, MapPin, HelpCircle } from 'lucide-react';
+import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft, Mails, MapPin, HelpCircle, MessageSquareText } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import LogoutButton from '@/components/logout-button';
@@ -27,7 +27,8 @@ import GallerySectionEditor from '@/components/gallery-section-editor';
 import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
 import LocationSectionEditor from '@/components/location-section-editor';
 import FaqSectionEditor from '@/components/faq-section-editor';
-import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo, FaqItem } from '@/lib/firebase';
+import FooterEditor from '@/components/footer-editor';
+import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo, FaqItem, FooterInfo } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
 type AdminDashboardProps = {
@@ -38,9 +39,10 @@ type AdminDashboardProps = {
   initialAppointmentRequests: AppointmentRequest[];
   initialLocationInfo: LocationInfo;
   initialFaqs: FaqItem[];
+  initialFooterInfo: FooterInfo;
 };
 
-type View = 'hero' | 'about' | 'artists' | 'gallery' | 'location' | 'faq' | 'categorize' | 'requests';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'location' | 'faq' | 'categorize' | 'requests' | 'footer';
 
 const viewConfig = {
     hero: {
@@ -73,6 +75,11 @@ const viewConfig = {
         description: "Update the questions and answers in the Frequently Asked Questions section.",
         icon: HelpCircle,
     },
+    footer: {
+        title: "Edit Footer Section",
+        description: "Update the copyright, links, and legal disclaimer in the website footer.",
+        icon: MessageSquareText
+    },
     categorize: {
         title: "Categorize New Design",
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
@@ -93,6 +100,7 @@ export default function AdminDashboard({
   initialAppointmentRequests,
   initialLocationInfo,
   initialFaqs,
+  initialFooterInfo,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -118,6 +126,9 @@ export default function AdminDashboard({
         break;
       case 'faq':
         editorComponent = <FaqSectionEditor initialData={initialFaqs} />;
+        break;
+      case 'footer':
+        editorComponent = <FooterEditor initialData={initialFooterInfo} />;
         break;
       case 'categorize':
         editorComponent = <TattooUploadForm />;
@@ -190,6 +201,12 @@ export default function AdminDashboard({
                 <SidebarMenuButton onClick={() => setActiveView('faq')} isActive={activeView === 'faq'} tooltip="Edit FAQ Section">
                     <HelpCircle />
                     <span>FAQ Section</span>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setActiveView('footer')} isActive={activeView === 'footer'} tooltip="Edit Footer Section">
+                    <MessageSquareText />
+                    <span>Footer Section</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
 

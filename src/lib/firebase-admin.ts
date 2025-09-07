@@ -2,7 +2,7 @@
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
-import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo, FaqItem } from './firebase';
+import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo, FaqItem, FooterInfo } from './firebase';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
@@ -139,6 +139,14 @@ const defaultFaqs: FaqItem[] = [
     answer: "Every shop has their own recommended care methods. You will be given an instruction card after you've been tattooed.",
   },
 ];
+
+const defaultFooterInfo: FooterInfo = {
+  copyrightName: 'Ashgray Ink',
+  privacyPolicyText: 'Privacy Policy',
+  termsOfServiceText: 'Terms of Service',
+  accessibilityStatementText: 'Accessibility Statement',
+  legalDisclaimer: 'Professional tattoo services provided by licensed artists in a sterile and safe environment. Must be 18 or older with valid photo ID. Consultations are by appointment. Walk-ins are welcome, subject to availability. A 25% deposit is required for all bookings.'
+};
 
 
 export async function getHeroText(): Promise<HeroText> {
@@ -278,6 +286,26 @@ export async function getFaqs(): Promise<FaqItem[]> {
     } catch (error) {
         console.error("Error fetching faqs with Admin SDK:", error);
         return defaultFaqs;
+    }
+}
+
+export async function getFooterInfo(): Promise<FooterInfo> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return defaultFooterInfo;
+
+    try {
+        const db = getDatabase(adminApp);
+        const footerRef = db.ref("site_content/footer_section");
+        const snapshot = await footerRef.get();
+        if (snapshot.exists()) {
+            return snapshot.val() as FooterInfo;
+        } else {
+            await footerRef.set(defaultFooterInfo);
+            return defaultFooterInfo;
+        }
+    } catch (error) {
+        console.error("Error fetching footer info with Admin SDK:", error);
+        return defaultFooterInfo;
     }
 }
 
