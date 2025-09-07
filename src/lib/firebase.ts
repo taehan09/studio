@@ -51,6 +51,20 @@ export type GalleryImage = {
     category: string;
 };
 
+export type AppointmentRequest = {
+    id: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    preferredArtist: string;
+    tattooStyle: string;
+    tattooDescription: string;
+    budgetRange: string;
+    preferredTimeframe: string;
+    submittedAt: string;
+};
+
+
 const defaultArtists: Artist[] = [
     {
       id: '1',

@@ -14,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarInset,
 } from '@/components/ui/sidebar';
-import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft } from 'lucide-react';
+import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft, Mails } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import LogoutButton from '@/components/logout-button';
@@ -23,6 +23,7 @@ import AboutSectionEditor from '@/components/about-section-editor';
 import ArtistsSectionEditor from '@/components/artists-section-editor';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import GallerySectionEditor from '@/components/gallery-section-editor';
+import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
 import type { HeroText, AboutText, Artist, GalleryImage } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
@@ -33,7 +34,7 @@ type AdminDashboardProps = {
   initialGalleryImages: GalleryImage[];
 };
 
-type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize' | 'requests';
 
 const viewConfig = {
     hero: {
@@ -61,6 +62,11 @@ const viewConfig = {
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
         icon: Tag,
     },
+    requests: {
+        title: "Appointment Requests",
+        description: "View and manage user-submitted appointment requests.",
+        icon: Mails,
+    }
 }
 
 export default function AdminDashboard({
@@ -91,13 +97,16 @@ export default function AdminDashboard({
       case 'categorize':
         editorComponent = <TattooUploadForm />;
         break;
+      case 'requests':
+        editorComponent = <ContactSubmissionsViewer />;
+        break;
       
       default:
         return null;
     }
 
     return (
-        <Card className="w-full max-w-4xl mx-auto shadow-2xl my-8">
+        <Card className="w-full max-w-7xl mx-auto shadow-2xl my-8">
             <CardHeader>
                 <CardTitle className="text-3xl md:text-4xl flex items-center gap-4">
                    <config.icon className="h-8 w-8 text-primary" />
@@ -151,6 +160,13 @@ export default function AdminDashboard({
                 <SidebarMenuButton onClick={() => setActiveView('categorize')} isActive={activeView === 'categorize'} tooltip="Categorize Design">
                     <Tag />
                     <span>Categorize Design</span>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+
+             <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setActiveView('requests')} isActive={activeView === 'requests'} tooltip="Appointment Requests">
+                    <Mails />
+                    <span>Appointment Requests</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
