@@ -65,7 +65,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                     <TableRow>
                                         <TableCell>{request.submittedAt ? format(new Date(request.submittedAt), "PPP") : 'N/A'}</TableCell>
                                         <TableCell>{request.fullName}</TableCell>
-                                        <TableCell className="text-muted-foreground">{request.summary || "Summary not available"}</TableCell>
+                                        <TableCell>{request.summary || <span className="text-muted-foreground">Summary not available</span>}</TableCell>
                                         <TableCell>
                                             <Badge variant="secondary">{request.preferredArtist}</Badge>
                                         </TableCell>
