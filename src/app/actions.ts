@@ -3,6 +3,8 @@
 
 import { z } from "zod";
 import { categorizeTattooDesign, type CategorizeTattooDesignInput } from "@/ai/flows/categorize-tattoo-designs";
+import { db } from "@/lib/firebase";
+import { ref, push, set } from "firebase/database";
 
 const appointmentSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -52,10 +54,21 @@ export async function appointmentAction(
     };
   }
 
-  // Here you would typically send an email, save to a database, etc.
-  // For this example, we'll just log it to the console.
-  console.log("New appointment request:");
-  console.log(validatedFields.data);
+  try {
+    const requestsRef = ref(db, "site_content/appointment_requests");
+    const newRequestRef = push(requestsRef);
+    await set(newRequestRef, {
+        ...validatedFields.data,
+        submittedAt: new Date().toISOString(),
+        id: newRequestRef.key,
+    });
+  } catch (error) {
+    console.error("Failed to save appointment request:", error);
+    return {
+        message: "An unexpected error occurred. Please try again later."
+    }
+  }
+
 
   return { message: "Success! Your appointment request has been sent. We will get back to you shortly." };
 }
