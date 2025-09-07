@@ -22,6 +22,13 @@ const galleryImages = [
   { src: 'https://picsum.photos/500/500?random=22', alt: 'Traditional eagle tattoo', hint: 'tattoo traditional eagle', category: 'Traditional' },
   { src: 'https://picsum.photos/500/500?random=23', alt: 'Geometric sleeve tattoo', hint: 'tattoo geometric sleeve', category: 'Geometric' },
   { src: 'https://picsum.photos/500/500?random=24', alt: 'Japanese dragon tattoo', hint: 'tattoo japanese dragon', category: 'Japanese' },
+  { src: 'https://picsum.photos/500/500?random=25', alt: 'Fine-line script tattoo', hint: 'tattoo fineline script', category: 'Fine-line' },
+  { src: 'https://picsum.photos/500/500?random=26', alt: 'Color realism portrait', hint: 'tattoo color realism', category: 'Realism' },
+  { src: 'https://picsum.photos/500/500?random=27', alt: 'Blackwork geometric pattern', hint: 'tattoo blackwork geometric', category: 'Blackwork' },
+  { src: 'https://picsum.photos/500/500?random=28', alt: 'Traditional ship tattoo', hint: 'tattoo traditional ship', category: 'Traditional' },
+  { src: 'https://picsum.photos/500/500?random=29', alt: 'Watercolor flower tattoo', hint: 'tattoo watercolor flower', category: 'Color' },
+  { src: 'https://picsum.photos/500/500?random=30', alt: 'Japanese koi fish tattoo', hint: 'tattoo japanese koi', category: 'Japanese' },
+  { src: 'https://picsum.photos/500/500?random=31', alt: 'Geometric animal tattoo', hint: 'tattoo geometric animal', category: 'Geometric' },
 ];
 
 const filterCategories = ['ALL', 'REALISM', 'TRADITIONAL', 'BLACKWORK', 'FINE-LINE', 'COLOR', 'JAPANESE', 'GEOMETRIC'];
@@ -59,9 +66,9 @@ const GallerySection = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
           {filteredImages.map((image, index) => (
-            <Card key={`${image.src}-${index}`} className="overflow-hidden group animate-fade-in">
+            <Card key={`${image.src}-${index}`} className="overflow-hidden group animate-fade-in border-none shadow-none rounded-none">
               <CardContent className="p-0">
                 <Image
                   src={image.src}
