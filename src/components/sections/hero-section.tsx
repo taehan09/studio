@@ -17,7 +17,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/60" />
       
       <div className="relative z-10 flex flex-col items-center justify-between flex-grow px-4">
-        <div className="pt-32">
+        <div className="pt-32 flex-grow">
           <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
             Ashgray Ink
           </h1>
