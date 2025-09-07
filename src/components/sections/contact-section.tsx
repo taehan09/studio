@@ -1,44 +1,29 @@
 // src/components/sections/contact-section.tsx
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { useFormStatus } from "react-dom";
-import { appointmentAction } from "@/app/actions";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getArtists } from "@/lib/firebase";
-import { useState } from "react";
 
-const initialState = {
-  message: "",
-  errors: {},
-};
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  // Since the form action is removed, we don't need useFormStatus.
+  // We can just show a disabled state or a normal button.
+  // For now, it will just be a static button.
   return (
-    <Button type="submit" disabled={pending} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-      {pending ? (
-        <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Sending...
-        </>
-      ) : (
-        "SUBMIT APPOINTPOINTMENT REQUEST"
-      )}
+    <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled>
+        SUBMIT APPOINTPOINTMENT REQUEST
     </Button>
   );
 }
 
 const ContactSection = () => {
-  const [state, formAction] = useActionState(appointmentAction, initialState);
-  const { toast } = useToast();
   const [artists, setArtists] = useState<{ id: string, name: string }[]>([]);
 
   useEffect(() => {
@@ -49,21 +34,6 @@ const ContactSection = () => {
     });
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    if (state.message.startsWith("Success!")) {
-      toast({
-        title: "Request Sent",
-        description: state.message,
-      });
-    } else if (state.message.startsWith("Failed")) {
-        toast({
-            title: "Error",
-            description: state.message,
-            variant: "destructive",
-        })
-    }
-  }, [state, toast]);
 
   return (
     <section id="contact" className="py-20 lg:py-32 bg-card">
@@ -77,23 +47,20 @@ const ContactSection = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form action={formAction} className="space-y-6">
+              <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="fullName">Full Name *</Label>
                     <Input id="fullName" name="fullName" placeholder="Your full name" required />
-                    {state.errors?.fullName && <p className="text-sm font-medium text-destructive">{state.errors.fullName}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email *</Label>
                     <Input id="email" name="email" type="email" placeholder="your@email.com" required />
-                    {state.errors?.email && <p className="text-sm font-medium text-destructive">{state.errors.email}</p>}
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number *</Label>
                   <Input id="phone" name="phone" placeholder="(555) 123-4567" required />
-                  {state.errors?.phone && <p className="text-sm font-medium text-destructive">{state.errors.phone}</p>}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -130,7 +97,6 @@ const ContactSection = () => {
                 <div className="space-y-2">
                   <Label htmlFor="tattooDescription">Tattoo Description *</Label>
                   <Textarea id="tattooDescription" name="tattooDescription" placeholder="Describe your tattoo idea in detail..." rows={6} required />
-                  {state.errors?.tattooDescription && <p className="text-sm font-medium text-destructive">{state.errors.tattooDescription}</p>}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">

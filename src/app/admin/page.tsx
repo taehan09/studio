@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getHeroText, getAboutText, getArtists, getGalleryImages, getAppointmentRequests } from '@/lib/firebase-admin';
+import { getHeroText, getAboutText, getArtists, getGalleryImages } from '@/lib/firebase-admin';
 import LogoutButton from '@/components/logout-button';
 import AdminDashboard from '@/components/admin-dashboard';
 
@@ -15,7 +15,7 @@ export default async function AdminPage() {
   const aboutText = await getAboutText();
   const artists = await getArtists();
   const galleryImages = await getGalleryImages();
-  const appointmentRequests = await getAppointmentRequests();
+  
 
   return (
     <AdminDashboard
@@ -23,7 +23,7 @@ export default async function AdminPage() {
         initialAboutText={aboutText}
         initialArtists={artists}
         initialGalleryImages={galleryImages}
-        initialAppointmentRequests={appointmentRequests}
+        
     />
   );
 }

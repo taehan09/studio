@@ -14,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarInset,
 } from '@/components/ui/sidebar';
-import { Home, Edit, Users, Image as ImageIcon, Tag, Inbox, ArrowLeft } from 'lucide-react';
+import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import LogoutButton from '@/components/logout-button';
@@ -23,8 +23,7 @@ import AboutSectionEditor from '@/components/about-section-editor';
 import ArtistsSectionEditor from '@/components/artists-section-editor';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import GallerySectionEditor from '@/components/gallery-section-editor';
-import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
-import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest } from '@/lib/firebase';
+import type { HeroText, AboutText, Artist, GalleryImage } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
 type AdminDashboardProps = {
@@ -32,10 +31,9 @@ type AdminDashboardProps = {
   initialAboutText: AboutText;
   initialArtists: Artist[];
   initialGalleryImages: GalleryImage[];
-  initialAppointmentRequests: AppointmentRequest[];
 };
 
-type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize' | 'appointments';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize';
 
 const viewConfig = {
     hero: {
@@ -63,11 +61,6 @@ const viewConfig = {
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
         icon: Tag,
     },
-    appointments: {
-        title: "Appointment Requests",
-        description: "View and manage submitted appointment requests from clients.",
-        icon: Inbox,
-    }
 }
 
 export default function AdminDashboard({
@@ -75,7 +68,6 @@ export default function AdminDashboard({
   initialAboutText,
   initialArtists,
   initialGalleryImages,
-  initialAppointmentRequests,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -99,9 +91,7 @@ export default function AdminDashboard({
       case 'categorize':
         editorComponent = <TattooUploadForm />;
         break;
-      case 'appointments':
-        editorComponent = <ContactSubmissionsViewer initialData={initialAppointmentRequests} />;
-        break;
+      
       default:
         return null;
     }
@@ -156,12 +146,7 @@ export default function AdminDashboard({
                     <span>Gallery Section</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('appointments')} isActive={activeView === 'appointments'} tooltip="Appointment Requests">
-                    <Inbox />
-                    <span>Appointment Requests</span>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
+            
             <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setActiveView('categorize')} isActive={activeView === 'categorize'} tooltip="Categorize Design">
                     <Tag />
