@@ -28,7 +28,7 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-grow">
-          <div className="flex-grow-[20] flex items-center justify-center">
+          <div className="flex-grow-[100] flex items-center justify-center">
               <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                   <Link href="#contact">MAKE AN APPOINTMENT</Link>
               </Button>
