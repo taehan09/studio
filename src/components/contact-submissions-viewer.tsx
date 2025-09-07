@@ -133,7 +133,9 @@ export default function ContactSubmissionsViewer({ initialData }: ContactSubmiss
                         <TableHead>Full Name</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Phone</TableHead>
-                        <TableHead>Details</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Artist</TableHead>
+                        <TableHead>Style</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                     </TableHeader>
@@ -144,12 +146,9 @@ export default function ContactSubmissionsViewer({ initialData }: ContactSubmiss
                         <TableCell>{request.fullName}</TableCell>
                         <TableCell>{request.email}</TableCell>
                         <TableCell>{request.phone}</TableCell>
-                        <TableCell>
-                            <div className='max-w-xs truncate font-medium'>{request.tattooDescription}</div>
-                            <div className='text-xs text-muted-foreground'>
-                                Artist: {request.preferredArtist || 'N/A'} | Style: {request.tattooStyle || 'N/A'}
-                            </div>
-                        </TableCell>
+                        <TableCell><div className='max-w-xs truncate'>{request.tattooDescription}</div></TableCell>
+                        <TableCell>{request.preferredArtist || 'N/A'}</TableCell>
+                        <TableCell>{request.tattooStyle || 'N/A'}</TableCell>
                         <TableCell className="text-right">
                            <AlertDialog>
                               <AlertDialogTrigger asChild>
