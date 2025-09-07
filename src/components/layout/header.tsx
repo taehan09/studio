@@ -39,10 +39,10 @@ const Header = () => {
         isScrolled ? 'bg-background/95 shadow-md' : 'bg-transparent'
       )}
     >
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-0 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <div className="flex-1 flex items-center justify-start">
-            <Link href="#home" className="text-xl font-bold text-primary hover:text-gray-300 transition-colors">
+          <div className="flex-1 flex items-center justify-start pl-4 sm:pl-0">
+            <Link href="#home" className="text-2xl font-bold text-primary hover:text-gray-300 transition-colors">
               Ashgray Ink
             </Link>
           </div>
@@ -51,7 +51,7 @@ const Header = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-semibold text-gray-300 hover:text-white transition-colors"
+                className="text-base font-semibold text-gray-300 hover:text-white transition-colors"
               >
                 {link.label}
               </Link>
