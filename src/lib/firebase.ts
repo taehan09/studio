@@ -1,12 +1,13 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
   "projectId": "ashgrayink-shop",
-  "appId": "1:600881043133:web:0b90b9d0b0b767b88609d4",
+  "appId": "1:600881043133:web:688a3f08fb3bbe238609d4",
   "storageBucket": "ashgrayink-shop.firebasestorage.app",
   "apiKey": "AIzaSyDW5y_qS5_Abqbp7EkROk7lbJyQvMrzauk",
   "authDomain": "ashgrayink-shop.firebaseapp.com",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const db = getFirestore(app);
 
-export default app;
+export { app, db };
