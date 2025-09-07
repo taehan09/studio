@@ -11,18 +11,20 @@ const galleryImages = [
   { src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist', category: 'Fine-line' },
   { src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo design', hint: 'tattoo traditional', category: 'Traditional' },
   { src: 'https://picsum.photos/500/500?random=13', alt: 'Watercolor tattoo design', hint: 'tattoo watercolor', category: 'Color' },
-  { src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric', category: 'Blackwork' },
+  { src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric', category: 'Geometric' },
   { src: 'https://picsum.photos/500/500?random=15', alt: 'Realism tattoo design', hint: 'tattoo realism', category: 'Realism' },
   { src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork', category: 'Blackwork' },
-  { src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Traditional' },
+  { src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Japanese' },
   { src: 'https://picsum.photos/500/500?random=18', alt: 'Abstract tattoo design', hint: 'tattoo abstract', category: 'Color' },
   { src: 'https://picsum.photos/500/500?random=19', alt: 'Fine-line tattoo design', hint: 'tattoo fineline', category: 'Fine-line' },
   { src: 'https://picsum.photos/500/500?random=20', alt: 'Realism color tattoo', hint: 'tattoo realism color', category: 'Realism' },
   { src: 'https://picsum.photos/500/500?random=21', alt: 'Blackwork portrait', hint: 'tattoo blackwork portrait', category: 'Blackwork' },
   { src: 'https://picsum.photos/500/500?random=22', alt: 'Traditional eagle tattoo', hint: 'tattoo traditional eagle', category: 'Traditional' },
+  { src: 'https://picsum.photos/500/500?random=23', alt: 'Geometric sleeve tattoo', hint: 'tattoo geometric sleeve', category: 'Geometric' },
+  { src: 'https://picsum.photos/500/500?random=24', alt: 'Japanese dragon tattoo', hint: 'tattoo japanese dragon', category: 'Japanese' },
 ];
 
-const filterCategories = ['ALL', 'REALISM', 'TRADITIONAL', 'BLACKWORK', 'FINE-LINE', 'COLOR'];
+const filterCategories = ['ALL', 'REALISM', 'TRADITIONAL', 'BLACKWORK', 'FINE-LINE', 'COLOR', 'JAPANESE', 'GEOMETRIC'];
 
 const GallerySection = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
