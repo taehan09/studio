@@ -8,6 +8,7 @@ import { z } from "zod";
 import { updateGalleryImages, uploadGalleryImage, deleteGalleryImage, type GalleryImage } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Save, Trash2, PlusCircle, Upload } from "lucide-react";
