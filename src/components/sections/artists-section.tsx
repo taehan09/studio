@@ -48,7 +48,7 @@ const ArtistsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {artists.map((artist) => (
             <Card key={artist.name} className="bg-transparent border-none shadow-none text-center">
-              <CardContent className="p-0">
+              <CardContent className="p-0 flex flex-col h-full">
                 <div className="relative w-full h-[500px] overflow-hidden rounded-lg">
                     <Image
                     src={artist.imageUrl}
@@ -58,15 +58,22 @@ const ArtistsSection = () => {
                     className="object-cover"
                     />
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 flex-grow flex flex-col">
                     <h3 className="text-2xl font-semibold tracking-widest text-primary">{artist.name}</h3>
                     <p className="text-sm text-foreground/80 my-1">{artist.specialty}</p>
-                    <p className="text-foreground/60 text-sm max-w-xs mx-auto mt-2">
+                    <p className="text-foreground/60 text-sm max-w-xs mx-auto mt-2 flex-grow">
                         {artist.bio}
                     </p>
-                    <Button asChild variant="link" className="text-foreground/80 mt-4 tracking-widest">
-                        <Link href="#">VIEW GALLERY</Link>
-                    </Button>
+                    <div className='mt-4'>
+                        <Button asChild variant="link" className="text-foreground/80 tracking-widest">
+                            <Link href="#">VIEW GALLERY</Link>
+                        </Button>
+                    </div>
+                     <div className="mt-2">
+                        <Button asChild variant="outline" className="text-chart-3 border-chart-3 hover:bg-chart-3/10 hover:text-chart-3 tracking-widest">
+                            <Link href="#contact">MAKE AN APPOINTMENT</Link>
+                        </Button>
+                    </div>
                 </div>
               </CardContent>
             </Card>
