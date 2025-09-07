@@ -66,7 +66,7 @@ const GallerySection = () => {
 
   const filteredImages = activeFilter === 'ALL'
     ? galleryImages
-    : galleryImages.filter(image => image.category.toUpperCase() === activeFilter);
+    : galleryImages.filter(image => image.category.toUpperCase() === activeFilter).slice(0, 7);
 
   return (
     <section id="gallery" className="py-20 lg:py-32 bg-background">
