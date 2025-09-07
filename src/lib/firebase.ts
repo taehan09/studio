@@ -1,6 +1,6 @@
 // src/lib/firebase.ts
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getDatabase, ref, set, onValue, type DatabaseReference } from "firebase/database";
+import { getDatabase, ref, set, onValue, push, serverTimestamp, type DatabaseReference } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
@@ -63,7 +63,6 @@ export type AppointmentRequest = {
     preferredTimeframe: string;
     submittedAt: string;
 };
-
 
 const defaultArtists: Artist[] = [
     {
@@ -314,6 +313,32 @@ export async function deleteGalleryImage(imageUrl: string): Promise<void> {
             throw new Error("Failed to delete image from storage.");
         }
     }
+}
+
+export async function saveAppointmentRequest(requestData: Omit<AppointmentRequest, 'id' | 'submittedAt'>): Promise<void> {
+    const requestsRef = ref(db, 'appointment_requests');
+    const newRequestRef = push(requestsRef);
+    const fullRequestData = {
+        ...requestData,
+        submittedAt: new Date().toISOString(),
+    };
+    await set(newRequestRef, fullRequestData);
+}
+
+export function getAppointmentRequests(callback: (requests: AppointmentRequest[]) => void): () => void {
+    const requestsRef = ref(db, 'appointment_requests');
+    const unsubscribe = onValue(requestsRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const requestsArray = Object.keys(data)
+                .map(key => ({ id: key, ...data[key] }))
+                .sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
+            callback(requestsArray);
+        } else {
+            callback([]);
+        }
+    });
+    return unsubscribe;
 }
 
 export { app, db, auth };

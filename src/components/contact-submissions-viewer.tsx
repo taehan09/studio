@@ -10,33 +10,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type AppointmentRequest } from '@/lib/firebase';
+import { type AppointmentRequest, getAppointmentRequests } from '@/lib/firebase';
 import { Skeleton } from './ui/skeleton';
 
 const tableHeaders = [
+    "Submitted At",
     "Full Name", 
     "Email", 
     "Phone Number", 
     "Preferred Artist", 
-    "Tattoo Style", 
-    "Tattoo Description", 
-    "Budget", 
-    "Preferred Timeframe"
 ];
 
-// Placeholder data for skeleton UI
-const placeholderRequests = Array(5).fill({});
+type ContactSubmissionsViewerProps = {
+    initialData: AppointmentRequest[];
+};
 
-export default function ContactSubmissionsViewer() {
-  const [requests, setRequests] = useState<AppointmentRequest[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function ContactSubmissionsViewer({ initialData }: ContactSubmissionsViewerProps) {
+  const [requests, setRequests] = useState<AppointmentRequest[]>(
+    initialData.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
+  );
+  const [loading, setLoading] = useState(initialData.length === 0);
 
-  // NOTE: Data fetching logic will be added later.
-  // For now, we simulate a loading state.
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500); // Simulate loading
-    return () => clearTimeout(timer);
+    const unsubscribe = getAppointmentRequests((data) => {
+      setRequests(data);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
+
 
   return (
     <div className="border rounded-lg w-full">
@@ -44,13 +47,14 @@ export default function ContactSubmissionsViewer() {
             <TableHeader>
                 <TableRow>
                 {tableHeaders.map(header => <TableHead key={header}>{header}</TableHead>)}
+                <TableHead>Description</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {loading ? (
-                    placeholderRequests.map((_, index) => (
+                    Array(5).fill({}).map((_, index) => (
                         <TableRow key={index}>
-                            {tableHeaders.map(header => (
+                            {[...tableHeaders, "Description"].map(header => (
                                 <TableCell key={header}><Skeleton className="h-6 w-full" /></TableCell>
                             ))}
                         </TableRow>
@@ -58,19 +62,19 @@ export default function ContactSubmissionsViewer() {
                 ) : requests.length > 0 ? (
                     requests.map(request => (
                         <TableRow key={request.id}>
+                            <TableCell>{new Date(request.submittedAt).toLocaleString()}</TableCell>
                             <TableCell>{request.fullName}</TableCell>
                             <TableCell>{request.email}</TableCell>
                             <TableCell>{request.phone}</TableCell>
-                            <TableCell>{request.preferredArtist}</TableCell>
-                            <TableCell>{request.tattooStyle}</TableCell>
-                            <TableCell className="max-w-xs truncate">{request.tattooDescription}</TableCell>
-                            <TableCell>{request.budgetRange}</TableCell>
-                            <TableCell>{request.preferredTimeframe}</TableCell>
+                            <TableCell>{request.preferredArtist || 'N/A'}</TableCell>
+                            <TableCell className="max-w-xs truncate" title={request.tattooDescription}>
+                                {request.tattooDescription}
+                            </TableCell>
                         </TableRow>
                     ))
                 ) : (
                     <TableRow>
-                        <TableCell colSpan={tableHeaders.length} className="h-24 text-center">
+                        <TableCell colSpan={tableHeaders.length + 1} className="h-24 text-center">
                             No appointment requests have been submitted yet.
                         </TableCell>
                     </TableRow>

@@ -24,7 +24,7 @@ import ArtistsSectionEditor from '@/components/artists-section-editor';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import GallerySectionEditor from '@/components/gallery-section-editor';
 import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
-import type { HeroText, AboutText, Artist, GalleryImage } from '@/lib/firebase';
+import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
 type AdminDashboardProps = {
@@ -32,6 +32,7 @@ type AdminDashboardProps = {
   initialAboutText: AboutText;
   initialArtists: Artist[];
   initialGalleryImages: GalleryImage[];
+  initialAppointmentRequests: AppointmentRequest[];
 };
 
 type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize' | 'requests';
@@ -74,6 +75,7 @@ export default function AdminDashboard({
   initialAboutText,
   initialArtists,
   initialGalleryImages,
+  initialAppointmentRequests,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -98,7 +100,7 @@ export default function AdminDashboard({
         editorComponent = <TattooUploadForm />;
         break;
       case 'requests':
-        editorComponent = <ContactSubmissionsViewer />;
+        editorComponent = <ContactSubmissionsViewer initialData={initialAppointmentRequests} />;
         break;
       
       default:

@@ -2,7 +2,7 @@
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
-import type { HeroText, AboutText, Artist, GalleryImage } from './firebase';
+import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest } from './firebase';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
@@ -166,6 +166,26 @@ export async function getGalleryImages(): Promise<GalleryImage[]> {
     } catch (error) {
         console.error("Error fetching gallery images with Admin SDK:", error);
         return defaultGalleryImages;
+    }
+}
+
+export async function getAppointmentRequests(): Promise<AppointmentRequest[]> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return [];
+
+    try {
+        const db = getDatabase(adminApp);
+        const requestsRef = db.ref("appointment_requests");
+        const snapshot = await requestsRef.get();
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            // Convert object of objects to array
+            return Object.keys(data).map(key => ({ id: key, ...data[key] }));
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching appointment requests with Admin SDK:", error);
+        return [];
     }
 }
 

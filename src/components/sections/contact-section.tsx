@@ -1,7 +1,8 @@
 // src/components/sections/contact-section.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,21 +11,34 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getArtists } from "@/lib/firebase";
+import { appointmentAction, type AppointmentFormState } from "@/app/actions";
+import { useToast } from "@/hooks/use-toast";
 
+const initialState: AppointmentFormState = {
+    message: "",
+    error: false,
+};
 
 function SubmitButton() {
-  // Since the form action is removed, we don't need useFormStatus.
-  // We can just show a disabled state or a normal button.
-  // For now, it will just be a static button.
+  const { pending } = useFormStatus();
+
   return (
-    <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled>
-        SUBMIT APPOINTPOINTMENT REQUEST
+    <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={pending}>
+        {pending ? (
+            <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+            </>
+        ) : "SUBMIT APPOINTMENT REQUEST"}
     </Button>
   );
 }
 
 const ContactSection = () => {
   const [artists, setArtists] = useState<{ id: string, name: string }[]>([]);
+  const [state, formAction] = useActionState(appointmentAction, initialState);
+  const { toast } = useToast();
+  const [formKey, setFormKey] = useState(Date.now()); // Used to reset the form
 
   useEffect(() => {
     const unsubscribe = getArtists((data) => {
@@ -34,6 +48,20 @@ const ContactSection = () => {
     });
     return () => unsubscribe();
   }, []);
+  
+  useEffect(() => {
+    if (state.message) {
+      toast({
+        title: state.error ? "Submission Failed" : "Success!",
+        description: state.message,
+        variant: state.error ? "destructive" : "default",
+      });
+      if (!state.error) {
+        setFormKey(Date.now()); // Reset the form on successful submission
+      }
+    }
+  }, [state, toast]);
+
 
   return (
     <section id="contact" className="py-20 lg:py-32 bg-card">
@@ -47,7 +75,7 @@ const ContactSection = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6">
+              <form key={formKey} action={formAction} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="fullName">Full Name *</Label>
@@ -65,7 +93,7 @@ const ContactSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="preferredArtist">Preferred Artist</Label>
-                    <Select name="preferredArtist" defaultValue="No preference">
+                    <Select name="preferredArtist">
                       <SelectTrigger><SelectValue placeholder="Select artist" /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="No preference">No preference</SelectItem>
