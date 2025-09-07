@@ -24,7 +24,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  return <>{children}</>;
+  return <div className="min-h-screen w-full bg-background">{children}</div>;
 }
 
 
