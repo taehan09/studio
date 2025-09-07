@@ -51,6 +51,13 @@ export type GalleryImage = {
     category: string;
 };
 
+export type FaqItem = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+
 export type AppointmentRequest = {
     id: string;
     fullName: string;
@@ -181,6 +188,39 @@ const defaultGalleryImages: GalleryImage[] = [
   { id: 'g47', src: 'https://picsum.photos/500/500?random=47', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
   { id: 'g48', src: 'https://picsum.photos/500/500?random=48', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
   { id: 'g49', src: 'https://picsum.photos/500/500?random=49', alt: 'Geometric tattoo', hint: 'tattoo geometric', category: 'GEOMETRIC' },
+];
+
+const defaultFaqs: FaqItem[] = [
+  {
+    id: 'faq1',
+    question: "HOW DO I BOOK AN APPOINTMENT?",
+    answer: "Once you've selected your preferred artist, you can either stop by the shop, call us, or send a detailed email with a description of the design, some photo references, and your preferred dates to schedule. This will enable us to process your request quickly and efficiently. We schedule appointments a maximum of three months in advance. Our talented Associates are always available to answer your questions via phone - and they actually like talking to people!",
+  },
+  {
+    id: 'faq2',
+    question: "DOES IT HURT?",
+    answer: "Yes! But in the best possible way. Your brain releases endorphins when you go through pain and your body loves endorphins, so yes, it hurts, but you'll kinda like it.",
+  },
+  {
+    id: 'faq3',
+    question: "HOW OLD DO I HAVE TO BE TO GET A TATTOO?",
+    answer: "You must be at least 18 years of age. It is against Ontario law to tattoo a minor, even with parental consent. In accordance with this law we have a strict No Minors policy. Not only must you be 18, every client must prove it with a valid government-issued photo ID. No exceptions.",
+  },
+  {
+    id: 'faq4',
+    question: "HOW LONG DOES A TATTOO TAKE TO HEAL?",
+    answer: 'It takes two-three weeks to "heal," but it takes months for the skin to fully regenerate.',
+  },
+  {
+    id: 'faq5',
+    question: "HOW MUCH DOES A TATTOO COST?",
+    answer: "It depends on the artist, but all tattoos start at $150. Final price is dependent on size, detail of the design, location on the body where it will be placed, and finally, which artist you've chosen. Some artists have a minimum hourly billing, which varies.",
+  },
+  {
+    id: 'faq6',
+    question: "HOW DO I CARE FOR MY NEW TATTOO?",
+    answer: "Every shop has their own recommended care methods. You will be given an instruction card after you've been tattooed.",
+  },
 ];
 
 
@@ -390,5 +430,28 @@ export async function updateLocationInfo(info: LocationInfo): Promise<void> {
     const infoRef = ref(db, "site_content/location_section");
     await set(infoRef, info);
 }
+
+// FAQ Section
+export function getFaqs(callback: (faqs: FaqItem[]) => void): () => void {
+    const faqsRef: DatabaseReference = ref(db, 'site_content/faq_section');
+    const unsubscribe = onValue(faqsRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            callback(defaultFaqs);
+        }
+    });
+    return unsubscribe;
+}
+
+export async function updateFaqs(faqs: FaqItem[]): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+        throw new Error("You must be logged in to save changes.");
+    }
+    const faqsRef = ref(db, "site_content/faq_section");
+    await set(faqsRef, faqs);
+}
+
 
 export { app, db, auth };

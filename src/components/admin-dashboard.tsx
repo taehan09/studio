@@ -15,7 +15,7 @@ import {
   SidebarInset,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft, Mails, MapPin } from 'lucide-react';
+import { Home, Edit, Users, Image as ImageIcon, Tag, ArrowLeft, Mails, MapPin, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import LogoutButton from '@/components/logout-button';
@@ -26,7 +26,8 @@ import TattooUploadForm from '@/components/tattoo-upload-form';
 import GallerySectionEditor from '@/components/gallery-section-editor';
 import ContactSubmissionsViewer from '@/components/contact-submissions-viewer';
 import LocationSectionEditor from '@/components/location-section-editor';
-import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo } from '@/lib/firebase';
+import FaqSectionEditor from '@/components/faq-section-editor';
+import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo, FaqItem } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
 type AdminDashboardProps = {
@@ -36,9 +37,10 @@ type AdminDashboardProps = {
   initialGalleryImages: GalleryImage[];
   initialAppointmentRequests: AppointmentRequest[];
   initialLocationInfo: LocationInfo;
+  initialFaqs: FaqItem[];
 };
 
-type View = 'hero' | 'about' | 'artists' | 'gallery' | 'location' | 'categorize' | 'requests';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'location' | 'faq' | 'categorize' | 'requests';
 
 const viewConfig = {
     hero: {
@@ -66,6 +68,11 @@ const viewConfig = {
         description: "Update the address, hours, contact info and other details for your studio.",
         icon: MapPin,
     },
+    faq: {
+        title: "Edit FAQ Section",
+        description: "Update the questions and answers in the Frequently Asked Questions section.",
+        icon: HelpCircle,
+    },
     categorize: {
         title: "Categorize New Design",
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
@@ -84,7 +91,8 @@ export default function AdminDashboard({
   initialArtists,
   initialGalleryImages,
   initialAppointmentRequests,
-  initialLocationInfo
+  initialLocationInfo,
+  initialFaqs,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -107,6 +115,9 @@ export default function AdminDashboard({
         break;
       case 'location':
         editorComponent = <LocationSectionEditor initialData={initialLocationInfo} />;
+        break;
+      case 'faq':
+        editorComponent = <FaqSectionEditor initialData={initialFaqs} />;
         break;
       case 'categorize':
         editorComponent = <TattooUploadForm />;
@@ -173,6 +184,12 @@ export default function AdminDashboard({
                 <SidebarMenuButton onClick={() => setActiveView('location')} isActive={activeView === 'location'} tooltip="Edit Location Section">
                     <MapPin />
                     <span>Location Section</span>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setActiveView('faq')} isActive={activeView === 'faq'} tooltip="Edit FAQ Section">
+                    <HelpCircle />
+                    <span>FAQ Section</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
 
