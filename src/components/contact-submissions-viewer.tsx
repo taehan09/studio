@@ -8,7 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "./ui/skeleton";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
+import { Quote } from "lucide-react";
 
 export default function ContactSubmissionsViewer({ initialData }: { initialData: AppointmentRequest[] }) {
     const [requests, setRequests] = useState<AppointmentRequest[]>(initialData);
@@ -46,7 +47,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                             <TableRow>
                                 <TableHead className="w-[150px]">Date</TableHead>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
+                                <TableHead className="w-[40%]">AI Summary</TableHead>
                                 <TableHead>Preferred Artist</TableHead>
                                 <TableHead className="w-[50px]"></TableHead>
                             </TableRow>
@@ -58,7 +59,7 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                     <TableRow>
                                         <TableCell>{format(new Date(request.submittedAt), "PPP")}</TableCell>
                                         <TableCell>{request.fullName}</TableCell>
-                                        <TableCell>{request.email}</TableCell>
+                                        <TableCell className="text-muted-foreground">{request.summary || "Summary not available"}</TableCell>
                                         <TableCell>
                                             <Badge variant="secondary">{request.preferredArtist}</Badge>
                                         </TableCell>
@@ -69,34 +70,53 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                     <TableRow>
                                         <TableCell colSpan={5} className="p-0">
                                             <AccordionContent>
-                                                <div className="p-6 bg-muted/50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                                    <div className="space-y-1">
-                                                        <p className="font-semibold">Phone</p>
-                                                        <p className="text-muted-foreground">{request.phone}</p>
-                                                    </div>
-                                                    <div className="space-y-1">
-                                                        <p className="font-semibold">Placement</p>
-                                                        <p className="text-muted-foreground">{request.placement}</p>
-                                                    </div>
-                                                    <div className="space-y-1">
-                                                        <p className="font-semibold">Size</p>
-                                                        <p className="text-muted-foreground">{request.approximateSize || 'N/A'}</p>
-                                                    </div>
-                                                     <div className="space-y-1">
-                                                        <p className="font-semibold">Style</p>
-                                                        <p className="text-muted-foreground">{request.tattooStyle || 'N/A'}</p>
-                                                    </div>
-                                                     <div className="space-y-1">
-                                                        <p className="font-semibold">Budget</p>
-                                                        <p className="text-muted-foreground">{request.budgetRange || 'N/A'}</p>
-                                                    </div>
-                                                     <div className="space-y-1">
-                                                        <p className="font-semibold">Timeframe</p>
-                                                        <p className="text-muted-foreground">{request.preferredTimeframe || 'N/A'}</p>
-                                                    </div>
-                                                    <div className="space-y-1 col-span-full">
-                                                        <p className="font-semibold">Description</p>
-                                                        <p className="text-muted-foreground whitespace-pre-wrap">{request.tattooDescription}</p>
+                                                <div className="p-6 bg-muted/50">
+                                                    {request.summary && (
+                                                        <Card className="mb-6 border-l-4 border-primary">
+                                                            <CardHeader>
+                                                                <CardTitle className="flex items-center text-lg gap-2">
+                                                                    <Quote className="h-5 w-5 text-primary"/>
+                                                                    AI Generated Summary
+                                                                </CardTitle>
+                                                            </CardHeader>
+                                                            <CardContent>
+                                                                <p className="text-base text-foreground">{request.summary}</p>
+                                                            </CardContent>
+                                                        </Card>
+                                                    )}
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Email</p>
+                                                            <p className="text-muted-foreground">{request.email}</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Phone</p>
+                                                            <p className="text-muted-foreground">{request.phone}</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Placement</p>
+                                                            <p className="text-muted-foreground">{request.placement}</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Size</p>
+                                                            <p className="text-muted-foreground">{request.approximateSize || 'N/A'}</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Style</p>
+                                                            <p className="text-muted-foreground">{request.tattooStyle || 'N/A'}</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Budget</p>
+                                                            <p className="text-muted-foreground">{request.budgetRange || 'N/A'}</p>
+                                                        </div>
+                                                        <div className="space-y-1">
+                                                            <p className="font-semibold">Timeframe</p>
+                                                            <p className="text-muted-foreground">{request.preferredTimeframe || 'N/A'}</p>
+                                                        </div>
+                                                        <div className="space-y-1 col-span-full">
+                                                            <p className="font-semibold">Full Description</p>
+                                                            <p className="text-muted-foreground whitespace-pre-wrap">{request.tattooDescription}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </AccordionContent>

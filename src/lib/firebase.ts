@@ -1,4 +1,3 @@
-
 // src/lib/firebase.ts
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getDatabase, ref, set, onValue, type DatabaseReference } from "firebase/database";
@@ -65,6 +64,7 @@ export type AppointmentRequest = {
     budgetRange: string;
     preferredTimeframe: string;
     submittedAt: string;
+    summary?: string; // AI-generated summary
 };
 
 const defaultArtists: Artist[] = [

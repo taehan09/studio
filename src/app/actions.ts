@@ -3,6 +3,7 @@
 
 import { z } from "zod";
 import { categorizeTattooDesign, type CategorizeTattooDesignInput } from "@/ai/flows/categorize-tattoo-designs";
+import { summarizeAppointmentRequest } from "@/ai/flows/summarize-appointment-request";
 import { db } from "@/lib/firebase";
 import { ref, push, set } from "firebase/database";
 
@@ -55,20 +56,25 @@ export async function appointmentAction(
   }
 
   try {
+    // 1. Generate AI Summary
+    const { summary } = await summarizeAppointmentRequest(validatedFields.data);
+
+    // 2. Save to database
     const requestsRef = ref(db, "site_content/appointment_requests");
     const newRequestRef = push(requestsRef);
     await set(newRequestRef, {
         ...validatedFields.data,
+        summary: summary, // Add the AI summary
         submittedAt: new Date().toISOString(),
         id: newRequestRef.key,
     });
+
   } catch (error) {
     console.error("Failed to save appointment request:", error);
     return {
         message: "An unexpected error occurred. Please try again later."
     }
   }
-
 
   return { message: "Success! Your appointment request has been sent. We will get back to you shortly." };
 }
