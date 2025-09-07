@@ -41,12 +41,12 @@ type ArtistsSectionEditorProps = {
     initialData: Artist[];
 }
 
-const ArtistImageUploader = ({ control, index }: { control: Control<ArtistsFormValues>, index: number }) => {
+const ArtistImageUploader = ({ control, index, getValues }: { control: Control<ArtistsFormValues>, index: number, getValues: any }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(control._getWatch()(`artists.${index}.imageUrl`));
+  const [imagePreview, setImagePreview] = useState<string | null>(getValues(`artists.${index}.imageUrl`));
   const { toast } = useToast();
   
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, field: any) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setIsUploading(true);
@@ -55,15 +55,15 @@ const ArtistImageUploader = ({ control, index }: { control: Control<ArtistsFormV
       reader.readAsDataURL(file);
 
       try {
-        const artistId = control._getWatch()(`artists.${index}.id`);
+        const artistId = getValues(`artists.${index}.id`);
         const downloadURL = await uploadArtistImage(file, artistId);
-        field.onChange(downloadURL);
+        control.getFieldState(`artists.${index}.imageUrl`)._f.onChange(downloadURL); // Use the internal onChange
         setImagePreview(downloadURL);
         toast({ title: "Image uploaded!" });
       } catch (error: any) {
         toast({ title: "Upload failed", description: error.message, variant: "destructive" });
         // Revert preview if upload fails
-        setImagePreview(control._getWatch()(`artists.${index}.imageUrl`));
+        setImagePreview(getValues(`artists.${index}.imageUrl`));
       } finally {
         setIsUploading(false);
       }
@@ -84,7 +84,7 @@ const ArtistImageUploader = ({ control, index }: { control: Control<ArtistsFormV
             type="file"
             accept="image/*"
             className="mt-2 pr-12 file:text-primary file:font-semibold"
-            onChange={(e) => handleFileChange(e, control.getFieldState(`artists.${index}.imageUrl`))}
+            onChange={handleFileChange}
             disabled={isUploading}
           />
           {isUploading && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 animate-spin" />}
@@ -150,14 +150,14 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
             {fields.map((field, index) => (
                 <Card key={field.id} className="border-border">
                     <AccordionItem value={field.id} className="border-b-0">
-                        <AccordionTrigger className="p-4 hover:no-underline text-lg font-semibold">
-                            <div className="flex justify-between items-center w-full pr-4">
+                        <div className="flex items-center w-full p-4">
+                            <AccordionTrigger className="flex-1 text-lg font-semibold text-left hover:no-underline p-0">
                                 {form.watch(`artists.${index}.name`)}
-                                <Button size="icon" variant="ghost" className="hover:bg-destructive/20" onClick={(e) => { e.preventDefault(); remove(index); }}>
-                                    <Trash2 className="h-4 w-4 text-destructive" />
-                                </Button>
-                            </div>
-                        </AccordionTrigger>
+                            </AccordionTrigger>
+                            <Button size="icon" variant="ghost" className="hover:bg-destructive/20 ml-4" onClick={() => remove(index)}>
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                            </Button>
+                        </div>
                         <AccordionContent className="p-4 pt-0">
                              <div className="space-y-4">
                                 <FormField
@@ -196,7 +196,7 @@ export default function ArtistsSectionEditor({ initialData }: ArtistsSectionEdit
                                 <FormField
                                   control={form.control}
                                   name={`artists.${index}.imageUrl`}
-                                  render={({ field }) => <ArtistImageUploader control={form.control} index={index} />}
+                                  render={() => <ArtistImageUploader control={form.control} index={index} getValues={form.getValues}/>}
                                 />
                                 <FormField
                                   control={form.control}
