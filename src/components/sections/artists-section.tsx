@@ -37,9 +37,9 @@ const artists = [
 
 const ArtistsSection = () => {
   return (
-    <section id="artists" className="py-20 lg:py-32 bg-card">
+    <section id="artists" className="py-16 lg:py-24 bg-card">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="font-headline text-5xl md:text-6xl font-bold text-primary tracking-wider">ARTISTS</h2>
           <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-foreground/70">
             Meet our world-renowned team of tattoo artists, each bringing their unique style and expertise to create extraordinary works of art.
@@ -60,8 +60,8 @@ const ArtistsSection = () => {
                 </div>
                 <div className="mt-6">
                     <h3 className="text-2xl font-semibold tracking-widest text-primary">{artist.name}</h3>
-                    <p className="text-sm text-foreground/80 my-2">{artist.specialty}</p>
-                    <p className="text-foreground/60 text-sm max-w-xs mx-auto">
+                    <p className="text-sm text-foreground/80 my-1">{artist.specialty}</p>
+                    <p className="text-foreground/60 text-sm max-w-xs mx-auto mt-2">
                         {artist.bio}
                     </p>
                     <Button asChild variant="link" className="text-foreground/80 mt-4 tracking-widest">
