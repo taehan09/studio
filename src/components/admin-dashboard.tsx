@@ -30,6 +30,7 @@ import FaqSectionEditor from '@/components/faq-section-editor';
 import FooterEditor from '@/components/footer-editor';
 import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo, FaqItem, FooterInfo } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
+import { cn } from '@/lib/utils';
 
 type AdminDashboardProps = {
   initialHeroText: HeroText;
@@ -213,7 +214,15 @@ export default function AdminDashboard({
             <SidebarSeparator className="my-2" />
 
             <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('requests')} isActive={activeView === 'requests'} tooltip="Appointment Requests">
+                <SidebarMenuButton 
+                    onClick={() => setActiveView('requests')} 
+                    isActive={activeView === 'requests'} 
+                    tooltip="Appointment Requests"
+                    className={cn(
+                        'text-chart-3/80 hover:text-chart-3',
+                         activeView === 'requests' && 'text-chart-3 bg-chart-3/10 hover:bg-chart-3/20'
+                    )}
+                >
                     <Mails />
                     <span>Appointment Requests</span>
                 </SidebarMenuButton>
