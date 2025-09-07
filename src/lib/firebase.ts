@@ -64,6 +64,25 @@ export type AppointmentRequest = {
     submittedAt: number;
 }
 
+export type LocationInfo = {
+    title: string;
+    subtitle: string;
+    address: string;
+    hoursMonSat: string;
+    hoursSun: string;
+    hoursConsultations: string;
+    phone: string;
+    email: string;
+    inquiriesEmail: string;
+    artistsEmail: string;
+    careersEmail: string;
+    subwayInfo: string;
+    parkingInfo: string;
+    walkingInfo: string;
+    imageUrl: string;
+    imageHint: string;
+};
+
 const defaultArtists: Artist[] = [
     {
       id: '1',
@@ -350,5 +369,26 @@ export async function deleteAppointmentRequest(requestId: string): Promise<void>
     await remove(requestRef);
 }
 
+// Location Section
+export function getLocationInfo(callback: (info: LocationInfo | null) => void): () => void {
+    const infoRef: DatabaseReference = ref(db, 'site_content/location_section');
+    const unsubscribe = onValue(infoRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            callback(null);
+        }
+    });
+    return unsubscribe;
+}
+
+export async function updateLocationInfo(info: LocationInfo): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to save changes.");
+    }
+    const infoRef = ref(db, "site_content/location_section");
+    await set(infoRef, info);
+}
 
 export { app, db, auth };

@@ -2,7 +2,7 @@
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
-import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest } from './firebase';
+import type { HeroText, AboutText, Artist, GalleryImage, AppointmentRequest, LocationInfo } from './firebase';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
@@ -87,6 +87,25 @@ const defaultGalleryImages: GalleryImage[] = [
   { id: '6', src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork', category: 'Blackwork' },
   { id: '7', src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Japanese' },
 ];
+
+const defaultLocationInfo: LocationInfo = {
+    title: "VISIT OUR STUDIO",
+    subtitle: "Visit us at our flagship studio in the heart of downtown Toronto.",
+    address: "123 Yonge Street, \nToronto, ON M5C 2V6",
+    hoursMonSat: "10:00 AM - 9:00 PM",
+    hoursSun: "Closed",
+    hoursConsultations: "By Appointment Only",
+    phone: "(416) 123-4567",
+    email: "contact@ashgray.ink",
+    inquiriesEmail: "inquiries@ashgray.ink",
+    artistsEmail: "artists@ashgray.ink",
+    careersEmail: "careers@ashgray.ink",
+    subwayInfo: "Steps from Dundas Station",
+    parkingInfo: "Nearby paid garages available",
+    walkingInfo: "In the heart of downtown Toronto",
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/ashgrayink-shop.firebasestorage.app/o/KakaoTalk_20250908_014322186.png?alt=media&token=71929ef1-c374-495d-bf3f-bede62d9216c",
+    imageHint: "city map street"
+};
 
 
 export async function getHeroText(): Promise<HeroText> {
@@ -186,6 +205,26 @@ export async function getAppointmentRequests(): Promise<AppointmentRequest[]> {
     } catch (error) {
         console.error("Error fetching appointment requests with Admin SDK:", error);
         return [];
+    }
+}
+
+export async function getLocationInfo(): Promise<LocationInfo> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return defaultLocationInfo;
+
+    try {
+        const db = getDatabase(adminApp);
+        const infoRef = db.ref("site_content/location_section");
+        const snapshot = await infoRef.get();
+        if (snapshot.exists()) {
+            return snapshot.val() as LocationInfo;
+        } else {
+            await infoRef.set(defaultLocationInfo);
+            return defaultLocationInfo;
+        }
+    } catch (error) {
+        console.error("Error fetching location info with Admin SDK:", error);
+        return defaultLocationInfo;
     }
 }
 
