@@ -58,8 +58,6 @@ export type AppointmentRequest = {
     phone: string;
     preferredArtist: string;
     tattooStyle: string;
-    placement: string;
-    approximateSize: string;
     tattooDescription: string;
     budgetRange: string;
     preferredTimeframe: string;

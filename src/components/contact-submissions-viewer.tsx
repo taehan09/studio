@@ -100,14 +100,6 @@ export default function ContactSubmissionsViewer({ initialData }: { initialData:
                                                             <p className="text-muted-foreground">{request.phone}</p>
                                                         </div>
                                                         <div className="space-y-1">
-                                                            <p className="font-semibold">Placement</p>
-                                                            <p className="text-muted-foreground">{request.placement}</p>
-                                                        </div>
-                                                        <div className="space-y-1">
-                                                            <p className="font-semibold">Size</p>
-                                                            <p className="text-muted-foreground">{request.approximateSize || 'N/A'}</p>
-                                                        </div>
-                                                        <div className="space-y-1">
                                                             <p className="font-semibold">Style</p>
                                                             <p className="text-muted-foreground">{request.tattooStyle || 'N/A'}</p>
                                                         </div>

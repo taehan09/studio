@@ -13,8 +13,6 @@ const appointmentSchema = z.object({
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   preferredArtist: z.string().optional(),
   tattooStyle: z.string().optional(),
-  placement: z.string().min(3, { message: "Placement must be at least 3 characters." }),
-  approximateSize: z.string().optional(),
   tattooDescription: z.string().min(10, { message: "Description must be at least 10 characters." }),
   budgetRange: z.string().optional(),
   preferredTimeframe: z.string().optional(),
@@ -26,7 +24,6 @@ export type AppointmentFormState = {
     fullName?: string[];
     email?: string[];
     phone?: string[];
-    placement?: string[];
     tattooDescription?: string[];
   };
 };
@@ -41,8 +38,6 @@ export async function appointmentAction(
     phone: formData.get("phone"),
     preferredArtist: formData.get("preferredArtist") || "No preference",
     tattooStyle: formData.get("tattooStyle") || "Not specified",
-    placement: formData.get("placement"),
-    approximateSize: formData.get("approximateSize") || "Not specified",
     tattooDescription: formData.get("tattooDescription"),
     budgetRange: formData.get("budgetRange") || "Not specified",
     preferredTimeframe: formData.get("preferredTimeframe") || "Not specified",
@@ -63,8 +58,6 @@ export async function appointmentAction(
         phone: validatedFields.data.phone,
         preferredArtist: validatedFields.data.preferredArtist || "No preference",
         tattooStyle: validatedFields.data.tattooStyle || "Not specified",
-        placement: validatedFields.data.placement,
-        approximateSize: validatedFields.data.approximateSize || "Not specified",
         tattooDescription: validatedFields.data.tattooDescription,
         budgetRange: validatedFields.data.budgetRange || "Not specified",
         preferredTimeframe: validatedFields.data.preferredTimeframe || "Not specified",

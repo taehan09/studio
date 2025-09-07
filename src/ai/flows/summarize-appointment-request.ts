@@ -10,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { AppointmentRequest } from '@/lib/firebase';
 
 const SummarizeAppointmentRequestInputSchema = z.object({
     fullName: z.string(),
@@ -18,8 +17,6 @@ const SummarizeAppointmentRequestInputSchema = z.object({
     phone: z.string(),
     preferredArtist: z.string(),
     tattooStyle: z.string(),
-    placement: z.string(),
-    approximateSize: z.string(),
     tattooDescription: z.string(),
     budgetRange: z.string(),
     preferredTimeframe: z.string(),
@@ -43,19 +40,17 @@ const prompt = ai.definePrompt({
   output: {schema: SummarizeAppointmentRequestOutputSchema},
   prompt: `You are an expert assistant for a tattoo studio admin. Your job is to summarize a new appointment request into a single, easy-to-read sentence.
 
-Focus on the most important details: what the tattoo is, where it goes, its size, and style.
+Focus on the most important details: what the tattoo is, and its style.
 
 Here is the request data:
 - Name: {{{fullName}}}
 - Style: {{{tattooStyle}}}
-- Placement: {{{placement}}}
-- Size: {{{approximateSize}}}
 - Description: {{{tattooDescription}}}
 - Preferred Artist: {{{preferredArtist}}}
 - Budget: {{{budgetRange}}}
 - Timeframe: {{{preferredTimeframe}}}
 
-Generate a summary sentence. Example: "Client wants a black and grey realism tiger tattoo on their right forearm, approximately 4x4 inches."
+Generate a summary sentence. Example: "Client wants a black and grey realism tiger tattoo."
 `,
 });
 

@@ -30,7 +30,7 @@ function SubmitButton() {
           Sending...
         </>
       ) : (
-        "SUBMIT APPOINTMENT REQUEST"
+        "SUBMIT APPOINTPOINTMENT REQUEST"
       )}
     </Button>
   );
@@ -126,17 +126,7 @@ const ContactSection = () => {
                     </Select>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                        <Label htmlFor="placement">Placement *</Label>
-                        <Input id="placement" name="placement" placeholder="e.g., forearm, back, shoulder" required />
-                        {state.errors?.placement && <p className="text-sm font-medium text-destructive">{state.errors.placement}</p>}
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="approximateSize">Approximate Size</Label>
-                        <Input id="approximateSize" name="approximateSize" placeholder="e.g., 4x4 inches, quarter sleeve" />
-                    </div>
-                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="tattooDescription">Tattoo Description *</Label>
                   <Textarea id="tattooDescription" name="tattooDescription" placeholder="Describe your tattoo idea in detail..." rows={6} required />
