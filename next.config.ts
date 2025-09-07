@@ -1,5 +1,4 @@
 import type {NextConfig} from 'next';
-require('dotenv').config()
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -24,9 +23,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  env: {
-    FIREBASE_SERVICE_ACCOUNT_KEY: process.env.FIREBASE_SERVICE_ACCOUNT_KEY,
   },
 };
 

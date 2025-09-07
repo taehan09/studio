@@ -3,35 +3,35 @@ import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import type { HeroText } from './firebase';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-let adminApp: App | null = null;
+let adminApp: App;
+let db: admin.firestore.Firestore | null = null;
 
-function initializeAdminApp() {
-    if (getApps().length > 0) {
-        return getApp();
-    }
-    
+if (!getApps().length) {
     if (serviceAccountKey) {
         try {
             const serviceAccount = JSON.parse(serviceAccountKey);
-            return initializeApp({
+            adminApp = initializeApp({
                 credential: admin.credential.cert(serviceAccount)
             });
+            db = getFirestore(adminApp);
         } catch (error) {
             console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY or initialize Firebase Admin SDK:', error);
-            return null;
         }
     } else {
         console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK will not be initialized.");
     }
-    return null;
+} else {
+    adminApp = getApp();
+    db = getFirestore(adminApp);
 }
 
-adminApp = initializeAdminApp();
-
-const adminDb = adminApp ? getFirestore(adminApp) : null;
 
 const defaultHeroText: HeroText = {
     title: "Ashgray Ink",
@@ -39,24 +39,26 @@ const defaultHeroText: HeroText = {
 };
 
 export async function getHeroText(): Promise<HeroText> {
-    if (!adminDb) {
+    if (!db) {
         console.error("Firebase Admin SDK is not initialized. Falling back to default hero text.");
         return defaultHeroText;
     }
     try {
-        const heroDocRef = adminDb.collection("site_content").doc("hero_section");
+        const heroDocRef = db.collection("site_content").doc("hero_section");
         const docSnap = await heroDocRef.get();
         if (docSnap.exists) {
             return docSnap.data() as HeroText;
         } else {
+            // Document doesn't exist, so create it with default text
             await heroDocRef.set(defaultHeroText);
             return defaultHeroText;
         }
     } catch (error) {
         console.error("Error fetching hero text with Admin SDK:", error);
+        // Fallback to default text on error
         return defaultHeroText;
     }
 }
 
 
-export { adminDb };
+export { db };
