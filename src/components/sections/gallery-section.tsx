@@ -1,7 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import TattooUploadForm from '@/components/tattoo-upload-form';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 const galleryImages = [
   { src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist' },
@@ -25,41 +26,39 @@ const GallerySection = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="gallery" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-            <TabsTrigger value="gallery">Gallery</TabsTrigger>
-            <TabsTrigger value="admin">Admin</TabsTrigger>
-          </TabsList>
-          <TabsContent value="gallery">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {galleryImages.map((image, index) => (
-                <Card key={index} className="overflow-hidden group">
-                  <CardContent className="p-0">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      data-ai-hint={image.hint}
-                      width={500}
-                      height={500}
-                      className="w-full h-full object-cover aspect-square transform group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                    />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="admin">
-            <Card className="max-w-2xl mx-auto shadow-lg">
-              <CardContent className="p-6 md:p-8">
-                <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Categorize New Design</h3>
-                <p className="text-muted-foreground mb-6">
-                  Upload a tattoo design to automatically categorize its style using our AI tool. This feature is for administrative purposes.
-                </p>
-                <TattooUploadForm />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {galleryImages.map((image, index) => (
+            <Card key={index} className="overflow-hidden group">
+              <CardContent className="p-0">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  data-ai-hint={image.hint}
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-cover aspect-square transform group-hover:scale-110 transition-transform duration-500 ease-in-out"
+                />
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+            <Card className="inline-block bg-card border-border shadow-lg p-6">
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                    <div>
+                        <h3 className="font-headline text-xl font-semibold text-primary">Have a new design?</h3>
+                        <p className="text-muted-foreground">Use our AI to categorize it.</p>
+                    </div>
+                    <Button asChild>
+                        <Link href="/admin">
+                            Categorize New Design <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                </div>
+            </Card>
+        </div>
+
       </div>
     </section>
   );
