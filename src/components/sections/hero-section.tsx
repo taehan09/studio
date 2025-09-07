@@ -19,7 +19,7 @@ const HeroSection = () => {
         <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight">
           Ashgray Ink
         </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-white/90">
+        <p className="mt-4 mx-auto text-lg md:text-xl text-white/90">
           Experience world-class tattoo art in Toronto with internationally recognized artists.
         </p>
         <div className="mt-8">
