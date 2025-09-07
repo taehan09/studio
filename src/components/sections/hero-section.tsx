@@ -17,7 +17,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/60" />
       
       <div className="relative z-10 flex flex-col items-center justify-center flex-grow px-4">
-        <div className="transform translate-y-20">
+        <div>
           <h1 className="text-7xl md:text-8xl font-bold tracking-tight font-headline">
             Ashgray Ink
           </h1>
@@ -28,7 +28,7 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-grow">
-          <div className="flex-grow-[50] flex items-center justify-center">
+          <div className="flex-grow-[20] flex items-center justify-center">
               <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-base font-semibold tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
                   <Link href="#contact">MAKE AN APPOINTMENT</Link>
               </Button>
