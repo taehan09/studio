@@ -19,11 +19,11 @@ const LocationSection = () => {
               <div className="space-y-4 text-foreground/80">
                 <div className="flex items-start">
                   <MapPin className="h-6 w-6 mr-4 mt-1 text-accent flex-shrink-0" />
-                  <span>123 Artistry Avenue, Inkwell City, CA 90210</span>
+                  <span>123 Artistry Avenue, Toronto, ON M5V 2H2</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 mr-4 text-accent" />
-                  <span>(123) 456-7890</span>
+                  <span>(416) 555-0123</span>
                 </div>
                 <div className="flex items-center">
                   <Mail className="h-5 w-5 mr-4 text-accent" />
@@ -33,7 +33,7 @@ const LocationSection = () => {
                <h4 className="font-headline text-xl font-semibold text-primary mt-8 mb-4">Hours</h4>
                <ul className="space-y-1 text-foreground/80">
                   <li>Tuesday - Saturday: 11am - 8pm</li>
-                  <li>Sunday &amp; Monday: Closed</li>
+                  <li>Sunday & Monday: Closed</li>
                </ul>
             </CardContent>
           </Card>
