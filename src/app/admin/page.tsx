@@ -1,26 +1,28 @@
 // src/app/admin/page.tsx
 import Link from 'next/link';
-import { ArrowLeft, LogOut, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import HeroTextEditor from '@/components/hero-text-editor';
 import AboutSectionEditor from '@/components/about-section-editor';
 import { getHeroText, getAboutText } from '@/lib/firebase-admin';
 import LogoutButton from '@/components/logout-button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 
 export const revalidate = 0;
 
 export default async function AdminPage() {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-  // Temporarily disable the check to avoid the blocking error screen.
-  // The firebase-admin.ts file has its own check and warning.
   if (!serviceAccountKey) {
-    // This block will now render the admin page but show a persistent warning.
-    // This is better than being completely blocked.
     console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Some admin features might not work correctly.");
   }
   
@@ -44,7 +46,7 @@ export default async function AdminPage() {
                     <CardTitle className="font-headline text-3xl md:text-4xl text-primary">Admin Panel</CardTitle>
                     <CardDescription>Manage your tattoo designs and studio content.</CardDescription>
                 </CardHeader>
-                <CardContent className="p-6 md:p-8 space-y-8">
+                <CardContent className="p-6 md:p-8 space-y-4">
                     {!serviceAccountKey && (
                         <Alert variant="destructive" className="mb-8">
                           <AlertTriangle className="h-4 w-4" />
@@ -55,33 +57,37 @@ export default async function AdminPage() {
                         </Alert>
                     )}
 
-                    <div>
-                        <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Edit Hero Section</h3>
-                        <p className="text-muted-foreground mb-6">
-                            Update the main title and subtitle displayed on the home page hero section.
-                        </p>
-                        <HeroTextEditor initialData={heroText} />
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div>
-                        <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Edit About Section</h3>
-                        <p className="text-muted-foreground mb-6">
-                            Update the title and paragraphs in the "Our Story" section of the about page.
-                        </p>
-                        <AboutSectionEditor initialData={aboutText} />
-                    </div>
+                    <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="hero-section">
+                            <AccordionTrigger className="text-2xl font-headline font-semibold text-primary hover:no-underline">Edit Hero Section</AccordionTrigger>
+                            <AccordionContent className="pt-4">
+                                <p className="text-muted-foreground mb-6">
+                                    Update the main title and subtitle displayed on the home page hero section.
+                                </p>
+                                <HeroTextEditor initialData={heroText} />
+                            </AccordionContent>
+                        </AccordionItem>
 
-                    <Separator />
-
-                    <div>
-                        <h3 className="text-2xl font-headline font-semibold text-primary mb-4">Categorize New Design</h3>
-                        <p className="text-muted-foreground mb-6">
-                            Upload a tattoo design to automatically categorize its style using our AI tool.
-                        </p>
-                        <TattooUploadForm />
-                    </div>
+                        <AccordionItem value="about-section">
+                            <AccordionTrigger className="text-2xl font-headline font-semibold text-primary hover:no-underline">Edit About Section</AccordionTrigger>
+                            <AccordionContent className="pt-4">
+                                <p className="text-muted-foreground mb-6">
+                                    Update the title and paragraphs in the "Our Story" section of the about page.
+                                </p>
+                                <AboutSectionEditor initialData={aboutText} />
+                            </AccordionContent>
+                        </AccordionItem>
+                        
+                        <AccordionItem value="categorize-design">
+                            <AccordionTrigger className="text-2xl font-headline font-semibold text-primary hover:no-underline">Categorize New Design</AccordionTrigger>
+                            <AccordionContent className="pt-4">
+                                <p className="text-muted-foreground mb-6">
+                                    Upload a tattoo design to automatically categorize its style using our AI tool.
+                                </p>
+                                <TattooUploadForm />
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
                 </CardContent>
             </Card>
         </main>
