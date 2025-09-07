@@ -2,13 +2,14 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // For now, allow anyone to read any document in the database.
-    // This will let us build the frontend first.
-    // Write access is completely denied until we build an admin page
-    // and set up proper authentication.
+    // Allow only authenticated users to read/write site content
+    match /site_content/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Lock down all other documents for security
     match /{document=**} {
-      allow read: if true;
-      allow write: if false;
+      allow read, write: if false;
     }
   }
 }
