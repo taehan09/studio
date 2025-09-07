@@ -43,7 +43,7 @@ export default async function AdminPage() {
         <main className="flex-1 flex items-start justify-center">
             <Card className="w-full max-w-2xl mx-auto shadow-2xl">
                 <CardHeader>
-                    <CardTitle className="text-3xl md:text-4xl text-primary">Admin Panel</CardTitle>
+                    <CardTitle className="text-3xl md:text-4xl">Admin Panel</CardTitle>
                     <CardDescription>Manage your tattoo designs and studio content.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 md:p-8 space-y-4">
@@ -59,7 +59,7 @@ export default async function AdminPage() {
 
                     <Accordion type="single" collapsible className="w-full">
                         <AccordionItem value="hero-section">
-                            <AccordionTrigger className="text-2xl font-semibold text-primary hover:no-underline">Edit Hero Section</AccordionTrigger>
+                            <AccordionTrigger className="text-2xl font-semibold text-chart-3 hover:no-underline">Edit Hero Section</AccordionTrigger>
                             <AccordionContent className="pt-4">
                                 <p className="text-muted-foreground mb-6">
                                     Update the main title and subtitle displayed on the home page hero section.
@@ -69,7 +69,7 @@ export default async function AdminPage() {
                         </AccordionItem>
 
                         <AccordionItem value="about-section">
-                            <AccordionTrigger className="text-2xl font-semibold text-primary hover:no-underline">Edit About Section</AccordionTrigger>
+                            <AccordionTrigger className="text-2xl font-semibold text-chart-3 hover:no-underline">Edit About Section</AccordionTrigger>
                             <AccordionContent className="pt-4">
                                 <p className="text-muted-foreground mb-6">
                                     Update the title and paragraphs in the "Our Story" section of the about page.
@@ -79,7 +79,7 @@ export default async function AdminPage() {
                         </AccordionItem>
                         
                         <AccordionItem value="categorize-design">
-                            <AccordionTrigger className="text-2xl font-semibold text-primary hover:no-underline">Categorize New Design</AccordionTrigger>
+                            <AccordionTrigger className="text-2xl font-semibold text-chart-3 hover:no-underline">Categorize New Design</AccordionTrigger>
                             <AccordionContent className="pt-4">
                                 <p className="text-muted-foreground mb-6">
                                     Upload a tattoo design to automatically categorize its style using our AI tool.
