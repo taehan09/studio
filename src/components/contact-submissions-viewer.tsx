@@ -11,7 +11,6 @@ import { Skeleton } from "./ui/skeleton";
 import { Card, CardContent } from "./ui/card";
 
 export default function ContactSubmissionsViewer({ initialData }: { initialData: AppointmentRequest[] }) {
-    // Sort initial data and set it as the starting state
     const [requests, setRequests] = useState<AppointmentRequest[]>(
         initialData.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
     );
