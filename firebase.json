@@ -1,19 +1,4 @@
 {
-  "hosting": {
-    "site": "ashgrayink-shop",
-    "public": "out",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
   "firestore": {
     "rules": "firestore.rules"
   },
@@ -22,5 +7,11 @@
   },
   "database": {
     "rules": "database.rules.json"
+  },
+  "hosting": {
+    "source": ".",
+    "frameworksBackend": {
+      "region": "us-central1"
+    }
   }
 }
