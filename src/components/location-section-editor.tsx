@@ -151,7 +151,7 @@ export default function LocationSectionEditor({ initialData }: LocationSectionEd
                             <FormItem><FormLabel>Artists Email</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                         )} />
                         <FormField control={form.control} name="careersEmail" render={({ field }) => (
-                            <FormItem><FormLabel>Careers Email</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormMessage /></FormItem>
+                            <FormItem><FormLabel>Careers Email</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                         )} />
                     </CardContent>
                 </Card>
