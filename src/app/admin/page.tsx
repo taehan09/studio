@@ -1,17 +1,16 @@
 // src/app/admin/page.tsx
-"use client";
-
 import Link from 'next/link';
 import { ArrowLeft, LogOut } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import TattooUploadForm from '@/components/tattoo-upload-form';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/context/auth-context';
 import { Separator } from '@/components/ui/separator';
 import HeroTextEditor from '@/components/hero-text-editor';
+import { getHeroText } from '@/lib/firebase';
+import LogoutButton from '@/components/logout-button';
 
-export default function AdminPage() {
-  const { logout } = useAuth();
+export default async function AdminPage() {
+  const heroText = await getHeroText();
 
   return (
     <div className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8">
@@ -22,10 +21,7 @@ export default function AdminPage() {
                     Back to Home
                 </Link>
             </Button>
-            <Button onClick={logout} variant="outline">
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-            </Button>
+            <LogoutButton />
         </header>
         <main className="flex-1 flex items-start justify-center">
             <Card className="w-full max-w-2xl mx-auto shadow-2xl">
@@ -39,7 +35,7 @@ export default function AdminPage() {
                         <p className="text-muted-foreground mb-6">
                             Update the main title and subtitle displayed on the home page hero section.
                         </p>
-                        <HeroTextEditor />
+                        <HeroTextEditor initialData={heroText} />
                     </div>
                     
                     <Separator />

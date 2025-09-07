@@ -1,55 +1,35 @@
 // src/components/hero-text-editor.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { getHeroText, updateHeroText, type HeroText } from "@/lib/firebase";
+import { updateHeroText, type HeroText } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Save } from "lucide-react";
-import { Skeleton } from "./ui/skeleton";
 
 const heroFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters."),
   subtitle: z.string().min(10, "Subtitle must be at least 10 characters."),
 });
 
-export default function HeroTextEditor() {
-  const [loading, setLoading] = useState(true);
+type HeroTextEditorProps = {
+    initialData: HeroText;
+}
+
+export default function HeroTextEditor({ initialData }: HeroTextEditorProps) {
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof heroFormSchema>>({
     resolver: zodResolver(heroFormSchema),
-    defaultValues: {
-      title: "",
-      subtitle: "",
-    },
+    defaultValues: initialData,
   });
-
-  useEffect(() => {
-    async function loadHeroText() {
-      try {
-        const data = await getHeroText();
-        form.reset(data);
-      } catch (error) {
-        console.error("Failed to load hero text:", error);
-        toast({
-          title: "Error",
-          description: "Could not load hero text. Please try again later.",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadHeroText();
-  }, [form, toast]);
 
   const onSubmit = async (data: HeroText) => {
     setIsSaving(true);
@@ -70,17 +50,6 @@ export default function HeroTextEditor() {
       setIsSaving(false);
     }
   };
-
-  if (loading) {
-    return (
-        <div className="space-y-4">
-            <Skeleton className="h-10 w-1/3" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-10 w-32" />
-        </div>
-    );
-  }
 
   return (
     <Form {...form}>
