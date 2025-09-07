@@ -1,4 +1,3 @@
-
 // src/lib/firebase-admin.ts
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
@@ -11,28 +10,26 @@ dotenv.config();
 
 const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-function getAdminApp(): App {
+function getAdminApp(): App | null {
+    if (!serviceAccountKey) {
+        console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK cannot be initialized.");
+        return null;
+    }
+    
     if (getApps().length > 0) {
         return getApp();
     }
     
-    if (!serviceAccountKey) {
-        console.warn("FIREBASE_SERVICE_ACCOUNT_KEY is not set. Firebase Admin SDK cannot be initialized.");
-        // Return a proxy that will warn when used, preventing hard crashes
-        return new Proxy({}, {
-            get(target, prop) {
-                if (prop === 'then') return undefined; // Prevent Next.js from treating this as a promise
-                console.error(`Firebase Admin SDK not initialized. Call to '${String(prop)}' will fail.`);
-                return () => { throw new Error("Firebase Admin SDK not initialized."); };
-            }
-        }) as App;
+    try {
+        const serviceAccount = JSON.parse(serviceAccountKey);
+        return initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
+        });
+    } catch (error) {
+        console.error("Error parsing FIREBASE_SERVICE_ACCOUNT_KEY or initializing app:", error);
+        return null;
     }
-    
-    const serviceAccount = JSON.parse(serviceAccountKey);
-    return initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://ashgrayink-shop-default-rtdb.firebaseio.com"
-    });
 }
 
 const defaultHeroText: HeroText = {
@@ -49,8 +46,10 @@ const defaultAboutText: AboutText = {
 };
 
 export async function getHeroText(): Promise<HeroText> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return defaultHeroText;
+    
     try {
-        const adminApp = getAdminApp();
         const db = getDatabase(adminApp);
         const heroRef = db.ref("site_content/hero_section");
         const snapshot = await heroRef.get();
@@ -67,8 +66,10 @@ export async function getHeroText(): Promise<HeroText> {
 }
 
 export async function getAboutText(): Promise<AboutText> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return defaultAboutText;
+
     try {
-        const adminApp = getAdminApp();
         const db = getDatabase(adminApp);
         const aboutRef = db.ref("site_content/about_section");
         const snapshot = await aboutRef.get();

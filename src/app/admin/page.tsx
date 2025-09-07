@@ -72,7 +72,7 @@ export default async function AdminPage() {
                             <AccordionTrigger className="text-2xl font-semibold text-chart-3 hover:no-underline">Edit About Section</AccordionTrigger>
                             <AccordionContent className="pt-4">
                                 <p className="text-muted-foreground mb-6">
-                                    Update the title and paragraphs in the "Our Story" section of the about page.
+                                    Update the title, paragraphs, and image in the "Our Story" section.
                                 </p>
                                 <AboutSectionEditor initialData={aboutText} />
                             </AccordionContent>

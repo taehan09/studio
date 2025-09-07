@@ -1,4 +1,3 @@
-
 // src/components/about-section-editor.tsx
 "use client";
 
@@ -12,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Save, Upload } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import Image from 'next/image';
 
 const aboutFormSchema = z.object({
@@ -20,8 +19,10 @@ const aboutFormSchema = z.object({
   paragraph1: z.string().min(10, "Paragraph 1 must be at least 10 characters."),
   paragraph2: z.string().min(10, "Paragraph 2 must be at least 10 characters."),
   paragraph3: z.string().min(10, "Paragraph 3 must be at least 10 characters."),
-  imageUrl: z.string().url("Image URL must be a valid URL."),
+  imageUrl: z.string().url("Image URL must be a valid URL.").optional(),
 });
+
+type AboutFormValues = z.infer<typeof aboutFormSchema>;
 
 type AboutSectionEditorProps = {
     initialData: AboutText;
@@ -33,13 +34,15 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
   const [imagePreview, setImagePreview] = useState<string | null>(initialData.imageUrl);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof aboutFormSchema>>({
+  const form = useForm<AboutFormValues>({
     resolver: zodResolver(aboutFormSchema),
-    defaultValues: initialData,
-    values: { // Ensures the form is controlled by the component's state
-        ...initialData,
-        imageUrl: imagePreview || initialData.imageUrl,
-    }
+    defaultValues: {
+        title: initialData.title || '',
+        paragraph1: initialData.paragraph1 || '',
+        paragraph2: initialData.paragraph2 || '',
+        paragraph3: initialData.paragraph3 || '',
+        imageUrl: initialData.imageUrl || '',
+    },
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,10 +57,10 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
     }
   };
 
-  const onSubmit = async (data: z.infer<typeof aboutFormSchema>) => {
+  const onSubmit = async (data: AboutFormValues) => {
     setIsSaving(true);
     try {
-        let finalImageUrl = data.imageUrl;
+        let finalImageUrl = imagePreview || initialData.imageUrl;
         if (imageFile) {
             finalImageUrl = await uploadAboutImage(imageFile);
         }
@@ -65,9 +68,8 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
       const completeData: AboutText = { ...data, imageUrl: finalImageUrl };
       await updateAboutText(completeData);
 
-      // After successful save, update the preview and reset the file state
       setImagePreview(finalImageUrl);
-      form.reset(completeData); // reset form with new data
+      form.reset({ ...data, imageUrl: finalImageUrl });
       setImageFile(null);
 
       toast({
@@ -146,7 +148,7 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
           <FormLabel>About Section Image</FormLabel>
             {imagePreview && (
                 <div className="mt-2 relative w-full h-64 border rounded-lg overflow-hidden">
-                    <Image src={imagePreview} alt="About section preview" layout="fill" objectFit="cover" />
+                    <Image src={imagePreview} alt="About section preview" fill objectFit="cover" />
                 </div>
             )}
           <FormControl>
