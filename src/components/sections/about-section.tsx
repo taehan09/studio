@@ -13,7 +13,7 @@ const stats = [
 const AboutSection = () => {
   return (
     <section id="about" className="py-20 lg:py-32 bg-background">
-      <div className="container mx-auto px-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-5 gap-12 lg:gap-16 items-center">
           <div className="wow-outer md:col-span-2">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-6">Our Story</h2>
