@@ -22,16 +22,18 @@ import HeroTextEditor from '@/components/hero-text-editor';
 import AboutSectionEditor from '@/components/about-section-editor';
 import ArtistsSectionEditor from '@/components/artists-section-editor';
 import TattooUploadForm from '@/components/tattoo-upload-form';
-import type { HeroText, AboutText, Artist } from '@/lib/firebase';
+import GallerySectionEditor from '@/components/gallery-section-editor';
+import type { HeroText, AboutText, Artist, GalleryImage } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 
 type AdminDashboardProps = {
   initialHeroText: HeroText;
   initialAboutText: AboutText;
   initialArtists: Artist[];
+  initialGalleryImages: GalleryImage[];
 };
 
-type View = 'hero' | 'about' | 'artists' | 'categorize';
+type View = 'hero' | 'about' | 'artists' | 'gallery' | 'categorize';
 
 const viewConfig = {
     hero: {
@@ -49,6 +51,11 @@ const viewConfig = {
         description: "Manage the artists featured on your website. You can add, edit, and remove artists.",
         icon: Users,
     },
+    gallery: {
+        title: "Edit Gallery Section",
+        description: "Manage the images displayed in your gallery. You can add, edit, and remove images by category.",
+        icon: ImageIcon,
+    },
     categorize: {
         title: "Categorize New Design",
         description: "Upload a tattoo design to automatically categorize its style using our AI tool.",
@@ -60,6 +67,7 @@ export default function AdminDashboard({
   initialHeroText,
   initialAboutText,
   initialArtists,
+  initialGalleryImages,
 }: AdminDashboardProps) {
   const [activeView, setActiveView] = useState<View>('hero');
 
@@ -76,6 +84,9 @@ export default function AdminDashboard({
         break;
       case 'artists':
         editorComponent = <ArtistsSectionEditor initialData={initialArtists} />;
+        break;
+      case 'gallery':
+        editorComponent = <GallerySectionEditor initialData={initialGalleryImages} />;
         break;
       case 'categorize':
         editorComponent = <TattooUploadForm />;
@@ -126,6 +137,12 @@ export default function AdminDashboard({
                 <SidebarMenuButton onClick={() => setActiveView('artists')} isActive={activeView === 'artists'} tooltip="Edit Artists Section">
                     <Users />
                     <span>Artists Section</span>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setActiveView('gallery')} isActive={activeView === 'gallery'} tooltip="Edit Gallery Section">
+                    <ImageIcon />
+                    <span>Gallery Section</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

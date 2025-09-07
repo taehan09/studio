@@ -3,7 +3,7 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getDatabase, ref, set, onValue, type DatabaseReference } from "firebase/database";
 import { getAuth } from "firebase/auth";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 
 // Your web app's Firebase configuration
@@ -44,6 +44,14 @@ export type Artist = {
   imageHint: string;
 };
 
+export type GalleryImage = {
+    id: string;
+    src: string;
+    alt: string;
+    hint: string;
+    category: string;
+};
+
 const defaultArtists: Artist[] = [
     {
       id: '1',
@@ -77,6 +85,16 @@ const defaultArtists: Artist[] = [
       imageUrl: 'https://picsum.photos/seed/emma/400/500',
       imageHint: 'spiderweb foggy field',
     },
+];
+
+const defaultGalleryImages: GalleryImage[] = [
+    { id: '1', src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist', category: 'Fine-line' },
+    { id: '2', src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo design', hint: 'tattoo traditional', category: 'Traditional' },
+    { id: '3', src: 'https://picsum.photos/500/500?random=13', alt: 'Watercolor tattoo design', hint: 'tattoo watercolor', category: 'Color' },
+    { id: '4', src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric', category: 'Geometric' },
+    { id: '5', src: 'https://picsum.photos/500/500?random=15', alt: 'Realism tattoo design', hint: 'tattoo realism', category: 'Realism' },
+    { id: '6', src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork', category: 'Blackwork' },
+    { id: '7', src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Japanese' },
 ];
 
 // This function is called from the client-side editor
@@ -173,6 +191,56 @@ export async function uploadArtistImage(file: File, artistId: string): Promise<s
     const snapshot = await uploadBytes(imageRef, file);
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
+}
+
+export async function updateGalleryImages(images: GalleryImage[]): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to save changes.");
+    }
+    const galleryRef = ref(db, "site_content/gallery_section");
+    await set(galleryRef, images);
+}
+
+export function getGalleryImages(callback: (images: GalleryImage[] | null) => void): () => void {
+    const galleryRef: DatabaseReference = ref(db, 'site_content/gallery_section');
+    const unsubscribe = onValue(galleryRef, (snapshot) => {
+        if (snapshot.exists()) {
+            callback(snapshot.val());
+        } else {
+            callback(defaultGalleryImages);
+        }
+    });
+    return unsubscribe;
+}
+
+export async function uploadGalleryImage(file: File, category: string): Promise<string> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to upload images.");
+    }
+    const filePath = `site_content/gallery_section/${category}/${new Date().toISOString()}_${file.name}`;
+    const imageRef = storageRef(storage, filePath);
+    const snapshot = await uploadBytes(imageRef, file);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    return downloadURL;
+}
+
+export async function deleteGalleryImage(imageUrl: string): Promise<void> {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+        throw new Error("You must be logged in to delete images.");
+    }
+    try {
+        const imageRef = storageRef(storage, imageUrl);
+        await deleteObject(imageRef);
+    } catch (error: any) {
+        // It's okay if the file doesn't exist (e.g., placeholder images)
+        if (error.code !== 'storage/object-not-found') {
+            console.error("Failed to delete image from storage:", error);
+            throw new Error("Failed to delete image from storage.");
+        }
+    }
 }
 
 

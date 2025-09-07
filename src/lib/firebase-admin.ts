@@ -3,7 +3,7 @@
 import admin from 'firebase-admin';
 import { getApps, initializeApp, getApp, App } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
-import type { HeroText, AboutText, Artist } from './firebase';
+import type { HeroText, AboutText, Artist, GalleryImage } from './firebase';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
@@ -79,6 +79,16 @@ const defaultArtists: Artist[] = [
   },
 ];
 
+const defaultGalleryImages: GalleryImage[] = [
+  { id: '1', src: 'https://picsum.photos/500/500?random=11', alt: 'Minimalist tattoo design', hint: 'tattoo minimalist', category: 'Fine-line' },
+  { id: '2', src: 'https://picsum.photos/500/500?random=12', alt: 'Traditional tattoo design', hint: 'tattoo traditional', category: 'Traditional' },
+  { id: '3', src: 'https://picsum.photos/500/500?random=13', alt: 'Watercolor tattoo design', hint: 'tattoo watercolor', category: 'Color' },
+  { id: '4', src: 'https://picsum.photos/500/500?random=14', alt: 'Geometric tattoo design', hint: 'tattoo geometric', category: 'Geometric' },
+  { id: '5', src: 'https://picsum.photos/500/500?random=15', alt: 'Realism tattoo design', hint: 'tattoo realism', category: 'Realism' },
+  { id: '6', src: 'https://picsum.photos/500/500?random=16', alt: 'Blackwork tattoo design', hint: 'tattoo blackwork', category: 'Blackwork' },
+  { id: '7', src: 'https://picsum.photos/500/500?random=17', alt: 'Japanese style tattoo', hint: 'tattoo japanese', category: 'Japanese' },
+];
+
 
 export async function getHeroText(): Promise<HeroText> {
     const adminApp = getAdminApp();
@@ -137,6 +147,26 @@ export async function getArtists(): Promise<Artist[]> {
     } catch (error) {
         console.error("Error fetching artists with Admin SDK:", error);
         return defaultArtists;
+    }
+}
+
+export async function getGalleryImages(): Promise<GalleryImage[]> {
+    const adminApp = getAdminApp();
+    if (!adminApp) return defaultGalleryImages;
+
+    try {
+        const db = getDatabase(adminApp);
+        const galleryRef = db.ref("site_content/gallery_section");
+        const snapshot = await galleryRef.get();
+        if (snapshot.exists()) {
+            return snapshot.val() as GalleryImage[];
+        } else {
+            await galleryRef.set(defaultGalleryImages);
+            return defaultGalleryImages;
+        }
+    } catch (error) {
+        console.error("Error fetching gallery images with Admin SDK:", error);
+        return defaultGalleryImages;
     }
 }
 
