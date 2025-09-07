@@ -41,23 +41,23 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="#home" className="text-xl font-bold text-primary hover:text-gray-300 transition-colors">
-            Ashgray Ink
-          </Link>
-          <div className="flex-1 flex justify-center">
-            <nav className="hidden md:flex items-center space-x-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-semibold text-gray-300 hover:text-white transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+          <div className="flex-1 flex items-center justify-start">
+            <Link href="#home" className="text-xl font-bold text-primary hover:text-gray-300 transition-colors">
+              Ashgray Ink
+            </Link>
           </div>
-          <div className="hidden md:flex items-center space-x-4">
+          <nav className="hidden md:flex items-center space-x-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-semibold text-gray-300 hover:text-white transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex-1 hidden md:flex items-center justify-end space-x-4">
              <Link href="#" className="text-foreground/80 hover:text-white transition-colors" aria-label="Instagram">
               <Instagram />
             </Link>
