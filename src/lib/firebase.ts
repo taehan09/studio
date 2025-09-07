@@ -31,9 +31,7 @@ export type HeroText = {
 
 export type AboutText = {
   title: string;
-  paragraph1: string;
-  paragraph2: string;
-  paragraph3: string;
+  description: string;
   imageUrl: string;
 }
 

@@ -16,9 +16,7 @@ import Image from 'next/image';
 
 const aboutFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters."),
-  paragraph1: z.string().min(10, "Paragraph 1 must be at least 10 characters."),
-  paragraph2: z.string().min(10, "Paragraph 2 must be at least 10 characters."),
-  paragraph3: z.string().min(10, "Paragraph 3 must be at least 10 characters."),
+  description: z.string().min(10, "Description must be at least 10 characters."),
   imageUrl: z.string().url("Image URL must be a valid URL.").optional(),
 });
 
@@ -38,9 +36,7 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
     resolver: zodResolver(aboutFormSchema),
     defaultValues: {
         title: initialData.title || '',
-        paragraph1: initialData.paragraph1 || '',
-        paragraph2: initialData.paragraph2 || '',
-        paragraph3: initialData.paragraph3 || '',
+        description: initialData.description || '',
         imageUrl: initialData.imageUrl || '',
     },
   });
@@ -106,38 +102,12 @@ export default function AboutSectionEditor({ initialData }: AboutSectionEditorPr
         />
         <FormField
           control={form.control}
-          name="paragraph1"
+          name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Paragraph 1</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="First paragraph of the about section" {...field} rows={5}/>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="paragraph2"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Paragraph 2</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Second paragraph of the about section" {...field} rows={5}/>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="paragraph3"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Paragraph 3</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Third paragraph of the about section" {...field} rows={5}/>
+                <Textarea placeholder="About section content..." {...field} rows={10}/>
               </FormControl>
               <FormMessage />
             </FormItem>

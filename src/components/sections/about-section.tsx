@@ -18,9 +18,7 @@ const stats = [
 
 const defaultAboutText: AboutText = {
   title: 'Our Story',
-  paragraph1: 'Founded in 2010, Ashgray Ink has become a cornerstone of the Toronto tattoo scene. We are a collective of passionate, multi-award-winning artists dedicated to creating unique, high-quality tattoos in a clean, welcoming, and professional environment. Our artists specialize in a wide range of styles, from traditional and neo-traditional to blackwork, realism, and fine-line.',
-  paragraph2: 'We believe that every tattoo tells a story, and we are committed to making the journey as memorable as the art itself. From the initial consultation where we turn your ideas into a custom design, to our meticulous aftercare guidance, we ensure a collaborative and safe experience. Our strict adherence to the highest standards of hygiene and safety is our promise to you.',
-  paragraph3: 'Are you ready to transform your vision into a work of art? We invite you to explore our portfolios and book a consultation. Let\'s create something beautiful together.',
+  description: 'Founded in 2010, Ashgray Ink has become a cornerstone of the Toronto tattoo scene. We are a collective of passionate, multi-award-winning artists dedicated to creating unique, high-quality tattoos in a clean, welcoming, and professional environment. Our artists specialize in a wide range of styles, from traditional and neo-traditional to blackwork, realism, and fine-line.\n\nWe believe that every tattoo tells a story, and we are committed to making the journey as memorable as the art itself. From the initial consultation where we turn your ideas into a custom design, to our meticulous aftercare guidance, we ensure a collaborative and safe experience. Our strict adherence to the highest standards of hygiene and safety is our promise to you.\n\nAre you ready to transform your vision into a work of art? We invite you to explore our portfolios and book a consultation. Let\'s create something beautiful together.',
   imageUrl: 'https://picsum.photos/600/800',
 };
 
@@ -63,11 +61,9 @@ const AboutSection = () => {
                             <Skeleton className="h-6 w-9/12" />
                           </>
                         ) : (
-                          <>
-                            <p>{currentText.paragraph1}</p>
-                            <p>{currentText.paragraph2}</p>
-                            <p>{currentText.paragraph3}</p>
-                          </>
+                          currentText.description.split('\n').map((paragraph, index) => (
+                            <p key={index}>{paragraph}</p>
+                          ))
                         )}
                       </div>
                     </div>
