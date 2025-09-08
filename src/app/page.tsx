@@ -7,6 +7,7 @@ import GallerySection from '@/components/sections/gallery-section';
 import ContactSection from '@/components/sections/contact-section';
 import LocationSection from '@/components/sections/location-section';
 import FaqSection from '@/components/sections/faq-section';
+import TattooIdeaSection from '@/components/sections/tattoo-idea-section';
 import { getHeroText as getHeroTextServer } from '@/lib/firebase-admin';
 
 // Fetch initial data on the server to avoid flickering on the client.
@@ -21,6 +22,7 @@ export default async function Home() {
         <HeroSection initialHeroText={initialHeroText} />
         <AboutSection />
         <ArtistsSection />
+        <TattooIdeaSection />
         <GallerySection />
         <ContactSection />
         <LocationSection />

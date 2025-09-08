@@ -3,6 +3,7 @@
 
 import { z } from "zod";
 import { categorizeTattooDesign, type CategorizeTattooDesignInput } from "@/ai/flows/categorize-tattoo-designs";
+import { generateTattooIdea, GenerateTattooIdeaInputSchema, type GenerateTattooIdeaOutput } from "@/ai/flows/generate-tattoo-idea";
 import { saveAppointmentRequest } from "@/lib/firebase";
 
 // Tattoo Categorization Action
@@ -90,6 +91,38 @@ export async function appointmentAction(
         return {
             message: "Something went wrong on the server. Please try again later.",
             status: "error",
+        };
+    }
+}
+
+// Tattoo Idea Generator Action
+export type IdeaGeneratorState = {
+    result?: GenerateTattooIdeaOutput;
+    error?: string;
+    fieldErrors?: Record<string, string[] | undefined>;
+}
+
+export async function generateTattooIdeaAction(
+    prevState: IdeaGeneratorState,
+    formData: FormData
+): Promise<IdeaGeneratorState> {
+    const validatedFields = GenerateTattooIdeaInputSchema.safeParse({
+        prompt: formData.get("prompt"),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            fieldErrors: validatedFields.error.flatten().fieldErrors,
+        };
+    }
+
+    try {
+        const result = await generateTattooIdea(validatedFields.data);
+        return { result };
+    } catch (error) {
+        console.error("AI idea generation failed:", error);
+        return {
+            error: "We couldn't generate an idea at this moment. Please try again later.",
         };
     }
 }

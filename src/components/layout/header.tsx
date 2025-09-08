@@ -10,6 +10,7 @@ const navLinks = [
   { href: '#home', label: 'HOME' },
   { href: '#about', label: 'ABOUT' },
   { href: '#artists', label: 'ARTISTS' },
+  { href: '#idea-generator', label: 'AI IDEAS' },
   { href: '#gallery', label: 'GALLERY' },
   { href: '#contact', label: 'CONTACT' },
   { href: '#location', label: 'LOCATION' },
